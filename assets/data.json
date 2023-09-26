@@ -1,0 +1,23 @@
+{
+    "users": [
+      {
+        "id": "1",
+        "fName": "Maneth",
+        "lName": "Weerasinghe",
+        "email": "manethweerasinghe@gmail.com",
+        "phoneNo": "0778880661",
+        "dateOfBirth": "2003-10-02",
+        "gender": "Male"
+      },
+      {
+        "id": "2",
+        "fName": "John",
+        "lName": "Doe",
+        "email": "johndoe@gmail.com",
+        "phoneNo": "0771234567",
+        "dateOfBirth": "2013-10-02",
+        "gender": "Male"
+      }
+    ]
+  }
+  
