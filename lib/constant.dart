@@ -14,9 +14,38 @@ const kTextDarkColor = Color(0xFF1D1D22);
 const kTextDarkColor2 = Color(0xFF2D2D33);
 
 //Create color maps
-const Map<String, Color> color = {
-  "primary color": Color.fromRGBO(255, 255, 255, .1),
-  "secondary color": Color.fromRGBO(255, 255, 255, .2),
-  "teteiary color": Color.fromRGBO(255, 255, 255, 1),
+const Map<String, Color> darkThemeColors = {
+  "whiteColor": Color(0xFFFFFFFF),
+  "primaryColor": Color(0xFF24242B),
+  "buttonOneColor": Color(0xFF16161B),
+
+  "startUpBodyTextColor": Color(0x80FFFFFF),
+
+  "textFieldBorderAndLabelColor": Color(0x80FFFFFF),
+  "textFieldBackgroundColor": Color(0xFF1D1D22),
+  "phontNumberSeperator": Color(0x40FFFFFF),
 };
 
+const Map<String, Color> lightThemeColors = {
+  "whiteColor": Color(0xFF000000),
+  "primaryColor": Color(0xFFFFFFFF),
+  "buttonOneColor": Color(0xFFE1E1E2),
+
+  "startUpBodyTextColor": Color(0x80000000),
+
+  "textFieldBorderAndLabelColor": Color(0x80000000),
+  "textFieldBackgroundColor": Color(0xFFF7F7F8),
+  "phontNumberSeperator": Color(0x40000000),
+};
+
+const Map<String, String> darkThemeIconPaths = {
+  "logo": "assets/icons/logo-small-dark.png",
+  "fowardArrow": "assets/icons/forward-dark.svg",
+  "backArrow": "assets/icons/backward-dark.svg",
+};
+
+const Map<String, String> lightThemeIconPaths = {
+  "logo": "assets/icons/logo-small-light.png",
+  "fowardArrow": "assets/icons/forward-light.svg",
+  "backArrow": "assets/icons/backward-light.svg",
+};

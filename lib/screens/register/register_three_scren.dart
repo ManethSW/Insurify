@@ -430,7 +430,7 @@ class RegisterThreeScreenState extends State<RegisterThreeScreen> {
                 top: 20,
                 left: 20,
                 child: Image.asset(
-                  'assets/icons/logo-small.png',
+                  'assets/icons/logo-small-dark-mode.png',
                   // width: 50,
                   height: 38,
                 ),

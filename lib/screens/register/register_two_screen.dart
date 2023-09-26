@@ -74,7 +74,7 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
                 top: 20,
                 left: 20,
                 child: Image.asset(
-                  'assets/icons/logo-small.png',
+                  'assets/icons/logo-small-dark-mode.png',
                   // width: 50,
                   height: 38,
                 ),
@@ -130,17 +130,17 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
                   ),
                 ),
               ),
-              Positioned(
-                bottom: 31,
-                left: 31,
-                right: 31,
-                child: buildBackAndNextButtons(
-                  context,
-                  width,
-                  const RegisterOneScreen(),
-                  const RegisterThreeScreen(),
-                ),
-              ),
+              // Positioned(
+              //   bottom: 31,
+              //   left: 31,
+              //   right: 31,
+              //   child: buildBackAndNextButtons(
+              //     context,
+              //     width,
+              //     const RegisterOneScreen(),
+              //     const RegisterThreeScreen(),
+              //   ),
+              // ),
             ],
           ),
         ),
