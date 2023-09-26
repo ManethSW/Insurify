@@ -176,7 +176,7 @@ class LoginOneScreenState extends State<LoginOneScreen> {
                 top: 20,
                 left: 20,
                 child: Image.asset(
-                  'assets/icons/logo-small.png',
+                  'assets/icons/logo-small-dark-mode.png',
                   // width: 50,
                   height: 38,
                 ),
@@ -188,7 +188,7 @@ class LoginOneScreenState extends State<LoginOneScreen> {
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(height: height * 0.125),
-                      buildStartUpScreenHeading('Sign Up'),
+                      buildStartUpScreenHeading(context, 'Login'),
                       SvgPicture.asset(
                         'assets/icons/checkmark.svg',
                         width: 100,

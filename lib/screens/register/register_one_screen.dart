@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:insurify/main.dart';
 import 'package:insurify/screens/components/build_bottom_buttons.dart';
 import 'package:insurify/screens/register/register_two_screen.dart';
 import 'package:insurify/screens/startup/startup_screen.dart';
+import 'package:provider/provider.dart';
 
 class RegisterOneScreen extends StatefulWidget {
   const RegisterOneScreen({Key? key}) : super(key: key);
@@ -14,31 +16,17 @@ class RegisterOneScreen extends StatefulWidget {
 }
 
 class RegisterOneScreenState extends State<RegisterOneScreen> {
+  late GlobalProvider globalProvider;
   final TextEditingController controller = TextEditingController();
   final List<TextEditingController> textEditingControllers = List.generate(
     6,
     (_) => TextEditingController(),
   );
 
-  List<String> genderOptions = ['Male', 'Female'];
-  String selectedGender = 'Male';
-
-  List<dynamic> jsonData = [];
-  //get the data from the JSON file in assets folder
-  Future<void> readJson() async {
-    final String response = await rootBundle.loadString('assets/data.json');
-    final data = await json.decode(response);
-    // print(data);////////////
-    // setState(() {
-    //   jsonData = data["items"];
-    // });
-  }
-
   @override
   void initState() {
     super.initState();
     setControllers();
-    readJson();
   }
 
   @override
@@ -59,82 +47,104 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
     textEditingControllers[5].text = 'Male';
   }
 
+  Widget buildBuildTextField(
+      TextEditingController controller, String hintText, bool textFieldTyping) {
+    return TextField(
+      cursorColor: globalProvider.themeColors["white"],
+      cursorOpacityAnimates: true,
+      controller: controller,
+      style: TextStyle(
+        color: globalProvider.themeColors["white"],
+        fontSize: 14,
+        fontFamily: 'Inter',
+      ),
+      textAlign: TextAlign.left,
+      decoration: InputDecoration(
+        focusedBorder: InputBorder.none,
+        enabledBorder: InputBorder.none,
+        border: InputBorder.none,
+        contentPadding: const EdgeInsets.all(0),
+        isDense: true,
+        hintText: hintText,
+        enabled: textFieldTyping,
+        hintStyle: TextStyle(
+          color: globalProvider.themeColors["white"],
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+          fontFamily: 'Inter',
+        ),
+      ),
+    );
+  }
+
+  Widget buildBuildTextFieldContainer(
+      TextEditingController controller, String hintText, bool textFieldTyping) {
+    return Container(
+      height: 47.5,
+      padding: const EdgeInsets.only(
+          left: 16,
+          right: 10,
+          bottom: 0,
+          top: 13.75), // Padding for the TextField
+      decoration: BoxDecoration(
+        color: globalProvider.themeColors["textFieldBackground"],
+        borderRadius: BorderRadius.circular(5),
+        border: Border.all(
+            color: globalProvider.themeColors["textFieldBorderAndLabel"]!,
+            width: 2),
+      ),
+      child: buildBuildTextField(controller, hintText, textFieldTyping),
+    );
+  }
+
+  Widget buildTextFieldLabel(String label) {
+    return Positioned(
+      top: -8.5,
+      left: 17.5,
+      child: Text(
+        label,
+        style: TextStyle(
+          color: globalProvider.themeColors["textFieldBorderAndLabel"],
+          fontWeight: FontWeight.w600,
+          fontSize: 15,
+          fontFamily: 'Inter',
+        ),
+        textAlign: TextAlign.left,
+      ),
+    );
+  }
+
+  Widget buildTextFieldLabelBackground(double labelbackgroundwidth) {
+    return Positioned(
+      top: -0.5,
+      left: 7.5,
+      child: Container(
+        height: 10,
+        width: labelbackgroundwidth,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        color: globalProvider.themeColors["textFieldBackground"],
+        // color: Colors.red,
+      ),
+    );
+  }
+
   Widget buildInputRow(String label, TextEditingController controller,
-      String hintText, double labelbackgroundwidth) {
+      String hintText, double labelbackgroundwidth, bool textFieldTyping) {
     return Flexible(
       child: Stack(
         alignment: Alignment.topLeft,
         clipBehavior: Clip.none,
         children: <Widget>[
-          Container(
-            height: 47.5,
-            padding: const EdgeInsets.only(
-                left: 16,
-                right: 10,
-                bottom: 0,
-                top: 13.75), // Padding for the TextField
-            decoration: BoxDecoration(
-              color: const Color(0xFF1D1D22),
-              borderRadius: BorderRadius.circular(5),
-              border: Border.all(color: const Color(0x80FFFFFF), width: 2),
-            ),
-            child: TextField(
-              cursorColor: Colors.white,
-              cursorOpacityAnimates: true,
-              controller: controller,
-              style: const TextStyle(
-                color: Color(0xFFFFFFFF),
-                fontSize: 14,
-                fontFamily: 'Inter',
-              ),
-              textAlign: TextAlign.left,
-              decoration: InputDecoration(
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                contentPadding: const EdgeInsets.all(0),
-                isDense: true,
-                hintText: hintText,
-                hintStyle: const TextStyle(
-                  color: Color(0xFFFFFFFF),
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                  fontFamily: 'Inter',
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: -0.5,
-            left: 7.5,
-            child: Container(
-              height: 10,
-              width: labelbackgroundwidth,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              color: const Color(0xFF1D1D22),
-              // color: Colors.red,
-            ),
-          ),
-          Positioned(
-            top: -8.5,
-            left: 17.5,
-            child: Text(
-              label,
-              style: const TextStyle(
-                color: Color(0x80FFFFFF),
-                fontWeight: FontWeight.w600,
-                fontSize: 15,
-                fontFamily: 'Inter',
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ),
+          buildBuildTextFieldContainer(controller, hintText, textFieldTyping),
+          buildTextFieldLabelBackground(labelbackgroundwidth),
+          buildTextFieldLabel(label),
         ],
       ),
     );
   }
 
   Widget buildInputRowPhoneNo(String label, TextEditingController controller,
-      String hintText, double labelbackgroundwidth) {
+      String hintText, double labelbackgroundwidth, bool textFieldTyping) {
     return Flexible(
       child: Stack(
         alignment: Alignment.topLeft,
@@ -145,9 +155,12 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
             padding: const EdgeInsets.only(
                 left: 16, right: 10, bottom: 0), // Padding for the TextField
             decoration: BoxDecoration(
-              color: const Color(0xFF1D1D22),
+              color: globalProvider.themeColors["textFieldBackground"],
               borderRadius: BorderRadius.circular(5),
-              border: Border.all(color: const Color(0x80FFFFFF), width: 2),
+              border: Border.all(
+                  color: globalProvider
+                      .themeColors["textFieldBorderAndLabel"]!,
+                  width: 2),
             ),
             child: Row(
               children: [
@@ -155,10 +168,10 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
                   'assets/icons/flag.png',
                 ),
                 const SizedBox(width: 10),
-                const Text(
+                Text(
                   '+94',
                   style: TextStyle(
-                    color: Color(0xFFFFFFFF),
+                    color: globalProvider.themeColors["white"],
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
                     fontFamily: 'Inter',
@@ -168,62 +181,18 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
                 Container(
                   width: 2,
                   height: 15,
-                  color: const Color(0x40FFFFFF),
+                  color: globalProvider.themeColors["phontNumberSeperator"],
                 ),
                 const SizedBox(width: 10),
                 Flexible(
-                  child: TextField(
-                    cursorColor: Colors.white,
-                    cursorOpacityAnimates: true,
-                    controller: controller,
-                    style: const TextStyle(
-                      color: Color(0xFFFFFFFF),
-                      fontSize: 14,
-                      fontFamily: 'Inter',
-                    ),
-                    textAlign: TextAlign.left,
-                    decoration: InputDecoration(
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      contentPadding: const EdgeInsets.all(0),
-                      isDense: true,
-                      hintText: hintText,
-                      hintStyle: const TextStyle(
-                        color: Color(0xFFFFFFFF),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        fontFamily: 'Inter',
-                      ),
-                    ),
-                  ),
+                  child: buildBuildTextField(
+                      controller, hintText, textFieldTyping),
                 ),
               ],
             ),
           ),
-          Positioned(
-            top: -0.5,
-            left: 7.5,
-            child: Container(
-              height: 10,
-              width: labelbackgroundwidth,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              color: const Color(0xFF1D1D22),
-            ),
-          ),
-          Positioned(
-            top: -8.5,
-            left: 17.5,
-            child: Text(
-              label,
-              style: const TextStyle(
-                color: Color(0x80FFFFFF),
-                fontWeight: FontWeight.w600,
-                fontSize: 15,
-                fontFamily: 'Inter',
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ),
+          buildTextFieldLabelBackground(labelbackgroundwidth),
+          buildTextFieldLabel(label),
         ],
       ),
     );
@@ -244,7 +213,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
   }
 
   Widget buildDoBInput(String label, TextEditingController controller,
-      String hintText, double labelbackgroundwidth) {
+      String hintText, double labelbackgroundwidth, bool textFieldTyping) {
     return Flexible(
       child: GestureDetector(
         onTap: () {
@@ -254,73 +223,17 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
           alignment: Alignment.topLeft,
           clipBehavior: Clip.none,
           children: <Widget>[
-            Container(
-              height: 47.5,
-              padding: const EdgeInsets.only(
-                  left: 16,
-                  right: 10,
-                  bottom: 0,
-                  top: 13.75), // Padding for the TextField
-              decoration: BoxDecoration(
-                color: const Color(0xFF1D1D22),
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: const Color(0x80FFFFFF), width: 2),
-              ),
-              child: TextField(
-                cursorColor: Colors.white,
-                cursorOpacityAnimates: true,
-                controller: controller,
-                style: const TextStyle(
-                  color: Color(0xFFFFFFFF),
-                  fontSize: 14,
-                  fontFamily: 'Inter',
-                ),
-                textAlign: TextAlign.left,
-                decoration: InputDecoration(
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  contentPadding: const EdgeInsets.all(0),
-                  isDense: true,
-                  enabled: false,
-                  hintText: hintText,
-                  hintStyle: const TextStyle(
-                    color: Color(0xFFFFFFFF),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    fontFamily: 'Inter',
-                  ),
-                ),
-              ),
-            ),
+            buildBuildTextFieldContainer(controller, hintText, textFieldTyping),
+            buildTextFieldLabelBackground(labelbackgroundwidth),
+            buildTextFieldLabel(label),
             Positioned(
-              top: -0.5,
-              left: 7.5,
-              child: Container(
-                height: 10,
-                width: labelbackgroundwidth,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                color: const Color(0xFF1D1D22),
-              ),
-            ),
-            Positioned(
-              top: -8.5,
-              left: 17.5,
-              child: Text(
-                label,
-                style: const TextStyle(
-                  color: Color(0x80FFFFFF),
-                  fontWeight: FontWeight.w600,
-                  fontSize: 15,
-                  fontFamily: 'Inter',
-                ),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            const Positioned(
               right: 15,
               top: 15,
-              child: Icon(Icons.calendar_today_outlined,
-                  color: Color(0xFFFFFFFF), size: 20),
+              child: Icon(
+                Icons.calendar_today_outlined,
+                color: globalProvider.themeColors["white"],
+                size: 20,
+              ),
             ),
           ],
         ),
@@ -329,7 +242,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
   }
 
   Widget buildGenderInput(String label, TextEditingController controller,
-      String hintText, double labelbackgroundwidth) {
+      String hintText, double labelbackgroundwidth, bool textFieldTyping) {
     return Flexible(
       child: GestureDetector(
         onTap: () {
@@ -339,73 +252,17 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
           alignment: Alignment.topLeft,
           clipBehavior: Clip.none,
           children: <Widget>[
-            Container(
-              height: 47.5,
-              padding: const EdgeInsets.only(
-                  left: 16,
-                  right: 10,
-                  bottom: 0,
-                  top: 13.75), // Padding for the TextField
-              decoration: BoxDecoration(
-                color: const Color(0xFF1D1D22),
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: const Color(0x80FFFFFF), width: 2),
-              ),
-              child: TextField(
-                cursorColor: Colors.white,
-                cursorOpacityAnimates: true,
-                controller: controller,
-                style: const TextStyle(
-                  color: Color(0xFFFFFFFF),
-                  fontSize: 14,
-                  fontFamily: 'Inter',
-                ),
-                textAlign: TextAlign.left,
-                decoration: InputDecoration(
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  contentPadding: const EdgeInsets.all(0),
-                  isDense: true,
-                  enabled: false,
-                  hintText: hintText,
-                  hintStyle: const TextStyle(
-                    color: Color(0xFFFFFFFF),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    fontFamily: 'Inter',
-                  ),
-                ),
-              ),
-            ),
+            buildBuildTextFieldContainer(controller, hintText, textFieldTyping),
+            buildTextFieldLabelBackground(labelbackgroundwidth),
+            buildTextFieldLabel(label),
             Positioned(
-              top: -0.5,
-              left: 7.5,
-              child: Container(
-                height: 10,
-                width: labelbackgroundwidth,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                color: const Color(0xFF1D1D22),
-              ),
-            ),
-            Positioned(
-              top: -8.5,
-              left: 17.5,
-              child: Text(
-                label,
-                style: const TextStyle(
-                  color: Color(0x80FFFFFF),
-                  fontWeight: FontWeight.w600,
-                  fontSize: 15,
-                  fontFamily: 'Inter',
-                ),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            const Positioned(
               right: 15,
               top: 15,
-              child: Icon(Icons.keyboard_arrow_down_rounded,
-                  color: Color(0xFFFFFFFF), size: 20),
+              child: Icon(
+                Icons.keyboard_arrow_down_rounded,
+                color: globalProvider.themeColors["white"],
+                size: 20,
+              ),
             ),
           ],
         ),
@@ -415,6 +272,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
 
   @override
   Widget build(BuildContext context) {
+    globalProvider = Provider.of<GlobalProvider>(context);
     final double height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     // width variable of screen
@@ -431,8 +289,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
                 top: 20,
                 left: 20,
                 child: Image.asset(
-                  'assets/icons/logo-small.png',
-                  // width: 50,
+                  globalProvider.themeIconPaths["smallLogo"]!,
                   height: 38,
                 ),
               ),
@@ -442,10 +299,10 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
                   child: Column(
                     children: [
                       SizedBox(height: height * 0.125),
-                      const Text(
+                      Text(
                         "Sign Up",
                         style: TextStyle(
-                          color: Color(0xFFFFFFFF),
+                          color: globalProvider.themeColors["white"],
                           fontWeight: FontWeight.w600,
                           fontSize: 30,
                           fontFamily: 'Inter',
@@ -453,24 +310,28 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
                       ),
                       SizedBox(height: height * 0.1),
                       buildInputRow('First Name', textEditingControllers[0],
-                          'Enter your first name', 95),
+                          'Enter your first name', 95, true),
                       SizedBox(height: height * 0.06),
                       buildInputRow('Last Name', textEditingControllers[1],
-                          'Enter your last name', 93),
+                          'Enter your last name', 93, true),
                       SizedBox(height: height * 0.06),
                       buildInputRow('Email', textEditingControllers[2],
-                          'Enter your email', 60),
+                          'Enter your email', 60, true),
                       SizedBox(height: height * 0.06),
                       buildInputRowPhoneNo('Phone Number',
-                          textEditingControllers[3], '07XXXXXXXX', 120),
+                          textEditingControllers[3], '07XXXXXXXX', 120, true),
                       SizedBox(height: height * 0.06),
                       Row(
                         children: [
-                          buildDoBInput('Date of Birth',
-                              textEditingControllers[4], '01/01/2023', 105),
+                          buildDoBInput(
+                              'Date of Birth',
+                              textEditingControllers[4],
+                              '01/01/2023',
+                              105,
+                              false),
                           const SizedBox(width: 20),
-                          buildGenderInput(
-                              'Gender', textEditingControllers[5], 'Male', 70),
+                          buildGenderInput('Gender', textEditingControllers[5],
+                              'Male', 70, false),
                         ],
                       ),
                     ],
@@ -484,7 +345,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
                 child: buildBackAndNextButtons(
                   context,
                   width,
-                  const StartupScreen(),
+                  StartupScreen(),
                   const RegisterTwoScreen(),
                 ),
               ),

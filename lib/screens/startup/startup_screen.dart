@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:insurify/constant.dart';
+import 'package:insurify/main.dart';
 import 'package:insurify/screens/register/register_one_screen.dart';
 
 class StartupScreen extends StatelessWidget {
-  const StartupScreen({super.key});
+  StartupScreen({Key? key}) : super(key: key);
+  late GlobalProvider globalProvider;
 
   final String version = '0.1';
 
@@ -40,7 +44,7 @@ class StartupScreen extends StatelessWidget {
       style: ButtonStyle(
         fixedSize: MaterialStateProperty.all<Size>(Size(width * 0.8, 50)),
         backgroundColor: MaterialStateProperty.all<Color>(
-          buttonOneColor,
+          globalProvider.themeColors["buttonOne"]!,
         ),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
@@ -50,8 +54,8 @@ class StartupScreen extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: const TextStyle(
-          color: Color(0xFFFFFFFF),
+        style: TextStyle(
+          color: globalProvider.themeColors["white"],
           fontSize: 15,
           fontWeight: FontWeight.w700,
           fontFamily: 'Inter',
@@ -63,60 +67,77 @@ class StartupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    return Scaffold(
-      body: SafeArea(
-        child: Scaffold(
-          body: Stack(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: height * 0.2),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Image.asset(
-                        'assets/icons/logo.png',
-                        width: 170,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const SizedBox(
-                        width: 175,
-                        child: Text(
-                          'One Stop Shop For All Your Motor Insurance Needs',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: startUpBodyTextColor,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w300,
-                            fontFamily: 'Inter',
+    return Builder(
+      builder: (context) {
+        globalProvider = Provider.of<GlobalProvider>(context);
+        return Scaffold(
+          body: SafeArea(
+            child: Scaffold(
+              body: Stack(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: height * 0.2),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Image.asset(
+                            globalProvider.themeIconPaths["mainLogo"]!,
+                            width: 170,
                           ),
-                        ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(
+                            width: 175,
+                            child: Text(
+                              'One Stop Shop For All Your Motor Insurance Needs',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: globalProvider
+                                    .themeColors["startUpBodyText"],
+                                fontSize: 15,
+                                fontWeight: FontWeight.w300,
+                                fontFamily: 'Inter',
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                bottom: 31,
-                left: 31,
-                right: 31,
-                child: Column(
-                  children: [
-                    buildButton(context, 'Create an Account',
-                        const RegisterOneScreen()),
-                    const SizedBox(
-                      height: 18,
                     ),
-                    buildButton(context, 'Login', const Placeholder()),
-                  ],
-                ),
+                  ),
+                  Positioned(
+                    bottom: 160,
+                    left: 31,
+                    right: 31,
+                    child: TextButton(
+                      onPressed: () {
+                        globalProvider.toggleTheme();
+                      },
+                      child: const Text('Change Theme'),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 31,
+                    left: 31,
+                    right: 31,
+                    child: Column(
+                      children: [
+                        buildButton(context, 'Create an Account',
+                            const RegisterOneScreen()),
+                        const SizedBox(
+                          height: 18,
+                        ),
+                        buildButton(context, 'Login', const Placeholder()),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:insurify/main.dart';
+import 'package:provider/provider.dart';
+
+late GlobalProvider globalProvider;
 
 Widget buildBackAndNextButtons(
     BuildContext context, double width, Widget pageOne, Widget pageTwo) {
+  globalProvider = Provider.of<GlobalProvider>(context);
   return SizedBox(
     width: width,
     height: 50,
@@ -46,12 +51,12 @@ Widget buildBackAndNextButtons(
             height: 50,
             child: Container(
               decoration: BoxDecoration(
-                color: const Color(0xFF16161B),
+                color: globalProvider.themeColors["buttonOne"]!,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Center(
                 child: SvgPicture.asset(
-                  'assets/icons/backward.svg',
+                  globalProvider.themeIconPaths["backArrow"]!,
                   height: 16,
                   // width: 20,
                 ),
@@ -95,16 +100,16 @@ Widget buildBackAndNextButtons(
             child: Container(
               height: 50,
               decoration: BoxDecoration(
-                color: const Color(0xFF16161B),
+                color: globalProvider.themeColors["buttonOne"]!,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     'Next',
                     style: TextStyle(
-                      color: Color(0xFFFFFFFF),
+                      color: globalProvider.themeColors["white"],
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
                       fontFamily: 'Inter',
@@ -114,7 +119,7 @@ Widget buildBackAndNextButtons(
                     width: 10,
                   ),
                   SvgPicture.asset(
-                    'assets/icons/forward.svg',
+                    globalProvider.themeIconPaths["fowardArrow"]!,
                     width: 12,
                     height: 12,
                   ),
