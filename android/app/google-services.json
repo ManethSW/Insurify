@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "914540426650",
+    "project_id": "insurify-2f82c",
+    "storage_bucket": "insurify-2f82c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:914540426650:android:81edf2579186ecf8583623",
+        "android_client_info": {
+          "package_name": "com.example.insurify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "914540426650-v9c07ivu02q4i4vkbdddjtme7e59k2qc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiwED5N_EYy_BlbYVVkjFryAZjGnQvmUc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "914540426650-v9c07ivu02q4i4vkbdddjtme7e59k2qc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "914540426650-n2vrpqaqct1h8lf4ne6udqhhdik8m5jq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.insurify"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
