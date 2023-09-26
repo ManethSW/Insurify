@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 late GlobalProvider globalProvider;
 
 Widget buildBackAndNextButtons(
-    BuildContext context, double width, Widget pageOne, Widget pageTwo, Color buttonColor) {
+    BuildContext context, double width, Widget pageOne, Widget pageTwo) {
   globalProvider = Provider.of<GlobalProvider>(context);
   return SizedBox(
     width: width,
@@ -51,7 +51,7 @@ Widget buildBackAndNextButtons(
             height: 50,
             child: Container(
               decoration: BoxDecoration(
-                color: globalProvider.themeColors["buttonOneColor"]!,
+                color: globalProvider.themeColors["buttonOne"]!,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Center(
@@ -100,7 +100,7 @@ Widget buildBackAndNextButtons(
             child: Container(
               height: 50,
               decoration: BoxDecoration(
-                color: globalProvider.themeColors["buttonOneColor"]!,
+                color: globalProvider.themeColors["buttonOne"]!,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
@@ -109,7 +109,7 @@ Widget buildBackAndNextButtons(
                   Text(
                     'Next',
                     style: TextStyle(
-                      color: globalProvider.themeColors["whiteColor"],
+                      color: globalProvider.themeColors["white"],
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
                       fontFamily: 'Inter',

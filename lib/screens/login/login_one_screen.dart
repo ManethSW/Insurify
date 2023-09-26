@@ -188,7 +188,7 @@ class LoginOneScreenState extends State<LoginOneScreen> {
                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(height: height * 0.125),
-                      buildStartUpScreenHeading('Sign Up'),
+                      buildStartUpScreenHeading(context, 'Login'),
                       SvgPicture.asset(
                         'assets/icons/checkmark.svg',
                         width: 100,

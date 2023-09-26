@@ -25,24 +25,28 @@ class GlobalProvider extends ChangeNotifier {
   void toggleTheme() {
     _theme = _theme == 'dark' ? 'light' : 'dark';
     notifyListeners();
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: themeColors['primary'],
+        systemNavigationBarColor: themeColors['primary'],
+        statusBarIconBrightness:
+            _theme == 'dark' ? Brightness.light : Brightness.dark,
+        systemNavigationBarIconBrightness:
+            _theme == 'dark' ? Brightness.light : Brightness.dark,
+      ),
+    );
   }
 }
 
 void main() {
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: primaryColor,
-      systemNavigationBarColor: primaryColor,
-      systemNavigationBarIconBrightness: Brightness.light,
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: GlobalProvider()),
+      ],
+      child: const MyApp(),
     ),
   );
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider.value(value: GlobalProvider()),
-    ],
-    child: const MyApp(),
-  ));
-  // Start your app
 }
 
 class MyApp extends StatelessWidget {
@@ -54,12 +58,12 @@ class MyApp extends StatelessWidget {
       title: 'Insurify',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: globalProvider.themeColors["primaryColor"],
+        scaffoldBackgroundColor: globalProvider.themeColors["primary"],
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         hoverColor: Colors.transparent,
       ),
-      home: RegisterOneScreen(),
+      home: StartupScreen(),
     );
   }
 }

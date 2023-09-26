@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:insurify/main.dart';
 import 'package:insurify/screens/components/startup_screen_heading.dart';
 import 'package:insurify/screens/register/register_three_scren.dart';
 import 'package:pinput/pinput.dart';
@@ -7,6 +8,7 @@ import 'package:pinput/pinput.dart';
 import 'package:flutter/services.dart';
 import 'package:insurify/screens/components/build_bottom_buttons.dart';
 import 'package:insurify/screens/register/register_one_screen.dart';
+import 'package:provider/provider.dart';
 
 class RegisterTwoScreen extends StatefulWidget {
   const RegisterTwoScreen({Key? key}) : super(key: key);
@@ -16,6 +18,7 @@ class RegisterTwoScreen extends StatefulWidget {
 }
 
 class RegisterTwoScreenState extends State<RegisterTwoScreen> {
+  late GlobalProvider globalProvider;
   String otp = '';
   TextEditingController otpController = TextEditingController();
   final int digitCount = 4;
@@ -44,20 +47,23 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
     print('working');
   }
 
-  final defaultPinTheme = PinTheme(
-    width: 55,
-    height: 55,
-    margin: const EdgeInsets.only(top: 30),
-    textStyle: const TextStyle(
-        fontSize: 20, color: Color(0xFFFFFFFF), fontWeight: FontWeight.w600),
-    decoration: BoxDecoration(
-      color: const Color(0xFF1D1D22),
-      borderRadius: BorderRadius.circular(10),
-    ),
-  );
-
   @override
   Widget build(BuildContext context) {
+    globalProvider = Provider.of<GlobalProvider>(context);
+
+    final defaultPinTheme = PinTheme(
+      width: 55,
+      height: 55,
+      margin: const EdgeInsets.only(top: 30),
+      textStyle: TextStyle(
+          fontSize: 20,
+          color: globalProvider.themeColors["white"],
+          fontWeight: FontWeight.w600),
+      decoration: BoxDecoration(
+        color: globalProvider.themeColors["buttonOne"],
+        borderRadius: BorderRadius.circular(10),
+      ),
+    );
     final double height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     // width variable of screen
@@ -74,8 +80,7 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
                 top: 20,
                 left: 20,
                 child: Image.asset(
-                  'assets/icons/logo-small-dark-mode.png',
-                  // width: 50,
+                  globalProvider.themeIconPaths["smallLogo"]!,
                   height: 38,
                 ),
               ),
@@ -85,12 +90,12 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
                   child: Column(
                     children: [
                       SizedBox(height: height * 0.125),
-                      buildStartUpScreenHeading('Sign Up'),
+                      buildStartUpScreenHeading(context, 'Sign Up'),
                       SizedBox(height: height * 0.075),
-                      const Text(
+                      Text(
                         "Verify your phone number",
                         style: TextStyle(
-                          color: Color(0xFFFFFFFF),
+                          color: globalProvider.themeColors["white"],
                           fontWeight: FontWeight.w600,
                           fontSize: 15,
                           fontFamily: 'Inter',
@@ -106,20 +111,20 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
                         },
                       ),
                       SizedBox(height: height * 0.05),
-                      const Text(
+                      Text(
                         "Didn't receive an OTP?",
                         style: TextStyle(
-                          color: Color(0xFFFFFFFF),
+                          color: globalProvider.themeColors["white"],
                           fontWeight: FontWeight.w400,
                           fontSize: 10,
                           fontFamily: 'Inter',
                         ),
                       ),
                       SizedBox(height: height * 0.025),
-                      const Text(
+                      Text(
                         "RESEND OTP",
                         style: TextStyle(
-                          color: Color(0xFFFFFFFF),
+                          color: globalProvider.themeColors["white"],
                           fontWeight: FontWeight.w600,
                           fontSize: 15,
                           fontFamily: 'Inter',
@@ -130,17 +135,17 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
                   ),
                 ),
               ),
-              // Positioned(
-              //   bottom: 31,
-              //   left: 31,
-              //   right: 31,
-              //   child: buildBackAndNextButtons(
-              //     context,
-              //     width,
-              //     const RegisterOneScreen(),
-              //     const RegisterThreeScreen(),
-              //   ),
-              // ),
+              Positioned(
+                bottom: 31,
+                left: 31,
+                right: 31,
+                child: buildBackAndNextButtons(
+                  context,
+                  width,
+                  const RegisterOneScreen(),
+                  const RegisterThreeScreen(),
+                ),
+              ),
             ],
           ),
         ),

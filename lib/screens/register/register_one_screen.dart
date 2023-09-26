@@ -26,7 +26,6 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
   @override
   void initState() {
     super.initState();
-    globalProvider = Provider.of<GlobalProvider>(context, listen: false);
     setControllers();
   }
 
@@ -51,11 +50,11 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
   Widget buildBuildTextField(
       TextEditingController controller, String hintText, bool textFieldTyping) {
     return TextField(
-      cursorColor: globalProvider.themeColors["whiteColor"],
+      cursorColor: globalProvider.themeColors["white"],
       cursorOpacityAnimates: true,
       controller: controller,
       style: TextStyle(
-        color: globalProvider.themeColors["whiteColor"],
+        color: globalProvider.themeColors["white"],
         fontSize: 14,
         fontFamily: 'Inter',
       ),
@@ -69,7 +68,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
         hintText: hintText,
         enabled: textFieldTyping,
         hintStyle: TextStyle(
-          color: globalProvider.themeColors["whiteColor"],
+          color: globalProvider.themeColors["white"],
           fontWeight: FontWeight.w400,
           fontSize: 14,
           fontFamily: 'Inter',
@@ -88,10 +87,10 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
           bottom: 0,
           top: 13.75), // Padding for the TextField
       decoration: BoxDecoration(
-        color: globalProvider.themeColors["textFieldBackgroundColor"],
+        color: globalProvider.themeColors["textFieldBackground"],
         borderRadius: BorderRadius.circular(5),
         border: Border.all(
-            color: globalProvider.themeColors["textFieldBorderAndLabelColor"]!,
+            color: globalProvider.themeColors["textFieldBorderAndLabel"]!,
             width: 2),
       ),
       child: buildBuildTextField(controller, hintText, textFieldTyping),
@@ -105,7 +104,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
       child: Text(
         label,
         style: TextStyle(
-          color: globalProvider.themeColors["textFieldBorderAndLabelColor"],
+          color: globalProvider.themeColors["textFieldBorderAndLabel"],
           fontWeight: FontWeight.w600,
           fontSize: 15,
           fontFamily: 'Inter',
@@ -123,7 +122,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
         height: 10,
         width: labelbackgroundwidth,
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        color: globalProvider.themeColors["textFieldBackgroundColor"],
+        color: globalProvider.themeColors["textFieldBackground"],
         // color: Colors.red,
       ),
     );
@@ -156,11 +155,11 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
             padding: const EdgeInsets.only(
                 left: 16, right: 10, bottom: 0), // Padding for the TextField
             decoration: BoxDecoration(
-              color: globalProvider.themeColors["textFieldBackgroundColor"],
+              color: globalProvider.themeColors["textFieldBackground"],
               borderRadius: BorderRadius.circular(5),
               border: Border.all(
                   color: globalProvider
-                      .themeColors["textFieldBorderAndLabelColor"]!,
+                      .themeColors["textFieldBorderAndLabel"]!,
                   width: 2),
             ),
             child: Row(
@@ -172,7 +171,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
                 Text(
                   '+94',
                   style: TextStyle(
-                    color: globalProvider.themeColors["whiteColor"],
+                    color: globalProvider.themeColors["white"],
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
                     fontFamily: 'Inter',
@@ -232,7 +231,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
               top: 15,
               child: Icon(
                 Icons.calendar_today_outlined,
-                color: globalProvider.themeColors["whiteColor"],
+                color: globalProvider.themeColors["white"],
                 size: 20,
               ),
             ),
@@ -261,7 +260,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
               top: 15,
               child: Icon(
                 Icons.keyboard_arrow_down_rounded,
-                color: globalProvider.themeColors["whiteColor"],
+                color: globalProvider.themeColors["white"],
                 size: 20,
               ),
             ),
@@ -273,6 +272,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
 
   @override
   Widget build(BuildContext context) {
+    globalProvider = Provider.of<GlobalProvider>(context);
     final double height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     // width variable of screen
@@ -289,7 +289,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
                 top: 20,
                 left: 20,
                 child: Image.asset(
-                  globalProvider.themeIconPaths["logo"]!,
+                  globalProvider.themeIconPaths["smallLogo"]!,
                   height: 38,
                 ),
               ),
@@ -302,7 +302,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
                       Text(
                         "Sign Up",
                         style: TextStyle(
-                          color: globalProvider.themeColors["whiteColor"],
+                          color: globalProvider.themeColors["white"],
                           fontWeight: FontWeight.w600,
                           fontSize: 30,
                           fontFamily: 'Inter',
@@ -345,9 +345,8 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
                 child: buildBackAndNextButtons(
                   context,
                   width,
-                  const StartupScreen(),
+                  StartupScreen(),
                   const RegisterTwoScreen(),
-                  globalProvider.themeColors["buttonOneColor"]!,
                 ),
               ),
             ],

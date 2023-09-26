@@ -79,7 +79,7 @@ class LoginTwoScreenState extends State<LoginTwoScreen> {
                   child: Column(
                     children: [
                       SizedBox(height: height * 0.125),
-                      buildStartUpScreenHeading('Login In'),
+                      buildStartUpScreenHeading(context, 'Login'),
                       SizedBox(height: height * 0.075),
                       const Text(
                         "Verify your phone number",

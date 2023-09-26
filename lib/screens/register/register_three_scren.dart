@@ -1,8 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+
+import 'package:insurify/main.dart';
 import 'package:insurify/screens/login/login_one_screen.dart';
 
 class RegisterThreeScreen extends StatefulWidget {
@@ -13,407 +13,9 @@ class RegisterThreeScreen extends StatefulWidget {
 }
 
 class RegisterThreeScreenState extends State<RegisterThreeScreen> {
-  final TextEditingController controller = TextEditingController();
-  final List<TextEditingController> textEditingControllers = List.generate(
-    6,
-    (_) => TextEditingController(),
-  );
-
-  List<String> genderOptions = ['Male', 'Female'];
-  String selectedGender = 'Male';
-
-  List<dynamic> jsonData = [];
-  //get the data from the JSON file in assets folder
-  Future<void> readJson() async {
-    final String response = await rootBundle.loadString('assets/data.json');
-    final data = await json.decode(response);
-    // print(data);////////////
-    // setState(() {
-    //   jsonData = data["items"];
-    // });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    setControllers();
-    readJson();
-  }
-
-  @override
-  void dispose() {
-    for (final controller in textEditingControllers) {
-      controller.dispose();
-    }
-    super.dispose();
-  }
-
-  void setControllers() {
-    textEditingControllers[0].text = '';
-    textEditingControllers[1].text = '';
-    textEditingControllers[2].text = '';
-    textEditingControllers[3].text = '';
-    textEditingControllers[4].text =
-        "${DateTime.now().toLocal()}".split(' ')[0];
-    textEditingControllers[5].text = 'Male';
-  }
-
-  Widget buildInputRow(String label, TextEditingController controller,
-      String hintText, double labelbackgroundwidth) {
-    return Flexible(
-      child: Stack(
-        alignment: Alignment.topLeft,
-        clipBehavior: Clip.none,
-        children: <Widget>[
-          Container(
-            height: 47.5,
-            padding: const EdgeInsets.only(
-                left: 16,
-                right: 10,
-                bottom: 0,
-                top: 13.75), // Padding for the TextField
-            decoration: BoxDecoration(
-              color: const Color(0xFF1D1D22),
-              borderRadius: BorderRadius.circular(5),
-              border: Border.all(color: const Color(0x80FFFFFF), width: 2),
-            ),
-            child: TextField(
-              cursorColor: Colors.white,
-              cursorOpacityAnimates: true,
-              controller: controller,
-              style: const TextStyle(
-                color: Color(0xFFFFFFFF),
-                fontSize: 14,
-                fontFamily: 'Inter',
-              ),
-              textAlign: TextAlign.left,
-              decoration: InputDecoration(
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                contentPadding: const EdgeInsets.all(0),
-                isDense: true,
-                hintText: hintText,
-                hintStyle: const TextStyle(
-                  color: Color(0xFFFFFFFF),
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                  fontFamily: 'Inter',
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: -0.5,
-            left: 7.5,
-            child: Container(
-              height: 10,
-              width: labelbackgroundwidth,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              color: const Color(0xFF1D1D22),
-              // color: Colors.red,
-            ),
-          ),
-          Positioned(
-            top: -8.5,
-            left: 17.5,
-            child: Text(
-              label,
-              style: const TextStyle(
-                color: Color(0x80FFFFFF),
-                fontWeight: FontWeight.w600,
-                fontSize: 15,
-                fontFamily: 'Inter',
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildInputRowPhoneNo(String label, TextEditingController controller,
-      String hintText, double labelbackgroundwidth) {
-    return Flexible(
-      child: Stack(
-        alignment: Alignment.topLeft,
-        clipBehavior: Clip.none,
-        children: <Widget>[
-          Container(
-            height: 47.5,
-            padding: const EdgeInsets.only(
-                left: 16, right: 10, bottom: 0), // Padding for the TextField
-            decoration: BoxDecoration(
-              color: const Color(0xFF1D1D22),
-              borderRadius: BorderRadius.circular(5),
-              border: Border.all(color: const Color(0x80FFFFFF), width: 2),
-            ),
-            child: Row(
-              children: [
-                Image.asset(
-                  'assets/icons/flag.png',
-                ),
-                const SizedBox(width: 10),
-                const Text(
-                  '+94',
-                  style: TextStyle(
-                    color: Color(0xFFFFFFFF),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    fontFamily: 'Inter',
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Container(
-                  width: 2,
-                  height: 15,
-                  color: const Color(0x40FFFFFF),
-                ),
-                const SizedBox(width: 10),
-                Flexible(
-                  child: TextField(
-                    cursorColor: Colors.white,
-                    cursorOpacityAnimates: true,
-                    controller: controller,
-                    style: const TextStyle(
-                      color: Color(0xFFFFFFFF),
-                      fontSize: 14,
-                      fontFamily: 'Inter',
-                    ),
-                    textAlign: TextAlign.left,
-                    decoration: InputDecoration(
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      contentPadding: const EdgeInsets.all(0),
-                      isDense: true,
-                      hintText: hintText,
-                      hintStyle: const TextStyle(
-                        color: Color(0xFFFFFFFF),
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        fontFamily: 'Inter',
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            top: -0.5,
-            left: 7.5,
-            child: Container(
-              height: 10,
-              width: labelbackgroundwidth,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              color: const Color(0xFF1D1D22),
-            ),
-          ),
-          Positioned(
-            top: -8.5,
-            left: 17.5,
-            child: Text(
-              label,
-              style: const TextStyle(
-                color: Color(0x80FFFFFF),
-                fontWeight: FontWeight.w600,
-                fontSize: 15,
-                fontFamily: 'Inter',
-              ),
-              textAlign: TextAlign.left,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<void> selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.parse(textEditingControllers[4].text),
-      firstDate: DateTime(1900, 1),
-      lastDate: DateTime(2100),
-    );
-    if (picked != null) {
-      setState(() {
-        textEditingControllers[4].text = "${picked.toLocal()}".split(' ')[0];
-      });
-    }
-  }
-
-  Widget buildDoBInput(String label, TextEditingController controller,
-      String hintText, double labelbackgroundwidth) {
-    return Flexible(
-      child: GestureDetector(
-        onTap: () {
-          selectDate(context);
-        },
-        child: Stack(
-          alignment: Alignment.topLeft,
-          clipBehavior: Clip.none,
-          children: <Widget>[
-            Container(
-              height: 47.5,
-              padding: const EdgeInsets.only(
-                  left: 16,
-                  right: 10,
-                  bottom: 0,
-                  top: 13.75), // Padding for the TextField
-              decoration: BoxDecoration(
-                color: const Color(0xFF1D1D22),
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: const Color(0x80FFFFFF), width: 2),
-              ),
-              child: TextField(
-                cursorColor: Colors.white,
-                cursorOpacityAnimates: true,
-                controller: controller,
-                style: const TextStyle(
-                  color: Color(0xFFFFFFFF),
-                  fontSize: 14,
-                  fontFamily: 'Inter',
-                ),
-                textAlign: TextAlign.left,
-                decoration: InputDecoration(
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  contentPadding: const EdgeInsets.all(0),
-                  isDense: true,
-                  enabled: false,
-                  hintText: hintText,
-                  hintStyle: const TextStyle(
-                    color: Color(0xFFFFFFFF),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    fontFamily: 'Inter',
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: -0.5,
-              left: 7.5,
-              child: Container(
-                height: 10,
-                width: labelbackgroundwidth,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                color: const Color(0xFF1D1D22),
-              ),
-            ),
-            Positioned(
-              top: -8.5,
-              left: 17.5,
-              child: Text(
-                label,
-                style: const TextStyle(
-                  color: Color(0x80FFFFFF),
-                  fontWeight: FontWeight.w600,
-                  fontSize: 15,
-                  fontFamily: 'Inter',
-                ),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            const Positioned(
-              right: 15,
-              top: 15,
-              child: Icon(Icons.calendar_today_outlined,
-                  color: Color(0xFFFFFFFF), size: 20),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildGenderInput(String label, TextEditingController controller,
-      String hintText, double labelbackgroundwidth) {
-    return Flexible(
-      child: GestureDetector(
-        onTap: () {
-          // openDropDown(context);
-        },
-        child: Stack(
-          alignment: Alignment.topLeft,
-          clipBehavior: Clip.none,
-          children: <Widget>[
-            Container(
-              height: 47.5,
-              padding: const EdgeInsets.only(
-                  left: 16,
-                  right: 10,
-                  bottom: 0,
-                  top: 13.75), // Padding for the TextField
-              decoration: BoxDecoration(
-                color: const Color(0xFF1D1D22),
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: const Color(0x80FFFFFF), width: 2),
-              ),
-              child: TextField(
-                cursorColor: Colors.white,
-                cursorOpacityAnimates: true,
-                controller: controller,
-                style: const TextStyle(
-                  color: Color(0xFFFFFFFF),
-                  fontSize: 14,
-                  fontFamily: 'Inter',
-                ),
-                textAlign: TextAlign.left,
-                decoration: InputDecoration(
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  contentPadding: const EdgeInsets.all(0),
-                  isDense: true,
-                  enabled: false,
-                  hintText: hintText,
-                  hintStyle: const TextStyle(
-                    color: Color(0xFFFFFFFF),
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    fontFamily: 'Inter',
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: -0.5,
-              left: 7.5,
-              child: Container(
-                height: 10,
-                width: labelbackgroundwidth,
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                color: const Color(0xFF1D1D22),
-              ),
-            ),
-            Positioned(
-              top: -8.5,
-              left: 17.5,
-              child: Text(
-                label,
-                style: const TextStyle(
-                  color: Color(0x80FFFFFF),
-                  fontWeight: FontWeight.w600,
-                  fontSize: 15,
-                  fontFamily: 'Inter',
-                ),
-                textAlign: TextAlign.left,
-              ),
-            ),
-            const Positioned(
-              right: 15,
-              top: 15,
-              child: Icon(Icons.keyboard_arrow_down_rounded,
-                  color: Color(0xFFFFFFFF), size: 20),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final GlobalProvider globalProvider = Provider.of<GlobalProvider>(context);
     final double height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     // width variable of screen
@@ -430,8 +32,7 @@ class RegisterThreeScreenState extends State<RegisterThreeScreen> {
                 top: 20,
                 left: 20,
                 child: Image.asset(
-                  'assets/icons/logo-small-dark-mode.png',
-                  // width: 50,
+                  globalProvider.themeIconPaths["smallLogo"]!,
                   height: 38,
                 ),
               ),
@@ -471,11 +72,12 @@ class RegisterThreeScreenState extends State<RegisterThreeScreen> {
                 bottom: 90,
                 left: width * 0.1,
                 right: width * 0.1,
-                child: const Text(
+                child: Text(
                   "Please login to access the application",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Color(0x80FFFFFF),
+                    color:
+                        globalProvider.themeColors["textFieldBorderAndLabel"],
                     fontWeight: FontWeight.w500,
                     fontSize: 12,
                     fontFamily: 'Inter',
@@ -518,16 +120,16 @@ class RegisterThreeScreenState extends State<RegisterThreeScreen> {
                   child: Container(
                     height: 50,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF16161B),
+                      color: globalProvider.themeColors["buttonOne"],
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
+                        Text(
                           'Next',
                           style: TextStyle(
-                            color: Color(0xFFFFFFFF),
+                            color: globalProvider.themeColors["white"],
                             fontWeight: FontWeight.w500,
                             fontSize: 15,
                             fontFamily: 'Inter',
@@ -537,7 +139,7 @@ class RegisterThreeScreenState extends State<RegisterThreeScreen> {
                           width: 10,
                         ),
                         SvgPicture.asset(
-                          'assets/icons/forward.svg',
+                          globalProvider.themeIconPaths["fowardArrow"]!,
                           width: 12,
                           height: 12,
                         ),
