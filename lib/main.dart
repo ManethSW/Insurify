@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:insurify/screens/home/home_screen.dart';
+import 'package:insurify/screens/register/register_test.dart';
 import 'package:provider/provider.dart';
 
 import 'package:insurify/screens/startup/startup_screen.dart';
@@ -27,8 +29,8 @@ class GlobalProvider extends ChangeNotifier {
     notifyListeners();
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: themeColors['primary'],
-        systemNavigationBarColor: themeColors['primary'],
+        statusBarColor: themeColors['buttonOne'],
+        systemNavigationBarColor: themeColors['buttonOne'],
         statusBarIconBrightness:
             _theme == 'dark' ? Brightness.light : Brightness.dark,
         systemNavigationBarIconBrightness:
@@ -63,7 +65,7 @@ class MyApp extends StatelessWidget {
         highlightColor: Colors.transparent,
         hoverColor: Colors.transparent,
       ),
-      home: StartupScreen(),
+      home: HomeScreen(),
     );
   }
 }

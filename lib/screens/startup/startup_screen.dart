@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insurify/screens/login/login_one_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'package:insurify/constant.dart';
@@ -128,7 +129,7 @@ class StartupScreen extends StatelessWidget {
                         const SizedBox(
                           height: 18,
                         ),
-                        buildButton(context, 'Login', const Placeholder()),
+                        buildButton(context, 'Login', const LoginOneScreen()),
                       ],
                     ),
                   ),
