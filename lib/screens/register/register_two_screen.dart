@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:insurify/main.dart';
 import 'package:insurify/screens/components/startup_screen_heading.dart';
-import 'package:insurify/screens/register/register_three_scren.dart';
+import 'package:insurify/screens/register/register_three_screen.dart';
 import 'package:pinput/pinput.dart';
 
 import 'package:flutter/services.dart';

@@ -298,7 +298,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
                   padding: const EdgeInsets.only(left: 31, right: 31),
                   child: Column(
                     children: [
-                      SizedBox(height: height * 0.125),
+                      SizedBox(height: height * 0.1),
                       Text(
                         "Sign Up",
                         style: TextStyle(
@@ -308,7 +308,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
                           fontFamily: 'Inter',
                         ),
                       ),
-                      SizedBox(height: height * 0.1),
+                      SizedBox(height: height * 0.075),
                       buildInputRow('First Name', textEditingControllers[0],
                           'Enter your first name', 95, true),
                       SizedBox(height: height * 0.06),
