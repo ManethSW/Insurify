@@ -1,8 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:insurify/main.dart';
+import 'package:insurify/providers/theme_provider.dart';
 import 'package:insurify/screens/components/build_bottom_buttons.dart';
 import 'package:insurify/screens/register/register_two_screen.dart';
 import 'package:insurify/screens/startup/startup_screen.dart';
@@ -16,7 +14,7 @@ class RegisterOneScreen extends StatefulWidget {
 }
 
 class RegisterOneScreenState extends State<RegisterOneScreen> {
-  late GlobalProvider globalProvider;
+  late ThemeProvider themeProvider;
   final TextEditingController controller = TextEditingController();
   final List<TextEditingController> textEditingControllers = List.generate(
     6,
@@ -50,11 +48,11 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
   Widget buildBuildTextField(
       TextEditingController controller, String hintText, bool textFieldTyping) {
     return TextField(
-      cursorColor: globalProvider.themeColors["white"],
+      cursorColor: themeProvider.themeColors["white"],
       cursorOpacityAnimates: true,
       controller: controller,
       style: TextStyle(
-        color: globalProvider.themeColors["white"],
+        color: themeProvider.themeColors["white"],
         fontSize: 14,
         fontFamily: 'Inter',
       ),
@@ -68,7 +66,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
         hintText: hintText,
         enabled: textFieldTyping,
         hintStyle: TextStyle(
-          color: globalProvider.themeColors["white"],
+          color: themeProvider.themeColors["white"],
           fontWeight: FontWeight.w400,
           fontSize: 14,
           fontFamily: 'Inter',
@@ -87,10 +85,10 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
           bottom: 0,
           top: 13.75), // Padding for the TextField
       decoration: BoxDecoration(
-        color: globalProvider.themeColors["textFieldBackground"],
+        color: themeProvider.themeColors["textFieldBackground"],
         borderRadius: BorderRadius.circular(5),
         border: Border.all(
-            color: globalProvider.themeColors["textFieldBorderAndLabel"]!,
+            color: themeProvider.themeColors["textFieldBorderAndLabel"]!,
             width: 2),
       ),
       child: buildBuildTextField(controller, hintText, textFieldTyping),
@@ -104,7 +102,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
       child: Text(
         label,
         style: TextStyle(
-          color: globalProvider.themeColors["textFieldBorderAndLabel"],
+          color: themeProvider.themeColors["textFieldBorderAndLabel"],
           fontWeight: FontWeight.w600,
           fontSize: 15,
           fontFamily: 'Inter',
@@ -122,7 +120,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
         height: 10,
         width: labelbackgroundwidth,
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        color: globalProvider.themeColors["textFieldBackground"],
+        color: themeProvider.themeColors["textFieldBackground"],
         // color: Colors.red,
       ),
     );
@@ -155,10 +153,10 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
             padding: const EdgeInsets.only(
                 left: 16, right: 10, bottom: 0), // Padding for the TextField
             decoration: BoxDecoration(
-              color: globalProvider.themeColors["textFieldBackground"],
+              color: themeProvider.themeColors["textFieldBackground"],
               borderRadius: BorderRadius.circular(5),
               border: Border.all(
-                  color: globalProvider
+                  color: themeProvider
                       .themeColors["textFieldBorderAndLabel"]!,
                   width: 2),
             ),
@@ -171,7 +169,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
                 Text(
                   '+94',
                   style: TextStyle(
-                    color: globalProvider.themeColors["white"],
+                    color: themeProvider.themeColors["white"],
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
                     fontFamily: 'Inter',
@@ -181,7 +179,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
                 Container(
                   width: 2,
                   height: 15,
-                  color: globalProvider.themeColors["phontNumberSeperator"],
+                  color: themeProvider.themeColors["phontNumberSeperator"],
                 ),
                 const SizedBox(width: 10),
                 Flexible(
@@ -231,7 +229,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
               top: 15,
               child: Icon(
                 Icons.calendar_today_outlined,
-                color: globalProvider.themeColors["white"],
+                color: themeProvider.themeColors["white"],
                 size: 20,
               ),
             ),
@@ -260,7 +258,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
               top: 15,
               child: Icon(
                 Icons.keyboard_arrow_down_rounded,
-                color: globalProvider.themeColors["white"],
+                color: themeProvider.themeColors["white"],
                 size: 20,
               ),
             ),
@@ -272,7 +270,14 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
 
   @override
   Widget build(BuildContext context) {
-    globalProvider = Provider.of<GlobalProvider>(context);
+    themeProvider = Provider.of<ThemeProvider>(context);
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: themeProvider.themeColors["primary"],
+        systemNavigationBarColor:
+            themeProvider.themeColors["primary"],
+      ),
+    );
     final double height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     // width variable of screen
@@ -289,7 +294,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
                 top: 20,
                 left: 20,
                 child: Image.asset(
-                  globalProvider.themeIconPaths["smallLogo"]!,
+                  themeProvider.themeIconPaths["smallLogo"]!,
                   height: 38,
                 ),
               ),
@@ -302,7 +307,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
                       Text(
                         "Sign Up",
                         style: TextStyle(
-                          color: globalProvider.themeColors["white"],
+                          color: themeProvider.themeColors["white"],
                           fontWeight: FontWeight.w600,
                           fontSize: 30,
                           fontFamily: 'Inter',

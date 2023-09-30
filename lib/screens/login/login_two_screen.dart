@@ -1,15 +1,11 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:insurify/main.dart';
-import 'package:insurify/screens/components/startup_screen_heading.dart';
-import 'package:insurify/screens/login/login_one_screen.dart';
-import 'package:insurify/screens/register/register_three_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:pinput/pinput.dart';
 
-import 'package:flutter/services.dart';
+import 'package:insurify/providers/theme_provider.dart';
+import 'package:insurify/screens/components/startup_screen_heading.dart';
 import 'package:insurify/screens/components/build_bottom_buttons.dart';
-import 'package:insurify/screens/register/register_one_screen.dart';
-import 'package:provider/provider.dart';
+import 'package:insurify/screens/login/login_one_screen.dart';
 
 class LoginTwoScreen extends StatefulWidget {
   const LoginTwoScreen({Key? key}) : super(key: key);
@@ -19,7 +15,7 @@ class LoginTwoScreen extends StatefulWidget {
 }
 
 class LoginTwoScreenState extends State<LoginTwoScreen> {
-  late GlobalProvider globalProvider;
+  late ThemeProvider themeProvider;
   String otp = '';
   TextEditingController otpController = TextEditingController();
   final int digitCount = 4;
@@ -50,7 +46,7 @@ class LoginTwoScreenState extends State<LoginTwoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    globalProvider = Provider.of<GlobalProvider>(context);
+    themeProvider = Provider.of<ThemeProvider>(context);
 
     final defaultPinTheme = PinTheme(
       width: 55,
@@ -58,10 +54,10 @@ class LoginTwoScreenState extends State<LoginTwoScreen> {
       margin: const EdgeInsets.only(top: 30),
       textStyle: TextStyle(
           fontSize: 20,
-          color: globalProvider.themeColors["white"],
+          color: themeProvider.themeColors["white"],
           fontWeight: FontWeight.w600),
       decoration: BoxDecoration(
-        color: globalProvider.themeColors["buttonOne"],
+        color: themeProvider.themeColors["buttonOne"],
         borderRadius: BorderRadius.circular(10),
       ),
     );
@@ -81,7 +77,7 @@ class LoginTwoScreenState extends State<LoginTwoScreen> {
                 top: 20,
                 left: 20,
                 child: Image.asset(
-                  globalProvider.themeIconPaths["smallLogo"]!,
+                  themeProvider.themeIconPaths["smallLogo"]!,
                   height: 38,
                 ),
               ),
@@ -96,7 +92,7 @@ class LoginTwoScreenState extends State<LoginTwoScreen> {
                       Text(
                         "Verify your phone number",
                         style: TextStyle(
-                          color: globalProvider.themeColors["white"],
+                          color: themeProvider.themeColors["white"],
                           fontWeight: FontWeight.w600,
                           fontSize: 15,
                           fontFamily: 'Inter',
@@ -115,7 +111,7 @@ class LoginTwoScreenState extends State<LoginTwoScreen> {
                       Text(
                         "Didn't receive an OTP?",
                         style: TextStyle(
-                          color: globalProvider.themeColors["white"],
+                          color: themeProvider.themeColors["white"],
                           fontWeight: FontWeight.w400,
                           fontSize: 10,
                           fontFamily: 'Inter',
@@ -125,7 +121,7 @@ class LoginTwoScreenState extends State<LoginTwoScreen> {
                       Text(
                         "RESEND OTP",
                         style: TextStyle(
-                          color: globalProvider.themeColors["white"],
+                          color: themeProvider.themeColors["white"],
                           fontWeight: FontWeight.w600,
                           fontSize: 15,
                           fontFamily: 'Inter',

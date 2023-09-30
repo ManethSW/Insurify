@@ -16,8 +16,11 @@ const kTextDarkColor2 = Color(0xFF2D2D33);
 //Create color maps
 const Map<String, Color> darkThemeColors = {
   "white": Color(0xFFFFFFFF),
+  "white75": Color(0xBFFFFFFF),
   "primary": Color(0xFF24242B),
   "buttonOne": Color(0xFF16161B),
+  "navigationBackground": Color(0xFF1A1A1C),
+  "navigationActive": Color(0xFF24242B),
 
   "startUpBodyText": Color(0x80FFFFFF),
 
@@ -27,9 +30,12 @@ const Map<String, Color> darkThemeColors = {
 };
 
 const Map<String, Color> lightThemeColors = {
-  "white": Color(0xFF000000),
+  "white": Color(0xFF24242B),
+  "white75": Color(0xBF000000),
   "primary": Color(0xFFFFFFFF),
   "buttonOne": Color(0xFFE1E1E2),
+  "navigationBackground": Color(0xFFD5D5D6),
+  "navigationActive": Color(0xFFFFFFFF),
 
   "startUpBodyText": Color(0x80000000),
 
@@ -43,6 +49,16 @@ const Map<String, String> darkThemeIconPaths = {
   "smallLogo": "assets/icons/logo-small-dark.png",
   "fowardArrow": "assets/icons/forward-dark.svg",
   "backArrow": "assets/icons/backward-dark.svg",
+  "menu": "assets/icons/menu-dark.svg",
+  "expire": "assets/icons/expire-dark.svg",
+  "basicInsurance": "assets/icons/basic-insurance-dark.svg",
+  "forwardArrowHead": "assets/icons/forward-arrow-head-dark.svg",
+  "profile": "assets/icons/profile-dark.png",
+  "home": "assets/icons/home-dark.png",
+  "plus": "assets/icons/plus-dark.png",
+  "blog": "assets/icons/blog-dark.png",
+  "signout": "assets/icons/signout-dark.png",
+  "homePage": "assets/images/home-page-dark.png"
 };
 
 const Map<String, String> lightThemeIconPaths = {
@@ -50,4 +66,14 @@ const Map<String, String> lightThemeIconPaths = {
   "smallLogo": "assets/icons/logo-small-light.png",
   "fowardArrow": "assets/icons/forward-light.svg",
   "backArrow": "assets/icons/backward-light.svg",
+  "menu": "assets/icons/menu-light.svg",
+  "expire": "assets/icons/expire-light.svg",
+  "basicInsurance": "assets/icons/basic-insurance-light.svg",
+  "forwardArrowHead": "assets/icons/forward-arrow-head-light.svg",
+  "profile": "assets/icons/profile-light.png",
+  "home": "assets/icons/home-light.png",
+  "plus": "assets/icons/plus-light.png",
+  "blog": "assets/icons/blog-light.png",
+  "signout": "assets/icons/signout-light.png",
+  "homePage": "assets/images/home-page-light.png"
 };

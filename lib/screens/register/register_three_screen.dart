@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-import 'package:insurify/main.dart';
+import 'package:insurify/providers/theme_provider.dart';
 import 'package:insurify/screens/login/login_one_screen.dart';
 
 class RegisterThreeScreen extends StatefulWidget {
@@ -15,7 +16,14 @@ class RegisterThreeScreen extends StatefulWidget {
 class RegisterThreeScreenState extends State<RegisterThreeScreen> {
   @override
   Widget build(BuildContext context) {
-    final GlobalProvider globalProvider = Provider.of<GlobalProvider>(context);
+    final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: themeProvider.themeColors["primary"],
+        systemNavigationBarColor:
+            themeProvider.themeColors["primary"],
+      ),
+    );
     final double height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     // width variable of screen
@@ -32,7 +40,7 @@ class RegisterThreeScreenState extends State<RegisterThreeScreen> {
                 top: 20,
                 left: 20,
                 child: Image.asset(
-                  globalProvider.themeIconPaths["smallLogo"]!,
+                  themeProvider.themeIconPaths["smallLogo"]!,
                   height: 38,
                 ),
               ),
@@ -77,7 +85,7 @@ class RegisterThreeScreenState extends State<RegisterThreeScreen> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color:
-                        globalProvider.themeColors["textFieldBorderAndLabel"],
+                        themeProvider.themeColors["textFieldBorderAndLabel"],
                     fontWeight: FontWeight.w500,
                     fontSize: 12,
                     fontFamily: 'Inter',
@@ -120,7 +128,7 @@ class RegisterThreeScreenState extends State<RegisterThreeScreen> {
                   child: Container(
                     height: 50,
                     decoration: BoxDecoration(
-                      color: globalProvider.themeColors["buttonOne"],
+                      color: themeProvider.themeColors["buttonOne"],
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Row(
@@ -129,7 +137,7 @@ class RegisterThreeScreenState extends State<RegisterThreeScreen> {
                         Text(
                           'Next',
                           style: TextStyle(
-                            color: globalProvider.themeColors["white"],
+                            color: themeProvider.themeColors["white"],
                             fontWeight: FontWeight.w500,
                             fontSize: 15,
                             fontFamily: 'Inter',
@@ -139,7 +147,7 @@ class RegisterThreeScreenState extends State<RegisterThreeScreen> {
                           width: 10,
                         ),
                         SvgPicture.asset(
-                          globalProvider.themeIconPaths["fowardArrow"]!,
+                          themeProvider.themeIconPaths["fowardArrow"]!,
                           width: 12,
                           height: 12,
                         ),

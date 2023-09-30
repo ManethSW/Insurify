@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:insurify/main.dart';
 import 'package:provider/provider.dart';
+import 'package:insurify/providers/theme_provider.dart';
 
 Widget buildStartUpScreenHeading(BuildContext context, String headingText) {
-  final GlobalProvider globalProvider = Provider.of<GlobalProvider>(context);
+  final ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
   return Text(
     headingText,
     style: TextStyle(
-      color: globalProvider.themeColors["white"],
+      color: themeProvider.themeColors["white"],
       fontWeight: FontWeight.w600,
       fontSize: 30,
       fontFamily: 'Inter',
