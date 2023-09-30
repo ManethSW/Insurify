@@ -38,11 +38,11 @@ class LoginOneScreenState extends State<LoginOneScreen> {
   Widget buildBuildTextField(
       TextEditingController controller, String hintText, bool textFieldTyping) {
     return TextField(
-      cursorColor: globalProvider.themeColors["white"],
+      cursorColor: themeProvider.themeColors["white"],
       cursorOpacityAnimates: true,
       controller: controller,
       style: TextStyle(
-        color: globalProvider.themeColors["white"],
+        color: themeProvider.themeColors["white"],
         fontSize: 14,
         fontFamily: 'Inter',
       ),
@@ -56,7 +56,7 @@ class LoginOneScreenState extends State<LoginOneScreen> {
         hintText: hintText,
         enabled: textFieldTyping,
         hintStyle: TextStyle(
-          color: globalProvider.themeColors["white"],
+          color: themeProvider.themeColors["white"],
           fontWeight: FontWeight.w400,
           fontSize: 14,
           fontFamily: 'Inter',
@@ -75,10 +75,10 @@ class LoginOneScreenState extends State<LoginOneScreen> {
           bottom: 0,
           top: 13.75), // Padding for the TextField
       decoration: BoxDecoration(
-        color: globalProvider.themeColors["textFieldBackground"],
+        color: themeProvider.themeColors["textFieldBackground"],
         borderRadius: BorderRadius.circular(5),
         border: Border.all(
-            color: globalProvider.themeColors["textFieldBorderAndLabel"]!,
+            color: themeProvider.themeColors["textFieldBorderAndLabel"]!,
             width: 2),
       ),
       child: buildBuildTextField(controller, hintText, textFieldTyping),
@@ -92,7 +92,7 @@ class LoginOneScreenState extends State<LoginOneScreen> {
       child: Text(
         label,
         style: TextStyle(
-          color: globalProvider.themeColors["textFieldBorderAndLabel"],
+          color: themeProvider.themeColors["textFieldBorderAndLabel"],
           fontWeight: FontWeight.w600,
           fontSize: 15,
           fontFamily: 'Inter',
@@ -110,7 +110,7 @@ class LoginOneScreenState extends State<LoginOneScreen> {
         height: 10,
         width: labelbackgroundwidth,
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        color: globalProvider.themeColors["textFieldBackground"],
+        color: themeProvider.themeColors["textFieldBackground"],
         // color: Colors.red,
       ),
     );
@@ -128,10 +128,10 @@ class LoginOneScreenState extends State<LoginOneScreen> {
             padding: const EdgeInsets.only(
                 left: 16, right: 10, bottom: 0), // Padding for the TextField
             decoration: BoxDecoration(
-              color: globalProvider.themeColors["textFieldBackground"],
+              color: themeProvider.themeColors["textFieldBackground"],
               borderRadius: BorderRadius.circular(5),
               border: Border.all(
-                  color: globalProvider.themeColors["textFieldBorderAndLabel"]!,
+                  color: themeProvider.themeColors["textFieldBorderAndLabel"]!,
                   width: 2),
             ),
             child: Row(
@@ -143,7 +143,7 @@ class LoginOneScreenState extends State<LoginOneScreen> {
                 Text(
                   '+94',
                   style: TextStyle(
-                    color: globalProvider.themeColors["white"],
+                    color: themeProvider.themeColors["white"],
                     fontWeight: FontWeight.w400,
                     fontSize: 14,
                     fontFamily: 'Inter',
@@ -153,7 +153,7 @@ class LoginOneScreenState extends State<LoginOneScreen> {
                 Container(
                   width: 2,
                   height: 15,
-                  color: globalProvider.themeColors["phontNumberSeperator"],
+                  color: themeProvider.themeColors["phontNumberSeperator"],
                 ),
                 const SizedBox(width: 10),
                 Flexible(
@@ -188,7 +188,7 @@ class LoginOneScreenState extends State<LoginOneScreen> {
                 top: 20,
                 left: 20,
                 child: Image.asset(
-                  globalProvider.themeIconPaths["smallLogo"]!,
+                  themeProvider.themeIconPaths["smallLogo"]!,
                   height: 38,
                 ),
               ),
@@ -213,7 +213,7 @@ class LoginOneScreenState extends State<LoginOneScreen> {
                 right: 31,
                 child: TextButton(
                   onPressed: () {
-                    globalProvider.toggleTheme();
+                    themeProvider.toggleTheme();
                   },
                   child: const Text('Change Theme'),
                 ),

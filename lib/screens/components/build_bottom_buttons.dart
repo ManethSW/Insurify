@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:insurify/main.dart';
 import 'package:provider/provider.dart';
+import 'package:insurify/providers/theme_provider.dart';
 
-late GlobalProvider globalProvider;
+late ThemeProvider themeProvider;
 
 Widget buildBackAndNextButtons(
     BuildContext context, double width, Widget pageOne, Widget pageTwo) {
-  globalProvider = Provider.of<GlobalProvider>(context);
+  themeProvider = Provider.of<ThemeProvider>(context);
   return SizedBox(
     width: width,
     height: 50,
@@ -51,12 +51,12 @@ Widget buildBackAndNextButtons(
             height: 50,
             child: Container(
               decoration: BoxDecoration(
-                color: globalProvider.themeColors["buttonOne"]!,
+                color: themeProvider.themeColors["buttonOne"]!,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Center(
                 child: SvgPicture.asset(
-                  globalProvider.themeIconPaths["backArrow"]!,
+                  themeProvider.themeIconPaths["backArrow"]!,
                   height: 16,
                   // width: 20,
                 ),
@@ -100,7 +100,7 @@ Widget buildBackAndNextButtons(
             child: Container(
               height: 50,
               decoration: BoxDecoration(
-                color: globalProvider.themeColors["buttonOne"]!,
+                color: themeProvider.themeColors["buttonOne"]!,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
@@ -109,7 +109,7 @@ Widget buildBackAndNextButtons(
                   Text(
                     'Next',
                     style: TextStyle(
-                      color: globalProvider.themeColors["white"],
+                      color: themeProvider.themeColors["white"],
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
                       fontFamily: 'Inter',
@@ -119,7 +119,7 @@ Widget buildBackAndNextButtons(
                     width: 10,
                   ),
                   SvgPicture.asset(
-                    globalProvider.themeIconPaths["fowardArrow"]!,
+                    themeProvider.themeIconPaths["fowardArrow"]!,
                     width: 12,
                     height: 12,
                   ),

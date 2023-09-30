@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:insurify/screens/login/login_one_screen.dart';
 import 'package:provider/provider.dart';
 
-import 'package:insurify/constant.dart';
-import 'package:insurify/main.dart';
+import 'package:insurify/providers/theme_provider.dart';
 import 'package:insurify/screens/register/register_one_screen.dart';
 
 class StartupScreen extends StatelessWidget {
   StartupScreen({Key? key}) : super(key: key);
-  late GlobalProvider globalProvider;
+  late ThemeProvider themeProvider;
 
   final String version = '0.1';
 
@@ -45,7 +44,7 @@ class StartupScreen extends StatelessWidget {
       style: ButtonStyle(
         fixedSize: MaterialStateProperty.all<Size>(Size(width * 0.8, 50)),
         backgroundColor: MaterialStateProperty.all<Color>(
-          globalProvider.themeColors["buttonOne"]!,
+          themeProvider.themeColors["buttonOne"]!,
         ),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
@@ -56,7 +55,7 @@ class StartupScreen extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          color: globalProvider.themeColors["white"],
+          color: themeProvider.themeColors["white"],
           fontSize: 15,
           fontWeight: FontWeight.w700,
           fontFamily: 'Inter',
@@ -70,7 +69,7 @@ class StartupScreen extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return Builder(
       builder: (context) {
-        globalProvider = Provider.of<GlobalProvider>(context);
+        themeProvider = Provider.of<ThemeProvider>(context);
         return Scaffold(
           body: SafeArea(
             child: Scaffold(
@@ -83,7 +82,7 @@ class StartupScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Image.asset(
-                            globalProvider.themeIconPaths["mainLogo"]!,
+                            themeProvider.themeIconPaths["mainLogo"]!,
                             width: 170,
                           ),
                           const SizedBox(
@@ -95,7 +94,7 @@ class StartupScreen extends StatelessWidget {
                               'One Stop Shop For All Your Motor Insurance Needs',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: globalProvider
+                                color: themeProvider
                                     .themeColors["startUpBodyText"],
                                 fontSize: 15,
                                 fontWeight: FontWeight.w300,
@@ -113,7 +112,7 @@ class StartupScreen extends StatelessWidget {
                     right: 31,
                     child: TextButton(
                       onPressed: () {
-                        globalProvider.toggleTheme();
+                        themeProvider.toggleTheme();
                       },
                       child: const Text('Change Theme'),
                     ),

@@ -30,7 +30,7 @@ const Map<String, Color> darkThemeColors = {
 };
 
 const Map<String, Color> lightThemeColors = {
-  "white": Color(0xFF000000),
+  "white": Color(0xFF24242B),
   "white75": Color(0xBF000000),
   "primary": Color(0xFFFFFFFF),
   "buttonOne": Color(0xFFE1E1E2),

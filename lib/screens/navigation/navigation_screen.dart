@@ -1,16 +1,14 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:insurify/main.dart';
-import 'package:insurify/screens/components/startup_screen_heading.dart';
-import 'package:insurify/screens/login/login_one_screen.dart';
-import 'package:insurify/screens/register/register_three_screen.dart';
-import 'package:pinput/pinput.dart';
-
 import 'package:flutter/services.dart';
-import 'package:insurify/screens/components/build_bottom_buttons.dart';
-import 'package:insurify/screens/register/register_one_screen.dart';
+import 'package:insurify/screens/add_insurance/add_insurance_main_screen.dart';
+import 'package:insurify/screens/blog/blog_main_screen.dart';
+import 'package:insurify/screens/home/home_screen.dart';
+import 'package:insurify/screens/profile/profile_main_screen.dart';
+import 'package:insurify/screens/startup/startup_screen.dart';
 import 'package:provider/provider.dart';
+
+import 'package:insurify/providers/theme_provider.dart';
+import 'package:insurify/providers/global_provider.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({Key? key}) : super(key: key);
@@ -20,45 +18,141 @@ class NavigationScreen extends StatefulWidget {
 }
 
 class NavigationScreenState extends State<NavigationScreen> {
+  late ThemeProvider themeProvider;
   late GlobalProvider globalProvider;
 
-  Widget buildNavigationItem(String icon, String label) {
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        padding:
-            const EdgeInsets.only(left: 15, top: 10, right: 20, bottom: 10),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Icon(
-            //   icon,
-            //   color: globalProvider.themeColors["white"],
-            //   size: 30,
-            // ),
-            Image.asset(
-              globalProvider.themeIconPaths[icon]!,
-              height: 22.5,
-              width: 22.5,
-            ),
-            const SizedBox(width: 20),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 17.5,
-                fontWeight: FontWeight.w400,
-                color: globalProvider.themeColors["white"],
+  //list for the name of the screens
+  final List<String> screens = [
+    'profile',
+    'home',
+    'addInsurance',
+    'blogs',
+    'startup',
+  ];
+
+  Widget buildNavigationItem(
+      String icon, String label, String screen, Widget page) {
+    globalProvider = Provider.of<GlobalProvider>(context);
+
+    void _onTapHandler() {
+      setState(() {
+        globalProvider.setCurrentScreen(screen);
+      });
+      print(globalProvider.currentScreen);
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          transitionDuration: const Duration(milliseconds: 300),
+          pageBuilder: (context, animation, secondaryAnimation) => page,
+          transitionsBuilder: (
+            context,
+            animation,
+            secondaryAnimation,
+            child,
+          ) {
+            const begin = Offset(-1.0, 0.0);
+            const end = Offset.zero;
+            final tween = Tween(begin: begin, end: end);
+            final curvedAnimation = CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeInOut,
+            );
+            return SlideTransition(
+              position: tween.animate(curvedAnimation),
+              child: Container(
+                color: Colors.transparent,
+                child: child,
+              ),
+            );
+          },
+        ),
+      );
+    }
+
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        //logic
+        if (globalProvider.currentScreen == screen) {
+          return GestureDetector(
+            onTap: () {
+              _onTapHandler();
+            },
+            child: Container(
+              padding: const EdgeInsets.only(
+                  left: 15, top: 10, right: 20, bottom: 10),
+              // width: ,
+              // height: 50,
+              decoration: BoxDecoration(
+                color: themeProvider.themeColors["navigationActive"],
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    themeProvider.themeIconPaths[icon]!,
+                    height: 22.5,
+                    width: 22.5,
+                  ),
+                  const SizedBox(width: 20),
+                  Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 17.5,
+                      fontWeight: FontWeight.w400,
+                      color: themeProvider.themeColors["white"],
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
+          );
+        } else {
+          return GestureDetector(
+            onTap: () {
+              _onTapHandler();
+            },
+            child: Container(
+              padding: const EdgeInsets.only(
+                  left: 15, top: 10, right: 20, bottom: 10),
+              // width: ,
+              // height: 50,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    themeProvider.themeIconPaths[icon]!,
+                    height: 22.5,
+                    width: 22.5,
+                  ),
+                  const SizedBox(width: 20),
+                  Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 17.5,
+                      fontWeight: FontWeight.w400,
+                      color: themeProvider.themeColors["white"],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    globalProvider = Provider.of<GlobalProvider>(context);
+    themeProvider = Provider.of<ThemeProvider>(context);
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: themeProvider.themeColors["navigationBackground"],
+        systemNavigationBarColor:
+            themeProvider.themeColors["navigationBackground"],
+      ),
+    );
     final double height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     // width variable of screen
@@ -68,7 +162,7 @@ class NavigationScreenState extends State<NavigationScreen> {
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Scaffold(
-          backgroundColor: globalProvider.themeColors["navigationBackground"],
+          backgroundColor: themeProvider.themeColors["navigationBackground"],
           resizeToAvoidBottomInset: false,
           body: Stack(
             children: [
@@ -78,7 +172,7 @@ class NavigationScreenState extends State<NavigationScreen> {
                 right: 31,
                 child: TextButton(
                   onPressed: () {
-                    globalProvider.toggleTheme();
+                    themeProvider.toggleTheme();
                   },
                   child: const Text('Change Theme'),
                 ),
@@ -87,9 +181,11 @@ class NavigationScreenState extends State<NavigationScreen> {
                 top: 60,
                 right: 20,
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   icon: const Icon(Icons.close_rounded),
-                  color: globalProvider.themeColors["white"],
+                  color: themeProvider.themeColors["white"],
                   iconSize: 35,
                 ),
               ),
@@ -97,9 +193,9 @@ class NavigationScreenState extends State<NavigationScreen> {
                 top: 120,
                 right: 0,
                 child: Image.asset(
-                  globalProvider.themeIconPaths["homePage"]!,
+                  themeProvider.themeIconPaths["homePage"]!,
                   // height: 100,
-                  width: 90,
+                  width: width * 0.21,
                 ),
               ),
               SizedBox(
@@ -122,7 +218,7 @@ class NavigationScreenState extends State<NavigationScreen> {
                                 children: [
                                   CircleAvatar(
                                     radius: 36.5,
-                                    backgroundColor: globalProvider
+                                    backgroundColor: themeProvider
                                         .themeColors["white"]!
                                         .withOpacity(0.5),
                                     child: CircleAvatar(
@@ -138,8 +234,7 @@ class NavigationScreenState extends State<NavigationScreen> {
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w400,
-                                      color: globalProvider
-                                          .themeColors["white"]!
+                                      color: themeProvider.themeColors["white"]!
                                           .withOpacity(0.5),
                                     ),
                                   ),
@@ -149,8 +244,7 @@ class NavigationScreenState extends State<NavigationScreen> {
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600,
-                                      color:
-                                          globalProvider.themeColors["white"],
+                                      color: themeProvider.themeColors["white"],
                                     ),
                                   ),
                                 ],
@@ -159,52 +253,23 @@ class NavigationScreenState extends State<NavigationScreen> {
                             SizedBox(
                               height: height * 0.05,
                             ),
-                            GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                padding: const EdgeInsets.only(
-                                    left: 15, top: 10, right: 20, bottom: 10),
-                                // width: ,
-                                // height: 50,
-                                decoration: BoxDecoration(
-                                  color: globalProvider
-                                      .themeColors["navigationActive"],
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Image.asset(
-                                      globalProvider.themeIconPaths["profile"]!,
-                                      height: 22.5,
-                                      width: 22.5,
-                                    ),
-                                    const SizedBox(width: 20),
-                                    Text(
-                                      'Profile',
-                                      style: TextStyle(
-                                        fontSize: 17.5,
-                                        fontWeight: FontWeight.w400,
-                                        color:
-                                            globalProvider.themeColors["white"],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            buildNavigationItem("profile", 'Profile',
+                                screens[0], ProfileMainScreen()),
                             SizedBox(
                               height: height * 0.05,
                             ),
-                            buildNavigationItem("home", 'Home'),
+                            buildNavigationItem(
+                                "home", 'Home', screens[1], HomeScreen()),
                             SizedBox(
                               height: height * 0.05,
                             ),
-                            buildNavigationItem("plus", 'Add New Insurance'),
+                            buildNavigationItem("plus", 'Add New Insurance',
+                                screens[2], AddInsuranceMainScreen()),
                             SizedBox(
                               height: height * 0.05,
                             ),
-                            buildNavigationItem("blog", 'View Blogs'),
+                            buildNavigationItem("blog", 'View Blogs',
+                                screens[3], BlogMainScreen()),
                           ],
                         ),
                       ),
@@ -218,7 +283,7 @@ class NavigationScreenState extends State<NavigationScreen> {
                               width: 115,
                               margin: EdgeInsets.only(left: 15),
                               decoration: BoxDecoration(
-                                color: globalProvider.themeColors["white"]!
+                                color: themeProvider.themeColors["white"]!
                                     .withOpacity(0.5),
                                 borderRadius: BorderRadius.circular(20),
                               ),
@@ -226,7 +291,8 @@ class NavigationScreenState extends State<NavigationScreen> {
                             SizedBox(
                               height: height * 0.05,
                             ),
-                            buildNavigationItem("signout", 'Sign Out'),
+                            buildNavigationItem("signout", 'Sign Out',
+                                screens[4], StartupScreen()),
                           ],
                         ),
                       ),

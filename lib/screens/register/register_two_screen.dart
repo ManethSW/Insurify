@@ -1,11 +1,10 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:insurify/main.dart';
+import 'package:flutter/services.dart';
+import 'package:insurify/providers/theme_provider.dart';
 import 'package:insurify/screens/components/startup_screen_heading.dart';
 import 'package:insurify/screens/register/register_three_screen.dart';
 import 'package:pinput/pinput.dart';
 
-import 'package:flutter/services.dart';
 import 'package:insurify/screens/components/build_bottom_buttons.dart';
 import 'package:insurify/screens/register/register_one_screen.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +17,7 @@ class RegisterTwoScreen extends StatefulWidget {
 }
 
 class RegisterTwoScreenState extends State<RegisterTwoScreen> {
-  late GlobalProvider globalProvider;
+  late ThemeProvider themeProvider;
   String otp = '';
   TextEditingController otpController = TextEditingController();
   final int digitCount = 4;
@@ -49,18 +48,24 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    globalProvider = Provider.of<GlobalProvider>(context);
-
+    themeProvider = Provider.of<ThemeProvider>(context);
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: themeProvider.themeColors["primary"],
+        systemNavigationBarColor:
+            themeProvider.themeColors["primary"],
+      ),
+    );
     final defaultPinTheme = PinTheme(
       width: 55,
       height: 55,
       margin: const EdgeInsets.only(top: 30),
       textStyle: TextStyle(
           fontSize: 20,
-          color: globalProvider.themeColors["white"],
+          color: themeProvider.themeColors["white"],
           fontWeight: FontWeight.w600),
       decoration: BoxDecoration(
-        color: globalProvider.themeColors["buttonOne"],
+        color: themeProvider.themeColors["buttonOne"],
         borderRadius: BorderRadius.circular(10),
       ),
     );
@@ -80,7 +85,7 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
                 top: 20,
                 left: 20,
                 child: Image.asset(
-                  globalProvider.themeIconPaths["smallLogo"]!,
+                  themeProvider.themeIconPaths["smallLogo"]!,
                   height: 38,
                 ),
               ),
@@ -95,7 +100,7 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
                       Text(
                         "Verify your phone number",
                         style: TextStyle(
-                          color: globalProvider.themeColors["white"],
+                          color: themeProvider.themeColors["white"],
                           fontWeight: FontWeight.w600,
                           fontSize: 15,
                           fontFamily: 'Inter',
@@ -114,7 +119,7 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
                       Text(
                         "Didn't receive an OTP?",
                         style: TextStyle(
-                          color: globalProvider.themeColors["white"],
+                          color: themeProvider.themeColors["white"],
                           fontWeight: FontWeight.w400,
                           fontSize: 10,
                           fontFamily: 'Inter',
@@ -124,7 +129,7 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
                       Text(
                         "RESEND OTP",
                         style: TextStyle(
-                          color: globalProvider.themeColors["white"],
+                          color: themeProvider.themeColors["white"],
                           fontWeight: FontWeight.w600,
                           fontSize: 15,
                           fontFamily: 'Inter',
