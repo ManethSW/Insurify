@@ -32,6 +32,31 @@ class UserData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setFirstName ({
+    String? fname,
+  }) {
+    this.fname = fname;
+  }
+
+  void setlastName ({
+    String? lname,
+  }) {
+    this.lname = lname;
+  }
+
+  void setEmail ({
+    String? email,
+  }) {
+    this.email = email;
+  }
+
+  void setPhoneNo({
+    String? phoneNo,
+  }) {
+    this.phoneNo = phoneNo;
+    notifyListeners();
+  }
+
   void setProfilePic({
     Image? profilePic,
   }) {

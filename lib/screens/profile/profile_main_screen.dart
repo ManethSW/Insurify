@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:insurify/providers/user_provider.dart';
 import 'package:insurify/screens/components/top_bar.dart';
 import 'package:insurify/screens/profile/profile_edit_details.dart';
+import 'package:insurify/screens/profile/profile_edit_phone.dart';
 import 'package:insurify/screens/startup/startup_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -138,14 +139,18 @@ class ProfileMainScreenState extends State<ProfileMainScreen>
                     children: [
                       CircleAvatar(
                         radius: 41.5,
-                        backgroundColor: themeProvider.themeColors["white"]!
-                            .withOpacity(0.5),
-                        child: CircleAvatar(
-                          radius: 40,
-                          backgroundImage: Image.network(
-                                  'https://firebasestorage.googleapis.com/v0/b/the-wallet-2fa7c.appspot.com/o/files%2F032a0ee8-6075-4e49-8c66-1ddf11ebc876_wp7782555.jpg?alt=media&token=60263346-268c-48c4-a672-2fd6410a1c77')
-                              .image,
-                        ),
+                        backgroundColor:
+                            themeProvider.themeColors["buttonOne"]!,
+                        child: userDataProvider.userData.profilePic == null
+                            ? Icon(Icons.person_rounded,
+                                color: themeProvider.themeColors["white"]!
+                                    .withOpacity(0.75),
+                                size: 45.0)
+                            : CircleAvatar(
+                                radius: 40.0,
+                                backgroundImage:
+                                    userDataProvider.userData.profilePic!.image,
+                              ),
                       ),
                       SizedBox(
                         height: height * 0.025,
@@ -230,11 +235,12 @@ class ProfileMainScreenState extends State<ProfileMainScreen>
                       SizedBox(
                         height: height * 0.03,
                       ),
-                      buildButton("Change Personal Details", ProfileEditDetailsScreen()),
+                      buildButton("Change Personal Details",
+                          ProfileEditDetailsScreen()),
                       SizedBox(
                         height: height * 0.03,
                       ),
-                      buildButton("Change Phone Number", Placeholder()),
+                      buildButton("Change Phone Number", ProfileEditPhoneScreen()),
                     ],
                   ),
                 ),
