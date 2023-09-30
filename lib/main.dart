@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:insurify/screens/home/home_screen.dart';
+import 'package:insurify/screens/navigation/navigation_screen.dart';
 import 'package:insurify/screens/register/register_test.dart';
 import 'package:provider/provider.dart';
 
@@ -30,7 +31,7 @@ class GlobalProvider extends ChangeNotifier {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: themeColors['buttonOne'],
-        systemNavigationBarColor: themeColors['buttonOne'],
+        systemNavigationBarColor: themeColors['primary'],
         statusBarIconBrightness:
             _theme == 'dark' ? Brightness.light : Brightness.dark,
         systemNavigationBarIconBrightness:
@@ -65,7 +66,7 @@ class MyApp extends StatelessWidget {
         highlightColor: Colors.transparent,
         hoverColor: Colors.transparent,
       ),
-      home: HomeScreen(),
+      home: NavigationScreen(),
     );
   }
 }

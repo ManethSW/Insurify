@@ -34,7 +34,7 @@ class HomeScreenState extends State<HomeScreen>
     return Expanded(
       flex: flexNumber,
       child: Container(
-        height: 95,
+        height: 102,
         decoration: BoxDecoration(
           color: globalProvider.themeColors["buttonOne"],
           borderRadius: BorderRadius.circular(10),
@@ -48,20 +48,20 @@ class HomeScreenState extends State<HomeScreen>
                 label,
                 style: TextStyle(
                   color: globalProvider.themeColors["white"],
-                  fontWeight: FontWeight.w600,
-                  fontSize: 17.5,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
                   fontFamily: 'Inter',
                 ),
               ),
             ),
             const SizedBox(
-              height: 5,
+              height: 7.5,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Container(
                 height: 2,
-                width: 20,
+                width: 25,
                 decoration: BoxDecoration(
                   color: globalProvider.themeColors["startUpBodyText"],
                   borderRadius: BorderRadius.circular(10),
@@ -69,7 +69,7 @@ class HomeScreenState extends State<HomeScreen>
               ),
             ),
             const SizedBox(
-              height: 5,
+              height: 7.5,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 5, bottom: 5, right: 5),
@@ -108,7 +108,7 @@ class HomeScreenState extends State<HomeScreen>
     return Stack(
       children: [
         Container(
-          height: 150,
+          height: 156,
           decoration: BoxDecoration(
             color: globalProvider.themeColors["buttonOne"],
             borderRadius: BorderRadius.circular(10),
@@ -130,7 +130,7 @@ class HomeScreenState extends State<HomeScreen>
                     Expanded(
                       flex: 1,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        alignment: Alignment.center,
                         height: 25,
                         decoration: BoxDecoration(
                           color: globalProvider.themeColors["primary"],
@@ -142,7 +142,7 @@ class HomeScreenState extends State<HomeScreen>
                           style: TextStyle(
                             color: globalProvider.themeColors["white"],
                             fontWeight: FontWeight.w400,
-                            fontSize: 15,
+                            fontSize: 14,
                             fontFamily: 'Inter',
                           ),
                         ),
@@ -154,7 +154,7 @@ class HomeScreenState extends State<HomeScreen>
                     Expanded(
                       flex: 1,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        alignment: Alignment.center,
                         height: 25,
                         decoration: BoxDecoration(
                           color: globalProvider.themeColors["primary"],
@@ -166,7 +166,7 @@ class HomeScreenState extends State<HomeScreen>
                           style: TextStyle(
                             color: globalProvider.themeColors["white"],
                             fontWeight: FontWeight.w400,
-                            fontSize: 15,
+                            fontSize: 14,
                             fontFamily: 'Inter',
                           ),
                         ),
@@ -175,7 +175,7 @@ class HomeScreenState extends State<HomeScreen>
                   ],
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 Row(
                   children: [
@@ -184,7 +184,7 @@ class HomeScreenState extends State<HomeScreen>
                       style: TextStyle(
                         color: globalProvider.themeColors["white"],
                         fontWeight: FontWeight.w600,
-                        fontSize: 20,
+                        fontSize: 17.5,
                         fontFamily: 'Inter',
                       ),
                     ),
@@ -205,7 +205,7 @@ class HomeScreenState extends State<HomeScreen>
                     style: TextStyle(
                       color: globalProvider.themeColors["startUpBodyText"],
                       fontWeight: FontWeight.w600,
-                      fontSize: 15,
+                      fontSize: 13,
                       fontFamily: 'Inter',
                     ),
                   ),
@@ -221,7 +221,7 @@ class HomeScreenState extends State<HomeScreen>
                     style: TextStyle(
                       color: globalProvider.themeColors["white"],
                       fontWeight: FontWeight.w400,
-                      fontSize: 15,
+                      fontSize: 13,
                       fontFamily: 'Inter',
                     ),
                   ),
@@ -234,7 +234,7 @@ class HomeScreenState extends State<HomeScreen>
                     style: TextStyle(
                       color: globalProvider.themeColors["startUpBodyText"],
                       fontWeight: FontWeight.w400,
-                      fontSize: 15,
+                      fontSize: 13,
                       fontFamily: 'Inter',
                     ),
                   ),
@@ -288,7 +288,7 @@ class HomeScreenState extends State<HomeScreen>
                 left: 0,
                 right: 0,
                 child: Container(
-                  height: 60,
+                  height: 70,
                   decoration: BoxDecoration(
                     color: globalProvider.themeColors["buttonOne"],
                     borderRadius: const BorderRadius.only(
@@ -321,7 +321,7 @@ class HomeScreenState extends State<HomeScreen>
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      left: 20, right: 20, top: 80, bottom: 20),
+                      left: 20, right: 20, top: 90, bottom: 20),
                   child: Column(
                     children: [
                       CircleAvatar(
@@ -330,7 +330,7 @@ class HomeScreenState extends State<HomeScreen>
                             globalProvider.themeColors["buttonOne"],
                         child: Icon(Icons.person_rounded,
                             color: globalProvider.themeColors["white"],
-                            size: 45.0),
+                            size: 40.0),
                         // child: CircleAvatar(
                         //   radius: 41.5,
                         //   backgroundColor: const Color(0xB3000000),
@@ -341,14 +341,14 @@ class HomeScreenState extends State<HomeScreen>
                         // ),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
                       Text(
                         "Maneth Weerasinghe",
                         style: TextStyle(
                           color: globalProvider.themeColors["white"],
                           fontWeight: FontWeight.w600,
-                          fontSize: 25,
+                          fontSize: 22.5,
                           fontFamily: 'Inter',
                         ),
                       ),
@@ -359,14 +359,14 @@ class HomeScreenState extends State<HomeScreen>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           buildQuickActionButton(
-                              2, "Add New Motor Insurance", Icons.add),
+                              2, "Add New \nMotor Insurance", Icons.add),
                           const SizedBox(
-                            width: 5,
+                            width: 10,
                           ),
                           buildQuickActionButton(
                               1, "View Profile", Icons.person),
                           const SizedBox(
-                            width: 5,
+                            width: 10,
                           ),
                           buildQuickActionButton(
                               1, "View Blogs", Icons.message_rounded),
@@ -388,6 +388,19 @@ class HomeScreenState extends State<HomeScreen>
                           ),
                         ),
                       ),
+                      FractionallySizedBox(
+                        widthFactor: 1,
+                        child: Text(
+                          "View & Manage Your Insurances",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            color: globalProvider.themeColors["white75"],
+                            fontWeight: FontWeight.w400,
+                            fontSize: 13,
+                            fontFamily: 'Inter',
+                          ),
+                        ),
+                      ),
                       Container(
                         padding: EdgeInsets.zero,
                         child: FractionallySizedBox(
@@ -398,18 +411,17 @@ class HomeScreenState extends State<HomeScreen>
                           child: TabBar(
                             isScrollable: true,
                             controller: _tabController,
-                            indicatorColor: Colors.white,
-                            indicator: const UnderlineTabIndicator(
+                            indicator: UnderlineTabIndicator(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
+                                  const BorderRadius.all(Radius.circular(10)),
                               borderSide:
-                                  BorderSide(width: 2.0, color: Colors.white),
-                              insets: EdgeInsets.symmetric(
+                                  BorderSide(width: 2.0, color: globalProvider.themeColors["white"]!),
+                              insets: const EdgeInsets.symmetric(
                                   horizontal: 17.5, vertical: 10),
                             ),
                             labelPadding: EdgeInsets.only(left: 5, right: 5),
-                            labelColor: Colors.white,
-                            unselectedLabelColor: Colors.white.withOpacity(0.5),
+                            labelColor: globalProvider.themeColors["white"],
+                            unselectedLabelColor: globalProvider.themeColors["white"]!.withOpacity(0.5),
                             labelStyle: const TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w900,
@@ -442,8 +454,20 @@ class HomeScreenState extends State<HomeScreen>
                                       globalProvider.themeIconPaths["expire"]!,
                                       "LKR 125,000 Paid",
                                     ),
-                                    SizedBox(
-                                      height: 10,
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    buildPersonalPolicyCard(
+                                      globalProvider
+                                          .themeIconPaths["basicInsurance"]!,
+                                      "LKR 25,000 / mo",
+                                      "ABC123456789",
+                                      "Basic Motor Insurance",
+                                      globalProvider.themeIconPaths["expire"]!,
+                                      "LKR 125,000 Paid",
+                                    ),
+                                    const SizedBox(
+                                      height: 15,
                                     ),
                                     buildPersonalPolicyCard(
                                       globalProvider
@@ -471,6 +495,17 @@ class HomeScreenState extends State<HomeScreen>
                       ),
                     ],
                   ),
+                ),
+              ),
+              Positioned(
+                bottom: 160,
+                left: 31,
+                right: 31,
+                child: TextButton(
+                  onPressed: () {
+                    globalProvider.toggleTheme();
+                  },
+                  child: const Text('Change Theme'),
                 ),
               ),
             ],
