@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insurify/screens/home/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:pinput/pinput.dart';
 
@@ -41,7 +42,58 @@ class LoginTwoScreenState extends State<LoginTwoScreen> {
   }
 
   void submitOtp(BuildContext context, String otp) {
-    print('working');
+    if (otp == '1111') {
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          transitionDuration: const Duration(milliseconds: 300),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const HomeScreen(),
+          transitionsBuilder: (
+            context,
+            animation,
+            secondaryAnimation,
+            child,
+          ) {
+            const begin = Offset(1.0, 0.0);
+            const end = Offset.zero;
+            final tween = Tween(begin: begin, end: end);
+            final curvedAnimation = CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeInOut,
+            );
+            return SlideTransition(
+              position: tween.animate(curvedAnimation),
+              child: Container(
+                color: Colors.transparent,
+                child: child,
+              ),
+            );
+          },
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: themeProvider.themeColors["primary"],
+          content: Text(
+            'Wrong OTP, please try again',
+            style: TextStyle(
+              color: themeProvider.themeColors["white"],
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+              fontFamily: 'Inter',
+            ),
+          ),
+          action: SnackBarAction(
+            backgroundColor: themeProvider.themeColors["buttonOne"],
+            label: 'OK',
+            textColor: themeProvider.themeColors["white"],
+            onPressed: () {},
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -141,6 +193,7 @@ class LoginTwoScreenState extends State<LoginTwoScreen> {
                   width,
                   const LoginOneScreen(),
                   const Placeholder(),
+                  () {},
                 ),
               ),
             ],

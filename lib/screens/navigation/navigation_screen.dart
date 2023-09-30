@@ -83,7 +83,7 @@ class NavigationScreenState extends State<NavigationScreen> {
               // width: ,
               // height: 50,
               decoration: BoxDecoration(
-                color: themeProvider.themeColors["navigationActive"],
+                color: themeProvider.themeColors["buttonOne"],
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Row(
@@ -148,9 +148,9 @@ class NavigationScreenState extends State<NavigationScreen> {
     themeProvider = Provider.of<ThemeProvider>(context);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: themeProvider.themeColors["navigationBackground"],
+        statusBarColor: themeProvider.themeColors["buttonOne"]!.withOpacity(0.5),
         systemNavigationBarColor:
-            themeProvider.themeColors["navigationBackground"],
+            themeProvider.themeColors["buttonOne"]!.withOpacity(0.99),
       ),
     );
     final double height =
@@ -162,21 +162,10 @@ class NavigationScreenState extends State<NavigationScreen> {
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Scaffold(
-          backgroundColor: themeProvider.themeColors["navigationBackground"],
+          backgroundColor: themeProvider.themeColors["buttonOne"]!.withOpacity(0.5),
           resizeToAvoidBottomInset: false,
           body: Stack(
             children: [
-              Positioned(
-                bottom: 160,
-                left: 31,
-                right: 31,
-                child: TextButton(
-                  onPressed: () {
-                    themeProvider.toggleTheme();
-                  },
-                  child: const Text('Change Theme'),
-                ),
-              ),
               Positioned(
                 top: 60,
                 right: 20,

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:insurify/providers/global_provider.dart';
+import 'package:insurify/providers/user_provider.dart';
 import 'package:insurify/screens/home/home_screen.dart';
+import 'package:insurify/screens/profile/profile_edit_details.dart';
+import 'package:insurify/screens/profile/profile_main_screen.dart';
 import 'package:insurify/screens/register/register_one_screen.dart';
+import 'package:insurify/screens/register/register_test.dart';
 import 'package:provider/provider.dart';
 
 import 'package:insurify/providers/theme_provider.dart';
@@ -14,7 +18,8 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: ThemeProvider()),
-        ChangeNotifierProvider.value(value: GlobalProvider(),)
+        ChangeNotifierProvider.value(value: GlobalProvider()),
+        ChangeNotifierProvider.value(value: UserDataProvider())
       ],
       child: const MyApp(),
     ),
@@ -35,7 +40,7 @@ class MyApp extends StatelessWidget {
         highlightColor: Colors.transparent,
         hoverColor: Colors.transparent,
       ),
-      home: RegisterOneScreen(),
+      home: ProfileEditDetailsScreen(),
     );
   }
 }

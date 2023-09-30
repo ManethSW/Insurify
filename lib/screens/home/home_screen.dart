@@ -468,17 +468,6 @@ class HomeScreenState extends State<HomeScreen>
                   ),
                 ),
               ),
-              Positioned(
-                bottom: 160,
-                left: 31,
-                right: 31,
-                child: TextButton(
-                  onPressed: () {
-                    themeProvider.toggleTheme();
-                  },
-                  child: const Text('Change Theme'),
-                ),
-              ),
             ],
           ),
         ),

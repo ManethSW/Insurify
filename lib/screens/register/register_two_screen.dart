@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:insurify/providers/theme_provider.dart';
+import 'package:insurify/providers/user_provider.dart';
 import 'package:insurify/screens/components/startup_screen_heading.dart';
 import 'package:insurify/screens/register/register_three_screen.dart';
 import 'package:pinput/pinput.dart';
@@ -10,13 +11,16 @@ import 'package:insurify/screens/register/register_one_screen.dart';
 import 'package:provider/provider.dart';
 
 class RegisterTwoScreen extends StatefulWidget {
-  const RegisterTwoScreen({Key? key}) : super(key: key);
+  final UserData userData;
+
+  const RegisterTwoScreen({required this.userData, Key? key}) : super(key: key);
 
   @override
   RegisterTwoScreenState createState() => RegisterTwoScreenState();
 }
 
 class RegisterTwoScreenState extends State<RegisterTwoScreen> {
+  late UserDataProvider userDataProvider;
   late ThemeProvider themeProvider;
   String otp = '';
   TextEditingController otpController = TextEditingController();
@@ -43,17 +47,76 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
   }
 
   void submitOtp(BuildContext context, String otp) {
-    print('working');
+    if (otp == '1111') {
+      //Update the userDataProvider with the userData
+      userDataProvider.userData.setData(
+        fname: widget.userData.fname,
+        lname: widget.userData.lname,
+        email: widget.userData.email,
+        phoneNo: widget.userData.phoneNo,
+        dob: widget.userData.dob,
+      );
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          transitionDuration: const Duration(milliseconds: 300),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const RegisterThreeScreen(),
+          transitionsBuilder: (
+            context,
+            animation,
+            secondaryAnimation,
+            child,
+          ) {
+            const begin = Offset(1.0, 0.0);
+            const end = Offset.zero;
+            final tween = Tween(begin: begin, end: end);
+            final curvedAnimation = CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeInOut,
+            );
+            return SlideTransition(
+              position: tween.animate(curvedAnimation),
+              child: Container(
+                color: Colors.transparent,
+                child: child,
+              ),
+            );
+          },
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: themeProvider.themeColors["primary"],
+          content: Text(
+            'Wrong OTP, please try again',
+            style: TextStyle(
+              color: themeProvider.themeColors["white"],
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+              fontFamily: 'Inter',
+            ),
+          ),
+          action: SnackBarAction(
+            backgroundColor: themeProvider.themeColors["buttonOne"],
+            label: 'OK',
+            textColor: themeProvider.themeColors["white"],
+            onPressed: () {},
+          ),
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     themeProvider = Provider.of<ThemeProvider>(context);
+    userDataProvider = Provider.of<UserDataProvider>(context);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: themeProvider.themeColors["primary"],
-        systemNavigationBarColor:
-            themeProvider.themeColors["primary"],
+        systemNavigationBarColor: themeProvider.themeColors["primary"],
       ),
     );
     final defaultPinTheme = PinTheme(
@@ -88,6 +151,12 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
                   themeProvider.themeIconPaths["smallLogo"]!,
                   height: 38,
                 ),
+              ),
+              TextButton(
+                onPressed: () {
+                  print(widget.userData.fname);
+                },
+                child: Text('data'),
               ),
               Center(
                 child: Padding(
@@ -149,6 +218,7 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
                   width,
                   const RegisterOneScreen(),
                   const RegisterThreeScreen(),
+                  () {},
                 ),
               ),
             ],

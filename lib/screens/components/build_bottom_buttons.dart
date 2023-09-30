@@ -5,8 +5,8 @@ import 'package:insurify/providers/theme_provider.dart';
 
 late ThemeProvider themeProvider;
 
-Widget buildBackAndNextButtons(
-    BuildContext context, double width, Widget pageOne, Widget pageTwo) {
+Widget buildBackAndNextButtons(BuildContext context, double width,
+    Widget pageOne, Widget pageTwo, Function beforeNavigationPush) {
   themeProvider = Provider.of<ThemeProvider>(context);
   return SizedBox(
     width: width,
@@ -70,32 +70,7 @@ Widget buildBackAndNextButtons(
         Expanded(
           child: GestureDetector(
             onTap: () {
-              Navigator.pushReplacement(
-                context,
-                PageRouteBuilder(
-                  transitionDuration: const Duration(milliseconds: 300),
-                  pageBuilder: (context, animation, secondaryAnimation) =>
-                      pageTwo,
-                  transitionsBuilder: (
-                    context,
-                    animation,
-                    secondaryAnimation,
-                    child,
-                  ) {
-                    const begin = Offset(1.0, 0.0);
-                    const end = Offset.zero;
-                    final tween = Tween(begin: begin, end: end);
-                    final curvedAnimation = CurvedAnimation(
-                      parent: animation,
-                      curve: Curves.easeInOut,
-                    );
-                    return SlideTransition(
-                      position: tween.animate(curvedAnimation),
-                      child: child,
-                    );
-                  },
-                ),
-              );
+              beforeNavigationPush();
             },
             child: Container(
               height: 50,

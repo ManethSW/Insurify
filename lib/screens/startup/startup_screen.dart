@@ -5,11 +5,15 @@ import 'package:provider/provider.dart';
 import 'package:insurify/providers/theme_provider.dart';
 import 'package:insurify/screens/register/register_one_screen.dart';
 
-class StartupScreen extends StatelessWidget {
-  StartupScreen({Key? key}) : super(key: key);
-  late ThemeProvider themeProvider;
+class StartupScreen extends StatefulWidget {
+  const StartupScreen({Key? key}) : super(key: key);
 
-  final String version = '0.1';
+  @override
+  State<StartupScreen> createState() => _StartupScreenState();
+}
+
+class _StartupScreenState extends State<StartupScreen> {
+  late ThemeProvider themeProvider;
 
   Widget buildButton(BuildContext context, String text, Widget page) {
     final width = MediaQuery.of(context).size.width;
@@ -104,17 +108,6 @@ class StartupScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 160,
-                    left: 31,
-                    right: 31,
-                    child: TextButton(
-                      onPressed: () {
-                        themeProvider.toggleTheme();
-                      },
-                      child: const Text('Change Theme'),
                     ),
                   ),
                   Positioned(

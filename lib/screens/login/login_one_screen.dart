@@ -1,13 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:insurify/providers/theme_provider.dart';
+import 'package:insurify/providers/user_provider.dart';
 import 'package:insurify/screens/components/build_bottom_buttons.dart';
 import 'package:insurify/screens/components/startup_screen_heading.dart';
 import 'package:insurify/screens/login/login_two_screen.dart';
-import 'package:insurify/screens/register/register_two_screen.dart';
 import 'package:insurify/screens/startup/startup_screen.dart';
+import 'package:provider/provider.dart';
 
 class LoginOneScreen extends StatefulWidget {
   const LoginOneScreen({Key? key}) : super(key: key);
@@ -18,11 +16,19 @@ class LoginOneScreen extends StatefulWidget {
 
 class LoginOneScreenState extends State<LoginOneScreen> {
   final TextEditingController phoneNoController = TextEditingController();
+  late ThemeProvider themeProvider;
+  late UserDataProvider userDataProvider;
+  late bool isPhoneNoValid;
+  late String phoneNoValidationText;
+  late Color phoneNoValidationColor;
 
   @override
   void initState() {
     super.initState();
     setControllers();
+    isPhoneNoValid = false;
+    phoneNoValidationText = 'Please enter valid phone number';
+    phoneNoValidationColor = Colors.grey;
   }
 
   @override
@@ -36,7 +42,13 @@ class LoginOneScreenState extends State<LoginOneScreen> {
   }
 
   Widget buildBuildTextField(
-      TextEditingController controller, String hintText, bool textFieldTyping) {
+      TextEditingController controller,
+      String hintText,
+      bool textFieldTyping,
+      String label,
+      bool isValid,
+      String validationText,
+      Color validationColor) {
     return TextField(
       cursorColor: themeProvider.themeColors["white"],
       cursorOpacityAnimates: true,
@@ -46,6 +58,23 @@ class LoginOneScreenState extends State<LoginOneScreen> {
         fontSize: 14,
         fontFamily: 'Inter',
       ),
+      onChanged: (value) {
+        setState(() {
+          if (value.isEmpty) {
+            isPhoneNoValid = false;
+            phoneNoValidationText = 'Please enter your phone number';
+            phoneNoValidationColor = Colors.red;
+          } else if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
+            isPhoneNoValid = false;
+            phoneNoValidationText = 'Invalid phone number';
+            phoneNoValidationColor = Colors.red;
+          } else {
+            isPhoneNoValid = true;
+            phoneNoValidationText = 'Valid phone number';
+            phoneNoValidationColor = Colors.green;
+          }
+        });
+      },
       textAlign: TextAlign.left,
       decoration: InputDecoration(
         focusedBorder: InputBorder.none,
@@ -56,7 +85,7 @@ class LoginOneScreenState extends State<LoginOneScreen> {
         hintText: hintText,
         enabled: textFieldTyping,
         hintStyle: TextStyle(
-          color: themeProvider.themeColors["white"],
+          color: themeProvider.themeColors["white"]!.withOpacity(0.75),
           fontWeight: FontWeight.w400,
           fontSize: 14,
           fontFamily: 'Inter',
@@ -66,7 +95,13 @@ class LoginOneScreenState extends State<LoginOneScreen> {
   }
 
   Widget buildBuildTextFieldContainer(
-      TextEditingController controller, String hintText, bool textFieldTyping) {
+      TextEditingController controller,
+      String hintText,
+      bool textFieldTyping,
+      String label,
+      bool isValid,
+      String validationText,
+      Color validationColor) {
     return Container(
       height: 47.5,
       padding: const EdgeInsets.only(
@@ -81,7 +116,8 @@ class LoginOneScreenState extends State<LoginOneScreen> {
             color: themeProvider.themeColors["textFieldBorderAndLabel"]!,
             width: 2),
       ),
-      child: buildBuildTextField(controller, hintText, textFieldTyping),
+      child: buildBuildTextField(controller, hintText, textFieldTyping, label,
+          isValid, validationText, validationColor),
     );
   }
 
@@ -116,8 +152,52 @@ class LoginOneScreenState extends State<LoginOneScreen> {
     );
   }
 
-  Widget buildInputRowPhoneNo(String label, TextEditingController controller,
-      String hintText, double labelbackgroundwidth, bool textFieldTyping) {
+  Widget buildInputRow(
+      String label,
+      TextEditingController controller,
+      String hintText,
+      double labelbackgroundwidth,
+      bool textFieldTyping,
+      bool isValid,
+      String validationText,
+      Color validationColor) {
+    return Flexible(
+      child: Stack(
+        alignment: Alignment.topLeft,
+        clipBehavior: Clip.none,
+        children: <Widget>[
+          buildBuildTextFieldContainer(controller, hintText, textFieldTyping,
+              label, isValid, validationText, validationColor),
+          buildTextFieldLabelBackground(labelbackgroundwidth),
+          buildTextFieldLabel(label),
+          Positioned(
+            bottom: -20,
+            right: 0,
+            child: Text(
+              validationText,
+              style: TextStyle(
+                // color: Colors.green,
+                color: validationColor,
+                fontWeight: FontWeight.w400,
+                fontSize: 12,
+                fontFamily: 'Inter',
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget buildInputRowPhoneNo(
+      String label,
+      TextEditingController controller,
+      String hintText,
+      double labelbackgroundwidth,
+      bool textFieldTyping,
+      bool isValid,
+      String validationText,
+      Color validationColor) {
     return Flexible(
       child: Stack(
         alignment: Alignment.topLeft,
@@ -158,13 +238,34 @@ class LoginOneScreenState extends State<LoginOneScreen> {
                 const SizedBox(width: 10),
                 Flexible(
                   child: buildBuildTextField(
-                      controller, hintText, textFieldTyping),
+                    controller,
+                    hintText,
+                    textFieldTyping,
+                    label,
+                    isValid,
+                    validationText,
+                    validationColor,
+                  ),
                 ),
               ],
             ),
           ),
           buildTextFieldLabelBackground(labelbackgroundwidth),
           buildTextFieldLabel(label),
+          Positioned(
+            bottom: -20,
+            right: 0,
+            child: Text(
+              validationText,
+              style: TextStyle(
+                // color: Colors.green,
+                color: validationColor,
+                fontWeight: FontWeight.w400,
+                fontSize: 12,
+                fontFamily: 'Inter',
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -172,6 +273,8 @@ class LoginOneScreenState extends State<LoginOneScreen> {
 
   @override
   Widget build(BuildContext context) {
+    themeProvider = Provider.of<ThemeProvider>(context);
+    userDataProvider = Provider.of<UserDataProvider>(context);
     final double height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     // width variable of screen
@@ -201,21 +304,17 @@ class LoginOneScreenState extends State<LoginOneScreen> {
                       SizedBox(height: height * 0.125),
                       buildStartUpScreenHeading(context, 'Login'),
                       SizedBox(height: height * 0.075),
-                      buildInputRowPhoneNo('Phone Number', phoneNoController,
-                          '07XXXXXXXX', 120, true),
+                      buildInputRowPhoneNo(
+                          'Phone Number',
+                          phoneNoController,
+                          '07XXXXXXXX',
+                          120,
+                          true,
+                          isPhoneNoValid,
+                          phoneNoValidationText,
+                          phoneNoValidationColor),
                     ],
                   ),
-                ),
-              ),
-              Positioned(
-                bottom: 160,
-                left: 31,
-                right: 31,
-                child: TextButton(
-                  onPressed: () {
-                    themeProvider.toggleTheme();
-                  },
-                  child: const Text('Change Theme'),
                 ),
               ),
               Positioned(
@@ -227,6 +326,87 @@ class LoginOneScreenState extends State<LoginOneScreen> {
                   width,
                   StartupScreen(),
                   const LoginTwoScreen(),
+                  () {
+                    if (isPhoneNoValid) {
+                      if (phoneNoController.text ==
+                          userDataProvider.userData.phoneNo) {
+                        Navigator.pushReplacement(
+                        context,
+                        PageRouteBuilder(
+                          transitionDuration: const Duration(milliseconds: 300),
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) =>
+                                  const LoginTwoScreen(),
+                          transitionsBuilder: (
+                            context,
+                            animation,
+                            secondaryAnimation,
+                            child,
+                          ) {
+                            const begin = Offset(1.0, 0.0);
+                            const end = Offset.zero;
+                            final tween = Tween(begin: begin, end: end);
+                            final curvedAnimation = CurvedAnimation(
+                              parent: animation,
+                              curve: Curves.easeInOut,
+                            );
+                            return SlideTransition(
+                              position: tween.animate(curvedAnimation),
+                              child: Container(
+                                color: Colors.transparent,
+                                child: child,
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: themeProvider.themeColors["primary"],
+                          content: Text(
+                            'User does not exist',
+                            style: TextStyle(
+                              color: themeProvider.themeColors["white"],
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                              fontFamily: 'Inter',
+                            ),
+                          ),
+                          action: SnackBarAction(
+                            backgroundColor:
+                                themeProvider.themeColors["buttonOne"],
+                            label: 'OK',
+                            textColor: themeProvider.themeColors["white"],
+                            onPressed: () {},
+                          ),
+                        ),
+                      );
+                      }
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: themeProvider.themeColors["primary"],
+                          content: Text(
+                            'Please fill in a valid phone number',
+                            style: TextStyle(
+                              color: themeProvider.themeColors["white"],
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                              fontFamily: 'Inter',
+                            ),
+                          ),
+                          action: SnackBarAction(
+                            backgroundColor:
+                                themeProvider.themeColors["buttonOne"],
+                            label: 'OK',
+                            textColor: themeProvider.themeColors["white"],
+                            onPressed: () {},
+                          ),
+                        ),
+                      );
+                    }
+                  },
                 ),
               ),
             ],
