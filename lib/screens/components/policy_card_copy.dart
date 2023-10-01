@@ -4,40 +4,6 @@ import 'package:insurify/providers/theme_provider.dart';
 import 'package:insurify/screens/components/card_input_field.dart';
 import 'package:provider/provider.dart';
 
-typedef DeleteCatdCallBack = Future<void> Function(int cardNo);
-
-class CustomAlertDialog extends StatelessWidget {
-  final double width;
-
-  CustomAlertDialog({required this.width});
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      contentPadding: EdgeInsets.zero,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      content: SizedBox(
-        width: width * 0.85,
-        child: Column(
-          // Your custom dialog content here
-        ),
-      ),
-      actions: [
-        ElevatedButton(
-          onPressed: () {
-            // Handle the button action
-            Navigator.of(context).pop();
-          },
-          child: Text('Close'),
-        ),
-      ],
-    );
-  }
-}
-
-
 class PolicyCardTemplate extends StatefulWidget {
   final String policyStatus;
   final String policyName;
@@ -378,7 +344,7 @@ class PolicyCardTemplateState extends State<PolicyCardTemplate>
                       child: Row(
                         children: [
                           Container(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                                 left: 6, top: 6, right: 2.5, bottom: 5),
                             decoration: BoxDecoration(
                               color: themeProvider.themeColors["secondary"],
@@ -438,7 +404,6 @@ class PolicyCardTemplateState extends State<PolicyCardTemplate>
             children: [
               buildPolicyCardOverlayButton(
                 () {
-                  print('payment');
                   Navigator.of(context).pop();
                   showDialog(
                     context: context,
@@ -454,12 +419,11 @@ class PolicyCardTemplateState extends State<PolicyCardTemplate>
               ),
               buildPolicyCardOverlayButton(
                 () {
-                  print('update');
                   Navigator.of(context).pop();
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AlertDialog(
+                      return const AlertDialog(
                         title: Text('Second Overlay Title'),
                         content: Text('Second Overlay Content'),
                       );
@@ -618,12 +582,11 @@ class PolicyCardTemplateState extends State<PolicyCardTemplate>
               ),
               buildPolicyCardOverlayButton(
                 () {
-                  print('update');
                   Navigator.of(context).pop();
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AlertDialog(
+                      return const AlertDialog(
                         title: Text('Second Overlay Title'),
                         content: Text('Second Overlay Content'),
                       );

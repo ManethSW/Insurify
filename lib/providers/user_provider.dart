@@ -68,10 +68,10 @@ class UserData extends ChangeNotifier {
 //User Provider Class
 class UserDataProvider extends ChangeNotifier {
   final UserData _userData = UserData(
-    fname: 'Maneth',
-    lname: 'Weerasinghe',
-    email: 'manethweerasinghe@gmail.com',
-    phoneNo: '0778880661',
+    fname: '',
+    lname: '',
+    email: '',
+    phoneNo: '',
     dob: DateTime.now(),
     profilePic: null,
   );

@@ -43,7 +43,7 @@ Widget buildInputRow(String label, Widget textField, BuildContext context) {
     children: [
       Container(
         height: 42.5,
-        padding: EdgeInsets.symmetric(horizontal: 17.5),
+        padding: const EdgeInsets.symmetric(horizontal: 17.5),
         decoration: BoxDecoration(
           color: themeProvider.themeColors["textFieldBackground"],
           borderRadius: BorderRadius.circular(5),

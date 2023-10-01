@@ -136,7 +136,7 @@ class PolicyCardTemplateState extends State<PolicyCardTemplate>
                 height: label == "Address" ? 47.5 : 32.5,
                 decoration: BoxDecoration(
                   color:
-                      themeProvider.themeColors["secondary"]!.withOpacity(0.5),
+                      themeProvider.themeColors["secondary"]!.withOpacity(1),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -258,7 +258,7 @@ class PolicyCardTemplateState extends State<PolicyCardTemplate>
                       child: Row(
                         children: [
                           Container(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                                 left: 6, top: 6, right: 2.5, bottom: 5),
                             decoration: BoxDecoration(
                               color: themeProvider.themeColors["secondary"],

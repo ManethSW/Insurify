@@ -142,7 +142,7 @@ class LoginOneScreenState extends State<LoginOneScreen> {
                 child: buildBackAndNextButtons(
                   context,
                   width,
-                  LoginTwoScreen(),
+                  const LoginTwoScreen(),
                   () {
                     if (isPhoneNoValid) {
                       if (phoneNoController.text ==

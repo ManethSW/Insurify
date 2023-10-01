@@ -94,7 +94,7 @@ class ProfileEditDetailsScreenState extends State<ProfileEditDetailsScreen>
         backgroundColor: themeProvider.themeColors["primary"],
         clipBehavior: Clip.hardEdge,
         elevation: 0,
-        actionsPadding: EdgeInsets.only(top: 0),
+        actionsPadding: const EdgeInsets.only(top: 0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
               20), // Change this value to change the border radius
@@ -111,7 +111,7 @@ class ProfileEditDetailsScreenState extends State<ProfileEditDetailsScreen>
                 fontFamily: 'Inter',
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Container(
@@ -132,7 +132,7 @@ class ProfileEditDetailsScreenState extends State<ProfileEditDetailsScreen>
                 onPressed: () => Navigator.pop(context, ImageSource.camera),
                 child: Container(
                   width: 115,
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: themeProvider.themeColors["secondary"],
@@ -144,7 +144,7 @@ class ProfileEditDetailsScreenState extends State<ProfileEditDetailsScreen>
                         color: themeProvider.themeColors["white"],
                         size: 20,
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Text(
                         'Camera',
                         style: TextStyle(
@@ -162,7 +162,7 @@ class ProfileEditDetailsScreenState extends State<ProfileEditDetailsScreen>
                 onPressed: () => Navigator.pop(context, ImageSource.gallery),
                 child: Container(
                   width: 115,
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: themeProvider.themeColors["secondary"],
@@ -174,7 +174,7 @@ class ProfileEditDetailsScreenState extends State<ProfileEditDetailsScreen>
                         color: themeProvider.themeColors["white"],
                         size: 20,
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Text(
                         'Gallery',
                         style: TextStyle(
@@ -315,7 +315,7 @@ class ProfileEditDetailsScreenState extends State<ProfileEditDetailsScreen>
           resizeToAvoidBottomInset: false,
           body: Stack(
             children: [
-              TopBar(),
+              const TopBar(),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 95),

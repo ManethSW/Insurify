@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insurify/providers/global_provider.dart';
 import 'package:insurify/providers/user_provider.dart';
-import 'package:insurify/screens/home/home_screen.dart';
-import 'package:insurify/screens/login/login_one_screen.dart';
-import 'package:insurify/screens/profile/profile_edit_details.dart';
-import 'package:insurify/screens/profile/profile_edit_phone.dart';
-import 'package:insurify/screens/register/register_one_screen.dart';
 import 'package:insurify/screens/startup/startup_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -39,7 +34,7 @@ class MyApp extends StatelessWidget {
         highlightColor: Colors.transparent,
         hoverColor: Colors.transparent,
       ),
-      home: HomeScreen(),
+      home: const StartupScreen(),
     );
   }
 }

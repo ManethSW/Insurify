@@ -204,7 +204,7 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
           resizeToAvoidBottomInset: false,
           body: Stack(
             children: [
-              TopBar(),
+              const TopBar(),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 95),
@@ -258,7 +258,7 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
                       SizedBox(
                         height: height * 0.05,
                       ),
-                      Container(
+                      SizedBox(
                         width: 245,
                         // margin: const EdgeInsets.symmetric(horizontal: 30),
                         child: TextButton(
