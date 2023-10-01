@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:insurify/providers/user_provider.dart';
 import 'package:insurify/screens/add_insurance/add_insurance_main_screen.dart';
 import 'package:insurify/screens/blog/blog_main_screen.dart';
 import 'package:insurify/screens/home/home_screen.dart';
@@ -20,6 +21,7 @@ class NavigationScreen extends StatefulWidget {
 class NavigationScreenState extends State<NavigationScreen> {
   late ThemeProvider themeProvider;
   late GlobalProvider globalProvider;
+  late UserDataProvider userDataProvider;
 
   //list for the name of the screens
   final List<String> screens = [
@@ -34,12 +36,11 @@ class NavigationScreenState extends State<NavigationScreen> {
       String icon, String label, String screen, Widget page) {
     globalProvider = Provider.of<GlobalProvider>(context);
 
-    void _onTapHandler() {
+    void onTapHandler() {
       setState(() {
         globalProvider.setCurrentScreen(screen);
       });
-      print(globalProvider.currentScreen);
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         PageRouteBuilder(
           transitionDuration: const Duration(milliseconds: 300),
@@ -75,15 +76,13 @@ class NavigationScreenState extends State<NavigationScreen> {
         if (globalProvider.currentScreen == screen) {
           return GestureDetector(
             onTap: () {
-              _onTapHandler();
+              onTapHandler();
             },
             child: Container(
               padding: const EdgeInsets.only(
                   left: 15, top: 10, right: 20, bottom: 10),
-              // width: ,
-              // height: 50,
               decoration: BoxDecoration(
-                color: themeProvider.themeColors["navigationActive"],
+                color: themeProvider.themeColors["secondary"],
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Row(
@@ -110,7 +109,7 @@ class NavigationScreenState extends State<NavigationScreen> {
         } else {
           return GestureDetector(
             onTap: () {
-              _onTapHandler();
+              onTapHandler();
             },
             child: Container(
               padding: const EdgeInsets.only(
@@ -146,37 +145,28 @@ class NavigationScreenState extends State<NavigationScreen> {
   @override
   Widget build(BuildContext context) {
     themeProvider = Provider.of<ThemeProvider>(context);
+    userDataProvider = Provider.of<UserDataProvider>(context);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: themeProvider.themeColors["navigationBackground"],
+        statusBarColor:
+            themeProvider.themeColors["secondary"]!.withOpacity(0.5),
         systemNavigationBarColor:
-            themeProvider.themeColors["navigationBackground"],
+            themeProvider.themeColors["secondary"]!.withOpacity(0.99),
       ),
     );
     final double height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
-    // width variable of screen
     final double width =
         MediaQuery.of(context).size.width - MediaQuery.of(context).padding.left;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Scaffold(
-          backgroundColor: themeProvider.themeColors["navigationBackground"],
+          backgroundColor:
+              themeProvider.themeColors["secondary"]!.withOpacity(0.5),
           resizeToAvoidBottomInset: false,
           body: Stack(
             children: [
-              Positioned(
-                bottom: 160,
-                left: 31,
-                right: 31,
-                child: TextButton(
-                  onPressed: () {
-                    themeProvider.toggleTheme();
-                  },
-                  child: const Text('Change Theme'),
-                ),
-              ),
               Positioned(
                 top: 60,
                 right: 20,
@@ -218,15 +208,21 @@ class NavigationScreenState extends State<NavigationScreen> {
                                 children: [
                                   CircleAvatar(
                                     radius: 36.5,
-                                    backgroundColor: themeProvider
-                                        .themeColors["white"]!
-                                        .withOpacity(0.5),
-                                    child: CircleAvatar(
-                                      radius: 35.0,
-                                      backgroundImage: Image.network(
-                                              'https://firebasestorage.googleapis.com/v0/b/the-wallet-2fa7c.appspot.com/o/files%2F032a0ee8-6075-4e49-8c66-1ddf11ebc876_wp7782555.jpg?alt=media&token=60263346-268c-48c4-a672-2fd6410a1c77')
-                                          .image,
-                                    ),
+                                    backgroundColor:
+                                        themeProvider.themeColors["secondary"]!,
+                                    child: userDataProvider
+                                                .userData.profilePic ==
+                                            null
+                                        ? Icon(Icons.person_rounded,
+                                            color: themeProvider
+                                                .themeColors["white"]!
+                                                .withOpacity(0.75),
+                                            size: 40.0)
+                                        : CircleAvatar(
+                                            radius: 35.0,
+                                            backgroundImage: userDataProvider
+                                                .userData.profilePic!.image,
+                                          ),
                                   ),
                                   SizedBox(height: height * 0.025),
                                   Text(

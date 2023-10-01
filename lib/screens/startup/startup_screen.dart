@@ -5,36 +5,34 @@ import 'package:provider/provider.dart';
 import 'package:insurify/providers/theme_provider.dart';
 import 'package:insurify/screens/register/register_one_screen.dart';
 
-class StartupScreen extends StatelessWidget {
-  StartupScreen({Key? key}) : super(key: key);
-  late ThemeProvider themeProvider;
+class StartupScreen extends StatefulWidget {
+  const StartupScreen({Key? key}) : super(key: key);
 
-  final String version = '0.1';
+  @override
+  State<StartupScreen> createState() => _StartupScreenState();
+}
+
+class _StartupScreenState extends State<StartupScreen> {
+  late ThemeProvider themeProvider;
 
   Widget buildButton(BuildContext context, String text, Widget page) {
     final width = MediaQuery.of(context).size.width;
     return TextButton(
       onPressed: () {
-        Navigator.pushReplacement(
+        Navigator.push(
           context,
           PageRouteBuilder(
-            transitionDuration: const Duration(milliseconds: 300),
-            pageBuilder: (context, animation, secondaryAnimation) => page,
-            transitionsBuilder: (
-              context,
-              animation,
-              secondaryAnimation,
-              child,
-            ) {
-              const begin = Offset(1.0, 0.0);
-              const end = Offset.zero;
-              final tween = Tween(begin: begin, end: end);
-              final curvedAnimation = CurvedAnimation(
-                parent: animation,
-                curve: Curves.easeInOut,
-              );
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                page,
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              var begin = const Offset(1.0, 0.0);
+              var end = Offset.zero;
+              var tween = Tween(begin: begin, end: end);
+              var offsetAnimation = animation.drive(tween);
+
               return SlideTransition(
-                position: tween.animate(curvedAnimation),
+                position: offsetAnimation,
                 child: child,
               );
             },
@@ -44,7 +42,7 @@ class StartupScreen extends StatelessWidget {
       style: ButtonStyle(
         fixedSize: MaterialStateProperty.all<Size>(Size(width * 0.8, 50)),
         backgroundColor: MaterialStateProperty.all<Color>(
-          themeProvider.themeColors["buttonOne"]!,
+          themeProvider.themeColors["secondary"]!,
         ),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
@@ -104,17 +102,6 @@ class StartupScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 160,
-                    left: 31,
-                    right: 31,
-                    child: TextButton(
-                      onPressed: () {
-                        themeProvider.toggleTheme();
-                      },
-                      child: const Text('Change Theme'),
                     ),
                   ),
                   Positioned(

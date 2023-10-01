@@ -7,7 +7,7 @@ class UserData extends ChangeNotifier {
   String? email;
   String? phoneNo;
   DateTime? dob;
-  String? gender;
+  Image? profilePic;
 
   UserData(
       {required this.fname,
@@ -15,7 +15,7 @@ class UserData extends ChangeNotifier {
       required this.email,
       required this.phoneNo,
       required this.dob,
-      required this.gender});
+      this.profilePic});
 
   void setData({
     String? fname,
@@ -23,14 +23,44 @@ class UserData extends ChangeNotifier {
     String? email,
     String? phoneNo,
     DateTime? dob,
-    String? gender,
   }) {
     this.fname = fname;
     this.lname = lname;
     this.email = email;
     this.dob = dob;
     this.phoneNo = phoneNo;
-    this.gender = gender;
+    notifyListeners();
+  }
+
+  void setFirstName ({
+    String? fname,
+  }) {
+    this.fname = fname;
+  }
+
+  void setlastName ({
+    String? lname,
+  }) {
+    this.lname = lname;
+  }
+
+  void setEmail ({
+    String? email,
+  }) {
+    this.email = email;
+  }
+
+  void setPhoneNo({
+    String? phoneNo,
+  }) {
+    this.phoneNo = phoneNo;
+    notifyListeners();
+  }
+
+  void setProfilePic({
+    Image? profilePic,
+  }) {
+    this.profilePic = profilePic;
     notifyListeners();
   }
 }
@@ -38,12 +68,12 @@ class UserData extends ChangeNotifier {
 //User Provider Class
 class UserDataProvider extends ChangeNotifier {
   final UserData _userData = UserData(
-    fname: '',
-    lname: '',
-    email: '',
-    phoneNo: '',
+    fname: 'Maneth',
+    lname: 'Weerasinghe',
+    email: 'manethweerasinghe@gmail.com',
+    phoneNo: '0778880661',
     dob: DateTime.now(),
-    gender: ''
+    profilePic: null,
   );
 
   UserData get userData => _userData;

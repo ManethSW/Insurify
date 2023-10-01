@@ -18,7 +18,7 @@ const Map<String, Color> darkThemeColors = {
   "white": Color(0xFFFFFFFF),
   "white75": Color(0xBFFFFFFF),
   "primary": Color(0xFF24242B),
-  "buttonOne": Color(0xFF16161B),
+  "secondary": Color(0xFF16161B),
   "navigationBackground": Color(0xFF1A1A1C),
   "navigationActive": Color(0xFF24242B),
 
@@ -33,7 +33,7 @@ const Map<String, Color> lightThemeColors = {
   "white": Color(0xFF24242B),
   "white75": Color(0xBF000000),
   "primary": Color(0xFFFFFFFF),
-  "buttonOne": Color(0xFFE1E1E2),
+  "secondary": Color(0xFFE1E1E2),
   "navigationBackground": Color(0xFFD5D5D6),
   "navigationActive": Color(0xFFFFFFFF),
 
@@ -50,6 +50,8 @@ const Map<String, String> darkThemeIconPaths = {
   "fowardArrow": "assets/icons/forward-dark.svg",
   "backArrow": "assets/icons/backward-dark.svg",
   "menu": "assets/icons/menu-dark.svg",
+  "active": "assets/icons/active-dark.svg",
+  "inactive": "assets/icons/inactive-dark.svg",
   "expire": "assets/icons/expire-dark.svg",
   "basicInsurance": "assets/icons/basic-insurance-dark.svg",
   "forwardArrowHead": "assets/icons/forward-arrow-head-dark.svg",
@@ -58,7 +60,9 @@ const Map<String, String> darkThemeIconPaths = {
   "plus": "assets/icons/plus-dark.png",
   "blog": "assets/icons/blog-dark.png",
   "signout": "assets/icons/signout-dark.png",
-  "homePage": "assets/images/home-page-dark.png"
+  "homePage": "assets/images/home-page-dark.png",
+  "darkMode": "assets/icons/moon-dark.svg",
+  "lightMode": "assets/icons/sun-dark.svg"
 };
 
 const Map<String, String> lightThemeIconPaths = {
@@ -67,6 +71,8 @@ const Map<String, String> lightThemeIconPaths = {
   "fowardArrow": "assets/icons/forward-light.svg",
   "backArrow": "assets/icons/backward-light.svg",
   "menu": "assets/icons/menu-light.svg",
+  "active": "assets/icons/active-light.svg",
+  "inactive": "assets/icons/inactive-light.svg",
   "expire": "assets/icons/expire-light.svg",
   "basicInsurance": "assets/icons/basic-insurance-light.svg",
   "forwardArrowHead": "assets/icons/forward-arrow-head-light.svg",
@@ -75,5 +81,7 @@ const Map<String, String> lightThemeIconPaths = {
   "plus": "assets/icons/plus-light.png",
   "blog": "assets/icons/blog-light.png",
   "signout": "assets/icons/signout-light.png",
-  "homePage": "assets/images/home-page-light.png"
+  "homePage": "assets/images/home-page-light.png",
+  "darkMode": "assets/icons/moon-light.svg",
+  "lightMode": "assets/icons/sun-light.svg"
 };
