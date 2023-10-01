@@ -28,7 +28,7 @@ class ProfileMainScreenState extends State<ProfileMainScreen>
       height: 45,
       margin: const EdgeInsets.symmetric(horizontal: 30),
       decoration: BoxDecoration(
-        color: themeProvider.themeColors["buttonOne"],
+        color: themeProvider.themeColors["secondary"],
         borderRadius: BorderRadius.circular(10),
       ),
       child: Stack(
@@ -54,35 +54,27 @@ class ProfileMainScreenState extends State<ProfileMainScreen>
             right: 5,
             child: GestureDetector(
               onTap: () {
-                Navigator.pushReplacement(
+                Navigator.push(
                   context,
                   PageRouteBuilder(
-                    transitionDuration: const Duration(milliseconds: 300),
                     pageBuilder: (context, animation, secondaryAnimation) =>
                         page,
-                    transitionsBuilder: (
-                      context,
-                      animation,
-                      secondaryAnimation,
-                      child,
-                    ) {
-                      const begin = Offset(1.0, 0.0);
-                      const end = Offset.zero;
-                      final tween = Tween(begin: begin, end: end);
-                      final curvedAnimation = CurvedAnimation(
-                        parent: animation,
-                        curve: Curves.easeInOut,
-                      );
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      var begin = const Offset(1.0, 0.0);
+                      var end = Offset.zero;
+                      var tween = Tween(begin: begin, end: end);
+                      var offsetAnimation = animation.drive(tween);
+
                       return SlideTransition(
-                        position: tween.animate(curvedAnimation),
-                        child: Container(
-                          color: Colors.transparent,
-                          child: child,
-                        ),
+                        position: offsetAnimation,
+                        child: child,
                       );
                     },
                   ),
-                );
+                ).then((value) {
+                  setState(() {});
+                });
               },
               child: Container(
                 width: 50,
@@ -115,15 +107,12 @@ class ProfileMainScreenState extends State<ProfileMainScreen>
     userDataProvider = Provider.of<UserDataProvider>(context);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: themeProvider.themeColors["buttonOne"],
+        statusBarColor: themeProvider.themeColors["secondary"],
         systemNavigationBarColor: themeProvider.themeColors["primary"],
       ),
     );
     final double height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
-    // width variable of screen
-    final double width =
-        MediaQuery.of(context).size.width - MediaQuery.of(context).padding.left;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -131,7 +120,7 @@ class ProfileMainScreenState extends State<ProfileMainScreen>
           resizeToAvoidBottomInset: false,
           body: Stack(
             children: [
-              buildTopBar(context),
+              TopBar(),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 95),
@@ -140,7 +129,7 @@ class ProfileMainScreenState extends State<ProfileMainScreen>
                       CircleAvatar(
                         radius: 41.5,
                         backgroundColor:
-                            themeProvider.themeColors["buttonOne"]!,
+                            themeProvider.themeColors["secondary"]!,
                         child: userDataProvider.userData.profilePic == null
                             ? Icon(Icons.person_rounded,
                                 color: themeProvider.themeColors["white"]!
@@ -191,7 +180,7 @@ class ProfileMainScreenState extends State<ProfileMainScreen>
                           width: 115,
                           height: 42.5,
                           decoration: BoxDecoration(
-                            color: themeProvider.themeColors["buttonOne"],
+                            color: themeProvider.themeColors["secondary"],
                             borderRadius: BorderRadius.circular(100),
                           ),
                           child: Stack(
@@ -235,12 +224,17 @@ class ProfileMainScreenState extends State<ProfileMainScreen>
                       SizedBox(
                         height: height * 0.03,
                       ),
-                      buildButton("Change Personal Details",
-                          ProfileEditDetailsScreen()),
+                      buildButton(
+                        "Change Personal Details",
+                        const ProfileEditDetailsScreen(),
+                      ),
                       SizedBox(
                         height: height * 0.03,
                       ),
-                      buildButton("Change Phone Number", ProfileEditPhoneScreen()),
+                      buildButton(
+                        "Change Phone Number",
+                        const ProfileEditPhoneScreen(),
+                      ),
                     ],
                   ),
                 ),
@@ -280,9 +274,8 @@ class ProfileMainScreenState extends State<ProfileMainScreen>
                   },
                   child: Container(
                     height: 50,
-                    // padding: EdgeInsets.only(left: , right: 45),
                     decoration: BoxDecoration(
-                      color: themeProvider.themeColors["buttonOne"],
+                      color: themeProvider.themeColors["secondary"],
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Stack(

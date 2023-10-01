@@ -128,7 +128,7 @@ class RegisterThreeScreenState extends State<RegisterThreeScreen> {
                   child: Container(
                     height: 50,
                     decoration: BoxDecoration(
-                      color: themeProvider.themeColors["buttonOne"],
+                      color: themeProvider.themeColors["secondary"],
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Row(

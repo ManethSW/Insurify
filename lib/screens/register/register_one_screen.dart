@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
+
 import 'package:insurify/providers/theme_provider.dart';
 import 'package:insurify/providers/user_provider.dart';
-import 'package:insurify/screens/components/build_bottom_buttons.dart';
+import 'package:insurify/screens/components/bottom_buttons.dart';
+import 'package:insurify/screens/components/register_input_field.dart';
 import 'package:insurify/screens/register/register_two_screen.dart';
-import 'package:insurify/screens/startup/startup_screen.dart';
-import 'package:provider/provider.dart';
+
 
 class RegisterOneScreen extends StatefulWidget {
   const RegisterOneScreen({Key? key}) : super(key: key);
@@ -18,27 +19,23 @@ class RegisterOneScreen extends StatefulWidget {
 class RegisterOneScreenState extends State<RegisterOneScreen> {
   late ThemeProvider themeProvider;
   late bool isFirstNameValid;
-  late String firstNameValidationText;
   late Color firstNameValidationColor;
+  late IconData firstNameValidationIcon;
   late bool isLastNameValid;
-  late String lastNameValidationText;
   late Color lastNameValidationColor;
+  late IconData lastNameValidationIcon;
   late bool isEmailValid;
-  late String emailValidationText;
   late Color emailValidationColor;
+  late IconData emailValidationIcon;
   late bool isPhoneNoValid;
-  late String phoneNoValidationText;
   late Color phoneNoValidationColor;
+  late IconData phoneNoValidationIcon;
   late bool isDobValid;
-  late String dobValidationText;
   late Color dobValidationColor;
+  late IconData dobValidationIcon;
 
   UserData userData = UserData(
-      fname: '',
-      lname: '',
-      email: '',
-      phoneNo: '',
-      dob: DateTime.now());
+      fname: '', lname: '', email: '', phoneNo: '', dob: DateTime.now());
   final List<TextEditingController> textEditingControllers = List.generate(
     6,
     (_) => TextEditingController(),
@@ -49,19 +46,19 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
     super.initState();
     setControllers();
     isFirstNameValid = false;
-    firstNameValidationText = 'Please enter your first name';
+    firstNameValidationIcon = Icons.close_rounded;
     firstNameValidationColor = Colors.grey;
     isLastNameValid = false;
-    lastNameValidationText = 'Please enter your last name';
+    lastNameValidationIcon = Icons.close_rounded;
     lastNameValidationColor = Colors.grey;
     isEmailValid = false;
-    emailValidationText = 'Please enter valid email';
+    emailValidationIcon = Icons.close_rounded;
     emailValidationColor = Colors.grey;
     isPhoneNoValid = false;
-    phoneNoValidationText = 'Please enter valid phone number';
+    phoneNoValidationIcon = Icons.close_rounded;
     phoneNoValidationColor = Colors.grey;
     isDobValid = false;
-    dobValidationText = 'Select your date of birth';
+    dobValidationIcon = Icons.close_rounded;
     dobValidationColor = Colors.grey;
   }
 
@@ -80,7 +77,6 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
     textEditingControllers[3].text = '';
     textEditingControllers[4].text =
         "${DateTime.now().toLocal()}".split(' ')[0];
-    // textEditingControllers[5].text = 'Male';
   }
 
   void updateUserData() {
@@ -89,17 +85,10 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
     userData.email = textEditingControllers[2].text;
     userData.phoneNo = textEditingControllers[3].text;
     userData.dob = DateTime.parse(textEditingControllers[4].text);
-    // userData.gender = textEditingControllers[5].text;
   }
 
-  Widget buildBuildTextField(
-      TextEditingController controller,
-      String hintText,
-      bool textFieldTyping,
-      String label,
-      bool isValid,
-      String validationText,
-      Color validationColor) {
+  Widget buildBuildTextField(TextEditingController controller, String hintText,
+      bool textFieldTyping, String label) {
     return TextField(
       cursorColor: themeProvider.themeColors["white"],
       cursorOpacityAnimates: true,
@@ -115,15 +104,15 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
             setState(() {
               if (value.isEmpty) {
                 isFirstNameValid = false;
-                firstNameValidationText = 'Please enter your first name';
+                firstNameValidationIcon = Icons.close_rounded;
                 firstNameValidationColor = Colors.red;
               } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
                 isFirstNameValid = false;
-                firstNameValidationText = 'Invalid name';
+                firstNameValidationIcon = Icons.close_rounded;
                 firstNameValidationColor = Colors.red;
               } else {
                 isFirstNameValid = true;
-                firstNameValidationText = 'Valid name';
+                firstNameValidationIcon = Icons.check_rounded;
                 firstNameValidationColor = Colors.green;
               }
             });
@@ -132,15 +121,15 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
             setState(() {
               if (value.isEmpty) {
                 isLastNameValid = false;
-                lastNameValidationText = 'Please enter your last name';
+                lastNameValidationIcon = Icons.close_rounded;
                 lastNameValidationColor = Colors.red;
               } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
                 isLastNameValid = false;
-                lastNameValidationText = 'Invalid name';
+                lastNameValidationIcon = Icons.close_rounded;
                 lastNameValidationColor = Colors.red;
               } else {
                 isLastNameValid = true;
-                lastNameValidationText = 'Valid name';
+                lastNameValidationIcon = Icons.check_rounded;
                 lastNameValidationColor = Colors.green;
               }
             });
@@ -149,16 +138,16 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
             setState(() {
               if (value.isEmpty) {
                 isEmailValid = false;
-                emailValidationText = 'Please enter your email address';
+                emailValidationIcon = Icons.close_rounded;
                 emailValidationColor = Colors.red;
               } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                   .hasMatch(value)) {
                 isEmailValid = false;
-                emailValidationText = 'Invalid email address';
+                emailValidationIcon = Icons.close_rounded;
                 emailValidationColor = Colors.red;
               } else {
                 isEmailValid = true;
-                emailValidationText = 'Valid email address';
+                emailValidationIcon = Icons.check_rounded;
                 emailValidationColor = Colors.green;
               }
             });
@@ -167,32 +156,15 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
             setState(() {
               if (value.isEmpty) {
                 isPhoneNoValid = false;
-                phoneNoValidationText = 'Please enter your phone number';
+                phoneNoValidationIcon = Icons.close_rounded;
                 phoneNoValidationColor = Colors.red;
               } else if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
                 isPhoneNoValid = false;
-                phoneNoValidationText = 'Invalid phone number';
+                phoneNoValidationIcon = Icons.close_rounded;
                 phoneNoValidationColor = Colors.red;
               } else {
                 isPhoneNoValid = true;
-                phoneNoValidationText = 'Valid phone number';
-                phoneNoValidationColor = Colors.green;
-              }
-            });
-            break;
-          case 'Date of Birth':
-            setState(() {
-              if (value.isEmpty) {
-                isPhoneNoValid = false;
-                phoneNoValidationText = 'Please enter your phone number';
-                phoneNoValidationColor = Colors.red;
-              } else if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
-                isPhoneNoValid = false;
-                phoneNoValidationText = 'Invalid phone number';
-                phoneNoValidationColor = Colors.red;
-              } else {
-                isPhoneNoValid = true;
-                phoneNoValidationText = 'Valid phone number';
+                phoneNoValidationIcon = Icons.check_rounded;
                 phoneNoValidationColor = Colors.green;
               }
             });
@@ -218,183 +190,6 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
     );
   }
 
-  Widget buildBuildTextFieldContainer(
-      TextEditingController controller,
-      String hintText,
-      bool textFieldTyping,
-      String label,
-      bool isValid,
-      String validationText,
-      Color validationColor) {
-    return Container(
-      height: 47.5,
-      padding: const EdgeInsets.only(
-          left: 16,
-          right: 10,
-          bottom: 0,
-          top: 13.75), // Padding for the TextField
-      decoration: BoxDecoration(
-        color: themeProvider.themeColors["textFieldBackground"],
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(
-            color: themeProvider.themeColors["textFieldBorderAndLabel"]!,
-            width: 2),
-      ),
-      child: buildBuildTextField(controller, hintText, textFieldTyping, label,
-          isValid, validationText, validationColor),
-    );
-  }
-
-  Widget buildTextFieldLabel(String label) {
-    return Positioned(
-      top: -8.5,
-      left: 17.5,
-      child: Text(
-        label,
-        style: TextStyle(
-          color: themeProvider.themeColors["textFieldBorderAndLabel"],
-          fontWeight: FontWeight.w600,
-          fontSize: 15,
-          fontFamily: 'Inter',
-        ),
-        textAlign: TextAlign.left,
-      ),
-    );
-  }
-
-  Widget buildTextFieldLabelBackground(double labelbackgroundwidth) {
-    return Positioned(
-      top: -0.5,
-      left: 7.5,
-      child: Container(
-        height: 10,
-        width: labelbackgroundwidth,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        color: themeProvider.themeColors["textFieldBackground"],
-        // color: Colors.red,
-      ),
-    );
-  }
-
-  Widget buildInputRow(
-      String label,
-      TextEditingController controller,
-      String hintText,
-      double labelbackgroundwidth,
-      bool textFieldTyping,
-      bool isValid,
-      String validationText,
-      Color validationColor) {
-    return Flexible(
-      child: Stack(
-        alignment: Alignment.topLeft,
-        clipBehavior: Clip.none,
-        children: <Widget>[
-          buildBuildTextFieldContainer(controller, hintText, textFieldTyping,
-              label, isValid, validationText, validationColor),
-          buildTextFieldLabelBackground(labelbackgroundwidth),
-          buildTextFieldLabel(label),
-          Positioned(
-            bottom: -20,
-            right: 0,
-            child: Text(
-              validationText,
-              style: TextStyle(
-                // color: Colors.green,
-                color: validationColor,
-                fontWeight: FontWeight.w400,
-                fontSize: 12,
-                fontFamily: 'Inter',
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget buildInputRowPhoneNo(
-      String label,
-      TextEditingController controller,
-      String hintText,
-      double labelbackgroundwidth,
-      bool textFieldTyping,
-      bool isValid,
-      String validationText,
-      Color validationColor) {
-    return Flexible(
-      child: Stack(
-        alignment: Alignment.topLeft,
-        clipBehavior: Clip.none,
-        children: <Widget>[
-          Container(
-            height: 47.5,
-            padding: const EdgeInsets.only(
-                left: 16, right: 10, bottom: 0), // Padding for the TextField
-            decoration: BoxDecoration(
-              color: themeProvider.themeColors["textFieldBackground"],
-              borderRadius: BorderRadius.circular(5),
-              border: Border.all(
-                  color: themeProvider.themeColors["textFieldBorderAndLabel"]!,
-                  width: 2),
-            ),
-            child: Row(
-              children: [
-                Image.asset(
-                  'assets/icons/flag.png',
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  '+94',
-                  style: TextStyle(
-                    color: themeProvider.themeColors["white"],
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    fontFamily: 'Inter',
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Container(
-                  width: 2,
-                  height: 15,
-                  color: themeProvider.themeColors["phontNumberSeperator"],
-                ),
-                const SizedBox(width: 10),
-                Flexible(
-                  child: buildBuildTextField(
-                    controller,
-                    hintText,
-                    textFieldTyping,
-                    label,
-                    isValid,
-                    validationText,
-                    validationColor,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          buildTextFieldLabelBackground(labelbackgroundwidth),
-          buildTextFieldLabel(label),
-          Positioned(
-            bottom: -20,
-            right: 0,
-            child: Text(
-              validationText,
-              style: TextStyle(
-                // color: Colors.green,
-                color: validationColor,
-                fontWeight: FontWeight.w400,
-                fontSize: 12,
-                fontFamily: 'Inter',
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
   Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -403,73 +198,24 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
       lastDate: DateTime.parse(textEditingControllers[4].text),
     );
     if (picked != null) {
-      if (picked.isAfter(DateTime.now().subtract(Duration(days: 365 * 18)))) {
+      if (picked
+          .isAfter(DateTime.now().subtract(const Duration(days: 365 * 18)))) {
         // selected date is less than 18 years ago
         setState(() {
           isDobValid = false;
-          dobValidationText = 'You must be 18+';
+          dobValidationIcon = Icons.close_rounded;
           dobValidationColor = Colors.red;
           textEditingControllers[4].text = "${picked.toLocal()}".split(' ')[0];
         });
       } else {
         setState(() {
           isDobValid = true;
-          dobValidationText = 'Valid Date of birth';
+          dobValidationIcon = Icons.check_rounded;
           dobValidationColor = Colors.green;
           textEditingControllers[4].text = "${picked.toLocal()}".split(' ')[0];
         });
       }
     }
-  }
-
-  Widget buildDoBInput(
-      String label,
-      TextEditingController controller,
-      String hintText,
-      double labelbackgroundwidth,
-      bool textFieldTyping,
-      bool isValid,
-      String validationText,
-      Color validationColor) {
-    return Flexible(
-      child: GestureDetector(
-        onTap: () {
-          selectDate(context);
-        },
-        child: Stack(
-          alignment: Alignment.topLeft,
-          clipBehavior: Clip.none,
-          children: <Widget>[
-            buildBuildTextFieldContainer(controller, hintText, textFieldTyping,
-                label, isValid, validationText, validationColor),
-            buildTextFieldLabelBackground(labelbackgroundwidth),
-            buildTextFieldLabel(label),
-            Positioned(
-              right: 15,
-              top: 15,
-              child: Icon(
-                Icons.calendar_today_outlined,
-                color: themeProvider.themeColors["white"],
-                size: 20,
-              ),
-            ),
-            Positioned(
-              bottom: -20,
-              right: 0,
-              child: Text(
-                validationText,
-                style: TextStyle(
-                  color: validationColor,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
-                  fontFamily: 'Inter',
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
   }
 
   @override
@@ -518,54 +264,56 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
                       ),
                       SizedBox(height: height * 0.075),
                       buildInputRow(
-                          'First Name',
-                          textEditingControllers[0],
-                          'John',
-                          95,
-                          true,
-                          isFirstNameValid,
-                          firstNameValidationText,
-                          firstNameValidationColor),
-                      SizedBox(height: height * 0.065),
+                        'First Name',
+                        firstNameValidationIcon,
+                        firstNameValidationColor,
+                        buildBuildTextField(textEditingControllers[0],
+                            'Enter your first name', true, 'First Name'),
+                        context,
+                        () {},
+                      ),
+                      SizedBox(height: height * 0.05),
                       buildInputRow(
-                          'Last Name',
-                          textEditingControllers[1],
-                          'Doe',
-                          93,
-                          true,
-                          isLastNameValid,
-                          lastNameValidationText,
-                          lastNameValidationColor),
-                      SizedBox(height: height * 0.065),
+                        'Last Name',
+                        lastNameValidationIcon,
+                        lastNameValidationColor,
+                        buildBuildTextField(textEditingControllers[1],
+                            'Enter your last name', true, 'Last Name'),
+                        context,
+                        () {},
+                      ),
+                      SizedBox(height: height * 0.05),
                       buildInputRow(
-                          'Email',
-                          textEditingControllers[2],
-                          'johndoe@gmail.com',
-                          60,
-                          true,
-                          isEmailValid,
-                          emailValidationText,
-                          emailValidationColor),
-                      SizedBox(height: height * 0.065),
-                      buildInputRowPhoneNo(
-                          'Phone Number',
-                          textEditingControllers[3],
-                          '07XXXXXXXX',
-                          120,
-                          true,
-                          isPhoneNoValid,
-                          phoneNoValidationText,
-                          phoneNoValidationColor),
-                      SizedBox(height: height * 0.065),
-                      buildDoBInput(
-                          'Date of Birth',
-                          textEditingControllers[4],
-                          '01/01/2023',
-                          105,
-                          false,
-                          isDobValid,
-                          dobValidationText,
-                          dobValidationColor),
+                        'Email',
+                        emailValidationIcon,
+                        emailValidationColor,
+                        buildBuildTextField(textEditingControllers[2],
+                            'Enter your email', true, 'Email'),
+                        context,
+                        () {},
+                      ),
+                      SizedBox(height: height * 0.05),
+                      buildInputRow(
+                        'Phone Number',
+                        phoneNoValidationIcon,
+                        phoneNoValidationColor,
+                        buildBuildTextField(textEditingControllers[3],
+                            '07XXXXXXXX', true, 'Phone Number'),
+                        context,
+                        () {},
+                      ),
+                      SizedBox(height: height * 0.05),
+                      buildInputRow(
+                        'Date of Birth',
+                        dobValidationIcon,
+                        dobValidationColor,
+                        buildBuildTextField(textEditingControllers[4],
+                            '01/01/2023', false, 'Date of Birth'),
+                        context,
+                        () {
+                          selectDate(context);
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -577,7 +325,6 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
                 child: buildBackAndNextButtons(
                   context,
                   width,
-                  StartupScreen(),
                   RegisterTwoScreen(userData: userData),
                   () {
                     //check to see if all validation variables are true
@@ -632,7 +379,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
                           ),
                           action: SnackBarAction(
                             backgroundColor:
-                                themeProvider.themeColors["buttonOne"],
+                                themeProvider.themeColors["secondary"],
                             label: 'OK',
                             textColor: themeProvider.themeColors["white"],
                             onPressed: () {},

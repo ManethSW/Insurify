@@ -18,7 +18,7 @@ const Map<String, Color> darkThemeColors = {
   "white": Color(0xFFFFFFFF),
   "white75": Color(0xBFFFFFFF),
   "primary": Color(0xFF24242B),
-  "buttonOne": Color(0xFF16161B),
+  "secondary": Color(0xFF16161B),
   "navigationBackground": Color(0xFF1A1A1C),
   "navigationActive": Color(0xFF24242B),
 
@@ -33,7 +33,7 @@ const Map<String, Color> lightThemeColors = {
   "white": Color(0xFF24242B),
   "white75": Color(0xBF000000),
   "primary": Color(0xFFFFFFFF),
-  "buttonOne": Color(0xFFE1E1E2),
+  "secondary": Color(0xFFE1E1E2),
   "navigationBackground": Color(0xFFD5D5D6),
   "navigationActive": Color(0xFFFFFFFF),
 

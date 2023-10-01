@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:pinput/pinput.dart';
+
 import 'package:insurify/providers/theme_provider.dart';
 import 'package:insurify/providers/user_provider.dart';
 import 'package:insurify/screens/components/startup_screen_heading.dart';
+import 'package:insurify/screens/components/bottom_buttons.dart';
 import 'package:insurify/screens/register/register_three_screen.dart';
-import 'package:pinput/pinput.dart';
 
-import 'package:insurify/screens/components/build_bottom_buttons.dart';
-import 'package:insurify/screens/register/register_one_screen.dart';
-import 'package:provider/provider.dart';
 
 class RegisterTwoScreen extends StatefulWidget {
   final UserData userData;
@@ -99,7 +99,7 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
             ),
           ),
           action: SnackBarAction(
-            backgroundColor: themeProvider.themeColors["buttonOne"],
+            backgroundColor: themeProvider.themeColors["secondary"],
             label: 'OK',
             textColor: themeProvider.themeColors["white"],
             onPressed: () {},
@@ -128,7 +128,7 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
           color: themeProvider.themeColors["white"],
           fontWeight: FontWeight.w600),
       decoration: BoxDecoration(
-        color: themeProvider.themeColors["buttonOne"],
+        color: themeProvider.themeColors["secondary"],
         borderRadius: BorderRadius.circular(10),
       ),
     );
@@ -152,12 +152,6 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
                   height: 38,
                 ),
               ),
-              TextButton(
-                onPressed: () {
-                  print(widget.userData.fname);
-                },
-                child: Text('data'),
-              ),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(left: 31, right: 31),
@@ -167,7 +161,7 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
                       buildStartUpScreenHeading(context, 'Sign Up'),
                       SizedBox(height: height * 0.075),
                       Text(
-                        "Verify your phone number",
+                        "Verify You Phone Number",
                         style: TextStyle(
                           color: themeProvider.themeColors["white"],
                           fontWeight: FontWeight.w600,
@@ -175,7 +169,7 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
                           fontFamily: 'Inter',
                         ),
                       ),
-                      SizedBox(height: height * 0.05),
+                      SizedBox(height: height * 0.025),
                       Pinput(
                         length: digitCount,
                         defaultPinTheme: defaultPinTheme,
@@ -185,24 +179,53 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
                         },
                       ),
                       SizedBox(height: height * 0.05),
-                      Text(
-                        "Didn't receive an OTP?",
-                        style: TextStyle(
-                          color: themeProvider.themeColors["white"],
-                          fontWeight: FontWeight.w400,
-                          fontSize: 10,
-                          fontFamily: 'Inter',
-                        ),
-                      ),
-                      SizedBox(height: height * 0.025),
-                      Text(
-                        "RESEND OTP",
-                        style: TextStyle(
-                          color: themeProvider.themeColors["white"],
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15,
-                          fontFamily: 'Inter',
-                          decoration: TextDecoration.underline,
+                      SizedBox(
+                        width: 245,
+                        child: TextButton(
+                          onPressed: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor:
+                                    themeProvider.themeColors["primary"],
+                                content: Text(
+                                  'OTP code has been sent',
+                                  style: TextStyle(
+                                    color: themeProvider.themeColors["white"],
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                    fontFamily: 'Inter',
+                                  ),
+                                ),
+                                action: SnackBarAction(
+                                  backgroundColor:
+                                      themeProvider.themeColors["secondary"],
+                                  label: 'OK',
+                                  textColor: themeProvider.themeColors["white"],
+                                  onPressed: () {},
+                                ),
+                              ),
+                            );
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              themeProvider.themeColors["secondary"]!,
+                            ),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                          child: Text(
+                            'Request for OTP Code',
+                            style: TextStyle(
+                              color: themeProvider.themeColors["white"],
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: 'Inter',
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -211,14 +234,16 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
               ),
               Positioned(
                 bottom: 31,
-                left: 31,
-                right: 31,
-                child: buildBackAndNextButtons(
-                  context,
-                  width,
-                  const RegisterOneScreen(),
-                  const RegisterThreeScreen(),
-                  () {},
+                left: 0,
+                right: 0,
+                child: SizedBox(
+                  // width: width,
+                  child: Center(
+                    child: buildBackButton(
+                      context,
+                      width,
+                    ),
+                  ),
                 ),
               ),
             ],

@@ -4,6 +4,40 @@ import 'package:insurify/providers/theme_provider.dart';
 import 'package:insurify/screens/components/card_input_field.dart';
 import 'package:provider/provider.dart';
 
+typedef DeleteCatdCallBack = Future<void> Function(int cardNo);
+
+class CustomAlertDialog extends StatelessWidget {
+  final double width;
+
+  CustomAlertDialog({required this.width});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      contentPadding: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      content: SizedBox(
+        width: width * 0.85,
+        child: Column(
+          // Your custom dialog content here
+        ),
+      ),
+      actions: [
+        ElevatedButton(
+          onPressed: () {
+            // Handle the button action
+            Navigator.of(context).pop();
+          },
+          child: Text('Close'),
+        ),
+      ],
+    );
+  }
+}
+
+
 class PolicyCardTemplate extends StatefulWidget {
   final String policyStatus;
   final String policyName;
@@ -45,6 +79,64 @@ class PolicyCardTemplate extends StatefulWidget {
 class PolicyCardTemplateState extends State<PolicyCardTemplate>
     with SingleTickerProviderStateMixin {
   late ThemeProvider themeProvider;
+
+  final List<TextEditingController> textEditingControllers = List.generate(
+    4,
+    (_) => TextEditingController(),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    for (final controller in textEditingControllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
+  void setControllers() {
+    textEditingControllers[0].text = '';
+    textEditingControllers[1].text = '';
+    textEditingControllers[2].text = '';
+    textEditingControllers[3].text = '';
+  }
+
+  Widget buildBuildTextField(
+    TextEditingController controller,
+    String hintText,
+    String label,
+  ) {
+    return TextField(
+      cursorColor: themeProvider.themeColors["white"],
+      cursorOpacityAnimates: true,
+      controller: controller,
+      style: TextStyle(
+        color: themeProvider.themeColors["white"],
+        fontSize: 12.5,
+        fontFamily: 'Inter',
+      ),
+      onChanged: (value) {},
+      textAlign: TextAlign.left,
+      decoration: InputDecoration(
+        focusedBorder: InputBorder.none,
+        enabledBorder: InputBorder.none,
+        border: InputBorder.none,
+        contentPadding: const EdgeInsets.all(0),
+        isDense: true,
+        hintText: hintText,
+        hintStyle: TextStyle(
+          color: themeProvider.themeColors["white"]!.withOpacity(0.75),
+          fontWeight: FontWeight.w400,
+          fontSize: 12.5,
+          fontFamily: 'Inter',
+        ),
+      ),
+    );
+  }
 
   Widget buildTextHeader(String label) {
     return Text(
@@ -199,6 +291,33 @@ class PolicyCardTemplateState extends State<PolicyCardTemplate>
     );
   }
 
+  Widget buildPolicyCardOverlayButton(Function() tapFunction, String label) {
+    return Expanded(
+      flex: 1,
+      child: GestureDetector(
+        onTap: tapFunction,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 7.5),
+          decoration: BoxDecoration(
+            color: themeProvider.themeColors["secondary"],
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Center(
+            child: Text(
+              label,
+              style: TextStyle(
+                color: themeProvider.themeColors["white"],
+                fontWeight: FontWeight.w400,
+                fontSize: 13.5,
+                fontFamily: 'Inter',
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget buildPolicyCardOverlayCloseButton(
     Function() tapFunction,
   ) {
@@ -315,38 +434,214 @@ class PolicyCardTemplateState extends State<PolicyCardTemplate>
               ],
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 7.5, horizontal: 12.5),
-              decoration: BoxDecoration(
-                color: themeProvider.themeColors["secondary"],
-                borderRadius: BorderRadius.circular(8),
+          Row(
+            children: [
+              buildPolicyCardOverlayButton(
+                () {
+                  print('payment');
+                  Navigator.of(context).pop();
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return buildPolicyCardOverlayTwo(width);
+                    },
+                  );
+                },
+                "Payment",
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Close',
-                    style: TextStyle(
-                      color: themeProvider.themeColors["white"],
-                      fontWeight: FontWeight.w400,
-                      fontSize: 13.5,
-                      fontFamily: 'Inter',
-                    ),
-                  ),
-                  Icon(
-                    Icons.close_rounded,
-                    color: themeProvider.themeColors["white"],
-                    size: 15,
-                  ),
-                ],
+              const SizedBox(
+                width: 8,
               ),
+              buildPolicyCardOverlayButton(
+                () {
+                  print('update');
+                  Navigator.of(context).pop();
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Second Overlay Title'),
+                        content: Text('Second Overlay Content'),
+                      );
+                    },
+                  );
+                },
+                "Update Policy",
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              buildPolicyCardOverlayCloseButton(
+                () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget buildDivider() {
+    return FractionallySizedBox(
+      widthFactor: 1,
+      child: Container(
+        height: 1,
+        decoration: BoxDecoration(
+          color: themeProvider.themeColors["white"]!.withOpacity(0.25),
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    );
+  }
+
+  Widget buildPolicyCardOverlayTwo(double width) {
+    return SizedBox(
+      width: width * 0.85,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 4, top: 12, right: 4),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildCardHeader(themeProvider.themeColors["secondary"]!),
+                const SizedBox(
+                  height: 15,
+                ),
+                buildTextHeader(widget.policyName),
+                Text(
+                  '${widget.totalPaid} Paid',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    color: themeProvider.themeColors["startUpBodyText"],
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
+                    fontFamily: 'Inter',
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                buildDivider(),
+                const SizedBox(
+                  height: 20,
+                ),
+                buildTextHeader("Invoice Summary"),
+                const SizedBox(
+                  height: 20,
+                ),
+                buildPolicyDetailRow("Policy Rate", widget.policyRate,
+                    "Policy ID", widget.policyId, width * 0.05),
+                const SizedBox(
+                  height: 20,
+                ),
+                buildPolicyDetail("Next Payment Amount", widget.policyRate),
+                const SizedBox(
+                  height: 20,
+                ),
+                buildDivider(),
+                const SizedBox(
+                  height: 20,
+                ),
+                buildTextHeader("Card Details"),
+                const SizedBox(
+                  height: 20,
+                ),
+                // buildInputRow(label, validationIcon, validationColor, textField, context, () => null)
+                buildInputRow(
+                  'Card Holder Name',
+                  buildBuildTextField(textEditingControllers[0],
+                      'Enter your name', 'Card Holder Name'),
+                  context,
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                // buildInputRow(
+                //   'Credit Card Number',
+                //   buildBuildTextField(textEditingControllers[1],
+                //       'Enter your card number', 'Credit Card Number'),
+                //   context,
+                // ),
+                // const SizedBox(
+                //   height: 30,
+                // ),
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       flex: 1,
+                //       child: buildInputRow(
+                //         'Expiry Date',
+                //         buildBuildTextField(
+                //             textEditingControllers[2], 'MM/YY', 'Expiry Date'),
+                //         context,
+                //       ),
+                //     ),
+                //     const SizedBox(
+                //       width: 20,
+                //     ),
+                //     Expanded(
+                //       flex: 1,
+                //       child: buildInputRow(
+                //         'CVV',
+                //         buildBuildTextField(
+                //             textEditingControllers[3], 'Enter your CVV', 'CVV'),
+                //         context,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                const SizedBox(
+                  height: 25,
+                ),
+                buildDivider(),
+                const SizedBox(
+                  height: 25,
+                ),
+              ],
             ),
           ),
+          Row(
+            children: [
+              buildPolicyCardOverlayCloseButton(
+                () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              buildPolicyCardOverlayButton(
+                () {
+                  print('update');
+                  Navigator.of(context).pop();
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Second Overlay Title'),
+                        content: Text('Second Overlay Content'),
+                      );
+                    },
+                  );
+                },
+                "Proceed Payment",
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              buildPolicyCardOverlayCloseButton(
+                () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          )
         ],
       ),
     );
@@ -514,6 +809,7 @@ class PolicyCardTemplateState extends State<PolicyCardTemplate>
             child: Container(
               width: 50,
               padding: const EdgeInsets.all(12.5),
+              // height: 50,
               decoration: BoxDecoration(
                 color: themeProvider.themeColors["primary"],
                 borderRadius: BorderRadius.circular(10),

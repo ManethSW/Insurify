@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:insurify/screens/components/policy_card.dart';
-import 'package:insurify/screens/components/top_bar.dart';
-import 'package:insurify/screens/navigation/navigation_screen.dart';
+import 'package:insurify/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'package:insurify/providers/global_provider.dart';
 import 'package:insurify/providers/theme_provider.dart';
+import 'package:insurify/screens/components/top_bar.dart';
+import 'package:insurify/screens/components/policy_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -18,6 +18,8 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   late ThemeProvider themeProvider;
+  late GlobalProvider globalProvider;
+  late UserDataProvider userDataProvider;
   late TabController _tabController;
   final List<String> _tabs = ['All', 'Active', 'Expired'];
 
@@ -25,15 +27,16 @@ class HomeScreenState extends State<HomeScreen>
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: _tabs.length);
+    globalProvider = Provider.of<GlobalProvider>(context, listen: false);
   }
 
-  Widget buildQuickActionButton(int flexNumber, String label, IconData icon) {
+  Widget buildQuickActionButton(int flexNumber, String label, String icon) {
     return Expanded(
       flex: flexNumber,
       child: Container(
         height: 102,
         decoration: BoxDecoration(
-          color: themeProvider.themeColors["buttonOne"],
+          color: themeProvider.themeColors["secondary"],
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
@@ -80,10 +83,12 @@ class HomeScreenState extends State<HomeScreen>
                       color: themeProvider.themeColors["primary"],
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Icon(
-                      icon,
-                      color: themeProvider.themeColors["white"],
-                      // size: 1,
+                    child: Center(
+                      child: Image.asset(
+                        themeProvider.themeIconPaths[icon]!,
+                        width: 20,
+                        height: 20,
+                      ),
                     ),
                   ),
                 ),
@@ -98,17 +103,15 @@ class HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     themeProvider = Provider.of<ThemeProvider>(context);
+    userDataProvider = Provider.of<UserDataProvider>(context);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: themeProvider.themeColors["buttonOne"],
+        statusBarColor: themeProvider.themeColors["secondary"],
         systemNavigationBarColor: themeProvider.themeColors["primary"],
       ),
     );
     final double height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
-    // width variable of screen
-    final double width =
-        MediaQuery.of(context).size.width - MediaQuery.of(context).padding.left;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -116,7 +119,7 @@ class HomeScreenState extends State<HomeScreen>
           resizeToAvoidBottomInset: false,
           body: Stack(
             children: [
-              buildTopBar(context),
+              TopBar(),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -125,24 +128,24 @@ class HomeScreenState extends State<HomeScreen>
                     children: [
                       CircleAvatar(
                         radius: 35,
-                        backgroundColor: themeProvider.themeColors["buttonOne"],
-                        child: Icon(Icons.person_rounded,
-                            color: themeProvider.themeColors["white"],
-                            size: 40.0),
-                        // child: CircleAvatar(
-                        //   radius: 41.5,
-                        //   backgroundColor: const Color(0xB3000000),
-                        //   child: CircleAvatar(
-                        //     radius: 40.0,
-                        //     backgroundImage: Image.network('').image,
-                        //   ),
-                        // ),
+                        backgroundColor:
+                            themeProvider.themeColors["secondary"]!,
+                        child: userDataProvider.userData.profilePic == null
+                            ? Icon(Icons.person_rounded,
+                                color: themeProvider.themeColors["white"]!
+                                    .withOpacity(0.75),
+                                size: 40.0)
+                            : CircleAvatar(
+                                radius: 33.5,
+                                backgroundImage:
+                                    userDataProvider.userData.profilePic!.image,
+                              ),
                       ),
                       const SizedBox(
                         height: 20,
                       ),
                       Text(
-                        "Maneth Weerasinghe",
+                        '${userDataProvider.userData.fname!} ${userDataProvider.userData.lname!}',
                         style: TextStyle(
                           color: themeProvider.themeColors["white"],
                           fontWeight: FontWeight.w600,
@@ -157,17 +160,17 @@ class HomeScreenState extends State<HomeScreen>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           buildQuickActionButton(
-                              2, "Add New \nMotor Insurance", Icons.add),
+                              2, "Add New \nMotor Insurance", "plus"),
                           const SizedBox(
                             width: 10,
                           ),
                           buildQuickActionButton(
-                              1, "View Profile", Icons.person),
+                              1, "View Profile", "profile"),
                           const SizedBox(
                             width: 10,
                           ),
                           buildQuickActionButton(
-                              1, "View Blogs", Icons.message_rounded),
+                              1, "View Blogs", "blog"),
                         ],
                       ),
                       SizedBox(
@@ -247,7 +250,7 @@ class HomeScreenState extends State<HomeScreen>
                                 child: Column(
                                   children: [
                                     PolicyCardTemplate(
-                                      policyStatus: 'due',
+                                        policyStatus: 'due',
                                         policyName: 'Basic Motor Insurance',
                                         policyRate: 'LKR 25,0000',
                                         policyRatePeriod: 'year',
@@ -263,39 +266,6 @@ class HomeScreenState extends State<HomeScreen>
                                         policyClientVehicleModel: 'Corolla',
                                         policyClientVehicleRegistratioNo:
                                             'WP 1234'),
-                                    // buildPersonalPolicyCard(
-                                    //   themeProvider
-                                    //       .themeIconPaths["basicInsurance"]!,
-                                    //   "LKR 25,000 / mo",
-                                    //   "ABC123456789",
-                                    //   "Basic Motor Insurance",
-                                    //   themeProvider.themeIconPaths["expire"]!,
-                                    //   "LKR 125,000 Paid",
-                                    // ),
-                                    // const SizedBox(
-                                    //   height: 15,
-                                    // ),
-                                    // buildPersonalPolicyCard(
-                                    //   themeProvider
-                                    //       .themeIconPaths["basicInsurance"]!,
-                                    //   "LKR 25,000 / mo",
-                                    //   "ABC123456789",
-                                    //   "Basic Motor Insurance",
-                                    //   themeProvider.themeIconPaths["expire"]!,
-                                    //   "LKR 125,000 Paid",
-                                    // ),
-                                    // const SizedBox(
-                                    //   height: 15,
-                                    // ),
-                                    // buildPersonalPolicyCard(
-                                    //   themeProvider
-                                    //       .themeIconPaths["basicInsurance"]!,
-                                    //   "LKR 25,000 / mo",
-                                    //   "ABC123456789",
-                                    //   "Basic Motor Insurance",
-                                    //   themeProvider.themeIconPaths["expire"]!,
-                                    //   "LKR 125,000 Paid",
-                                    // ),
                                   ],
                                 ),
                               ),

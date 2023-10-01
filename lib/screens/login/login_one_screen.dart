@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:insurify/providers/theme_provider.dart';
 import 'package:insurify/providers/user_provider.dart';
-import 'package:insurify/screens/components/build_bottom_buttons.dart';
+import 'package:insurify/screens/components/bottom_buttons.dart';
+import 'package:insurify/screens/components/register_input_field.dart';
 import 'package:insurify/screens/components/startup_screen_heading.dart';
 import 'package:insurify/screens/login/login_two_screen.dart';
-import 'package:insurify/screens/startup/startup_screen.dart';
-import 'package:provider/provider.dart';
 
 class LoginOneScreen extends StatefulWidget {
   const LoginOneScreen({Key? key}) : super(key: key);
@@ -19,15 +20,15 @@ class LoginOneScreenState extends State<LoginOneScreen> {
   late ThemeProvider themeProvider;
   late UserDataProvider userDataProvider;
   late bool isPhoneNoValid;
-  late String phoneNoValidationText;
   late Color phoneNoValidationColor;
+  late IconData phoneNoValidationIcon;
 
   @override
   void initState() {
     super.initState();
     setControllers();
     isPhoneNoValid = false;
-    phoneNoValidationText = 'Please enter valid phone number';
+    phoneNoValidationIcon = Icons.close_rounded;
     phoneNoValidationColor = Colors.grey;
   }
 
@@ -41,14 +42,8 @@ class LoginOneScreenState extends State<LoginOneScreen> {
     phoneNoController.text = '';
   }
 
-  Widget buildBuildTextField(
-      TextEditingController controller,
-      String hintText,
-      bool textFieldTyping,
-      String label,
-      bool isValid,
-      String validationText,
-      Color validationColor) {
+  Widget buildBuildTextField(TextEditingController controller, String hintText,
+      bool textFieldTyping, String label) {
     return TextField(
       cursorColor: themeProvider.themeColors["white"],
       cursorOpacityAnimates: true,
@@ -62,15 +57,15 @@ class LoginOneScreenState extends State<LoginOneScreen> {
         setState(() {
           if (value.isEmpty) {
             isPhoneNoValid = false;
-            phoneNoValidationText = 'Please enter your phone number';
+            phoneNoValidationIcon = Icons.close_rounded;
             phoneNoValidationColor = Colors.red;
           } else if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
             isPhoneNoValid = false;
-            phoneNoValidationText = 'Invalid phone number';
+            phoneNoValidationIcon = Icons.close_rounded;
             phoneNoValidationColor = Colors.red;
           } else {
             isPhoneNoValid = true;
-            phoneNoValidationText = 'Valid phone number';
+            phoneNoValidationIcon = Icons.check_rounded;
             phoneNoValidationColor = Colors.green;
           }
         });
@@ -90,183 +85,6 @@ class LoginOneScreenState extends State<LoginOneScreen> {
           fontSize: 14,
           fontFamily: 'Inter',
         ),
-      ),
-    );
-  }
-
-  Widget buildBuildTextFieldContainer(
-      TextEditingController controller,
-      String hintText,
-      bool textFieldTyping,
-      String label,
-      bool isValid,
-      String validationText,
-      Color validationColor) {
-    return Container(
-      height: 47.5,
-      padding: const EdgeInsets.only(
-          left: 16,
-          right: 10,
-          bottom: 0,
-          top: 13.75), // Padding for the TextField
-      decoration: BoxDecoration(
-        color: themeProvider.themeColors["textFieldBackground"],
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(
-            color: themeProvider.themeColors["textFieldBorderAndLabel"]!,
-            width: 2),
-      ),
-      child: buildBuildTextField(controller, hintText, textFieldTyping, label,
-          isValid, validationText, validationColor),
-    );
-  }
-
-  Widget buildTextFieldLabel(String label) {
-    return Positioned(
-      top: -8.5,
-      left: 17.5,
-      child: Text(
-        label,
-        style: TextStyle(
-          color: themeProvider.themeColors["textFieldBorderAndLabel"],
-          fontWeight: FontWeight.w600,
-          fontSize: 15,
-          fontFamily: 'Inter',
-        ),
-        textAlign: TextAlign.left,
-      ),
-    );
-  }
-
-  Widget buildTextFieldLabelBackground(double labelbackgroundwidth) {
-    return Positioned(
-      top: -0.5,
-      left: 7.5,
-      child: Container(
-        height: 10,
-        width: labelbackgroundwidth,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        color: themeProvider.themeColors["textFieldBackground"],
-        // color: Colors.red,
-      ),
-    );
-  }
-
-  Widget buildInputRow(
-      String label,
-      TextEditingController controller,
-      String hintText,
-      double labelbackgroundwidth,
-      bool textFieldTyping,
-      bool isValid,
-      String validationText,
-      Color validationColor) {
-    return Flexible(
-      child: Stack(
-        alignment: Alignment.topLeft,
-        clipBehavior: Clip.none,
-        children: <Widget>[
-          buildBuildTextFieldContainer(controller, hintText, textFieldTyping,
-              label, isValid, validationText, validationColor),
-          buildTextFieldLabelBackground(labelbackgroundwidth),
-          buildTextFieldLabel(label),
-          Positioned(
-            bottom: -20,
-            right: 0,
-            child: Text(
-              validationText,
-              style: TextStyle(
-                // color: Colors.green,
-                color: validationColor,
-                fontWeight: FontWeight.w400,
-                fontSize: 12,
-                fontFamily: 'Inter',
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget buildInputRowPhoneNo(
-      String label,
-      TextEditingController controller,
-      String hintText,
-      double labelbackgroundwidth,
-      bool textFieldTyping,
-      bool isValid,
-      String validationText,
-      Color validationColor) {
-    return Flexible(
-      child: Stack(
-        alignment: Alignment.topLeft,
-        clipBehavior: Clip.none,
-        children: <Widget>[
-          Container(
-            height: 47.5,
-            padding: const EdgeInsets.only(
-                left: 16, right: 10, bottom: 0), // Padding for the TextField
-            decoration: BoxDecoration(
-              color: themeProvider.themeColors["textFieldBackground"],
-              borderRadius: BorderRadius.circular(5),
-              border: Border.all(
-                  color: themeProvider.themeColors["textFieldBorderAndLabel"]!,
-                  width: 2),
-            ),
-            child: Row(
-              children: [
-                Image.asset(
-                  'assets/icons/flag.png',
-                ),
-                const SizedBox(width: 10),
-                Text(
-                  '+94',
-                  style: TextStyle(
-                    color: themeProvider.themeColors["white"],
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    fontFamily: 'Inter',
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Container(
-                  width: 2,
-                  height: 15,
-                  color: themeProvider.themeColors["phontNumberSeperator"],
-                ),
-                const SizedBox(width: 10),
-                Flexible(
-                  child: buildBuildTextField(
-                    controller,
-                    hintText,
-                    textFieldTyping,
-                    label,
-                    isValid,
-                    validationText,
-                    validationColor,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          buildTextFieldLabelBackground(labelbackgroundwidth),
-          buildTextFieldLabel(label),
-          Positioned(
-            bottom: -20,
-            right: 0,
-            child: Text(
-              validationText,
-              style: TextStyle(
-                // color: Colors.green,
-                color: validationColor,
-                fontWeight: FontWeight.w400,
-                fontSize: 12,
-                fontFamily: 'Inter',
-              ),
-            ),
-          )
-        ],
       ),
     );
   }
@@ -304,15 +122,15 @@ class LoginOneScreenState extends State<LoginOneScreen> {
                       SizedBox(height: height * 0.125),
                       buildStartUpScreenHeading(context, 'Login'),
                       SizedBox(height: height * 0.075),
-                      buildInputRowPhoneNo(
-                          'Phone Number',
-                          phoneNoController,
-                          '07XXXXXXXX',
-                          120,
-                          true,
-                          isPhoneNoValid,
-                          phoneNoValidationText,
-                          phoneNoValidationColor),
+                      buildInputRow(
+                        'Phone Number',
+                        phoneNoValidationIcon,
+                        phoneNoValidationColor,
+                        buildBuildTextField(phoneNoController, '07XXXXXXXX',
+                            true, 'Phone Number'),
+                        context,
+                        () {},
+                      ),
                     ],
                   ),
                 ),
@@ -324,64 +142,65 @@ class LoginOneScreenState extends State<LoginOneScreen> {
                 child: buildBackAndNextButtons(
                   context,
                   width,
-                  StartupScreen(),
-                  const LoginTwoScreen(),
+                  LoginTwoScreen(),
                   () {
                     if (isPhoneNoValid) {
                       if (phoneNoController.text ==
                           userDataProvider.userData.phoneNo) {
                         Navigator.pushReplacement(
-                        context,
-                        PageRouteBuilder(
-                          transitionDuration: const Duration(milliseconds: 300),
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) =>
-                                  const LoginTwoScreen(),
-                          transitionsBuilder: (
-                            context,
-                            animation,
-                            secondaryAnimation,
-                            child,
-                          ) {
-                            const begin = Offset(1.0, 0.0);
-                            const end = Offset.zero;
-                            final tween = Tween(begin: begin, end: end);
-                            final curvedAnimation = CurvedAnimation(
-                              parent: animation,
-                              curve: Curves.easeInOut,
-                            );
-                            return SlideTransition(
-                              position: tween.animate(curvedAnimation),
-                              child: Container(
-                                color: Colors.transparent,
-                                child: child,
-                              ),
-                            );
-                          },
-                        ),
-                      );
+                          context,
+                          PageRouteBuilder(
+                            transitionDuration:
+                                const Duration(milliseconds: 300),
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    const LoginTwoScreen(),
+                            transitionsBuilder: (
+                              context,
+                              animation,
+                              secondaryAnimation,
+                              child,
+                            ) {
+                              const begin = Offset(1.0, 0.0);
+                              const end = Offset.zero;
+                              final tween = Tween(begin: begin, end: end);
+                              final curvedAnimation = CurvedAnimation(
+                                parent: animation,
+                                curve: Curves.easeInOut,
+                              );
+                              return SlideTransition(
+                                position: tween.animate(curvedAnimation),
+                                child: Container(
+                                  color: Colors.transparent,
+                                  child: child,
+                                ),
+                              );
+                            },
+                          ),
+                        );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: themeProvider.themeColors["primary"],
-                          content: Text(
-                            'User does not exist',
-                            style: TextStyle(
-                              color: themeProvider.themeColors["white"],
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              fontFamily: 'Inter',
+                          SnackBar(
+                            backgroundColor:
+                                themeProvider.themeColors["primary"],
+                            content: Text(
+                              'User does not exist',
+                              style: TextStyle(
+                                color: themeProvider.themeColors["white"],
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                fontFamily: 'Inter',
+                              ),
+                            ),
+                            action: SnackBarAction(
+                              backgroundColor:
+                                  themeProvider.themeColors["secondary"],
+                              label: 'OK',
+                              textColor: themeProvider.themeColors["white"],
+                              onPressed: () {},
                             ),
                           ),
-                          action: SnackBarAction(
-                            backgroundColor:
-                                themeProvider.themeColors["buttonOne"],
-                            label: 'OK',
-                            textColor: themeProvider.themeColors["white"],
-                            onPressed: () {},
-                          ),
-                        ),
-                      );
+                        );
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -398,7 +217,7 @@ class LoginOneScreenState extends State<LoginOneScreen> {
                           ),
                           action: SnackBarAction(
                             backgroundColor:
-                                themeProvider.themeColors["buttonOne"],
+                                themeProvider.themeColors["secondary"],
                             label: 'OK',
                             textColor: themeProvider.themeColors["white"],
                             onPressed: () {},

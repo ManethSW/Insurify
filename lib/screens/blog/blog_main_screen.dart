@@ -22,7 +22,7 @@ class BlogMainScreenState extends State<BlogMainScreen>
     themeProvider = Provider.of<ThemeProvider>(context);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: themeProvider.themeColors["buttonOne"],
+        statusBarColor: themeProvider.themeColors["secondary"],
         systemNavigationBarColor:
             themeProvider.themeColors["primary"],
       ),
@@ -39,7 +39,7 @@ class BlogMainScreenState extends State<BlogMainScreen>
           resizeToAvoidBottomInset: false,
           body: Stack(
             children: [
-              buildTopBar(context),
+              TopBar(),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 90),

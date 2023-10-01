@@ -1,16 +1,14 @@
-import 'dart:io';
-
+import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:insurify/providers/user_provider.dart';
-import 'package:insurify/screens/components/top_bar.dart';
-import 'package:insurify/screens/profile/profile_main_screen.dart';
-import 'package:pinput/pinput.dart';
-import 'package:provider/provider.dart';
-import 'package:image_picker/image_picker.dart';
 
 import 'package:insurify/providers/theme_provider.dart';
+import 'package:insurify/providers/user_provider.dart';
+import 'package:insurify/screens/components/profile_input_field.dart';
+import 'package:insurify/screens/components/top_bar.dart';
+import 'package:insurify/screens/profile/profile_main_screen.dart';
 
 class ProfileEditPhoneScreen extends StatefulWidget {
   const ProfileEditPhoneScreen({Key? key}) : super(key: key);
@@ -45,7 +43,7 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
 
   @override
   void dispose() {
-      phoneNoTextEditingController.dispose();
+    phoneNoTextEditingController.dispose();
     super.dispose();
   }
 
@@ -66,8 +64,8 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
 
   void submitOtp(BuildContext context, String otp) {
     if (otp == '1111' && isPhoneNoValid) {
-      //Update the userDataProvider with the userData
-      userDataProvider.userData.setPhoneNo(phoneNo: phoneNoTextEditingController.text);
+      userDataProvider.userData
+          .setPhoneNo(phoneNo: phoneNoTextEditingController.text);
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
@@ -111,7 +109,7 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
             ),
           ),
           action: SnackBarAction(
-            backgroundColor: themeProvider.themeColors["buttonOne"],
+            backgroundColor: themeProvider.themeColors["secondary"],
             label: 'OK',
             textColor: themeProvider.themeColors["white"],
             onPressed: () {},
@@ -137,7 +135,7 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
       ),
       onChanged: (value) {
         switch (label) {
-          case 'Updated Phone Number':
+          case 'Phone Number':
             setState(() {
               if (value.isEmpty) {
                 isPhoneNoValid = false;
@@ -174,211 +172,14 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
     );
   }
 
-  Widget buildBuildTextFieldContainer(
-      TextEditingController controller,
-      String hintText,
-      bool textFieldTyping,
-      String label,
-      bool isValid,
-      IconData validationIcon,
-      Color validationColor) {
-    return Container(
-      height: 42.5,
-      padding: const EdgeInsets.only(
-          left: 16,
-          right: 10,
-          bottom: 0,
-          top: 11.5), // Padding for the TextField
-      decoration: BoxDecoration(
-        color: themeProvider.themeColors["textFieldBackground"],
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(
-            color: themeProvider.themeColors["textFieldBorderAndLabel"]!,
-            width: 2),
-      ),
-      child: buildBuildTextField(controller, hintText, label),
-    );
-  }
-
-  Widget buildTextFieldLabel(String label) {
-    return Positioned(
-      top: -10,
-      left: 17.5,
-      child: Text(
-        label,
-        style: TextStyle(
-          color: themeProvider.themeColors["textFieldBorderAndLabel"],
-          fontWeight: FontWeight.w600,
-          fontSize: 12.5,
-          fontFamily: 'Inter',
-        ),
-        textAlign: TextAlign.left,
-      ),
-    );
-  }
-
-  Widget buildTextFieldLabelBackground(double labelbackgroundwidth) {
-    return Positioned(
-      top: -0.5,
-      left: 7.5,
-      child: Container(
-        height: 10,
-        width: labelbackgroundwidth,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        color: themeProvider.themeColors["textFieldBackground"],
-        // color: Colors.red,
-      ),
-    );
-  }
-
-  Widget buildInputRow(
-      String label,
-      TextEditingController controller,
-      String hintText,
-      double labelbackgroundwidth,
-      IconData validationIcon,
-      Color validationColor) {
-    return Stack(
-      alignment: Alignment.topLeft,
-      clipBehavior: Clip.none,
-      children: <Widget>[
-        Container(
-          height: 47.5,
-          padding: const EdgeInsets.only(
-              left: 16, right: 10, bottom: 0), // Padding for the TextField
-          decoration: BoxDecoration(
-            color: themeProvider.themeColors["textFieldBackground"],
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(
-                color: themeProvider.themeColors["textFieldBorderAndLabel"]!,
-                width: 2),
-          ),
-          child: Row(
-            children: [
-              Image.asset(
-                'assets/icons/flag.png',
-              ),
-              const SizedBox(width: 10),
-              Text(
-                '+94',
-                style: TextStyle(
-                  color: themeProvider.themeColors["white"],
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                  fontFamily: 'Inter',
-                ),
-              ),
-              const SizedBox(width: 10),
-              Container(
-                width: 2,
-                height: 15,
-                color: themeProvider.themeColors["phontNumberSeperator"],
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: buildBuildTextField(
-                  controller,
-                  hintText,
-                  label,
-                ),
-              ),
-              Icon(
-                validationIcon,
-                size: 20,
-                color: validationColor,
-              )
-            ],
-          ),
-        ),
-        buildTextFieldLabelBackground(labelbackgroundwidth),
-        buildTextFieldLabel(label),
-      ],
-    );
-  }
-
-  Widget buildEditRow(
-      String label,
-      String editLabel,
-      TextEditingController controller,
-      String hintText,
-      double labelbackgroundwidth,
-      IconData validationIcon,
-      Color validationColor,
-      String currentValue,
-      bool isOpen,
-      VoidCallback onToggleOpen) {
-    return Container(
-      height: 130,
-      margin: const EdgeInsets.symmetric(horizontal: 30),
-      padding: const EdgeInsets.only(left: 12),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: themeProvider.themeColors["buttonOne"],
-      ),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Container(
-            height: 55,
-            margin: const EdgeInsets.only(top: 11.25),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: TextStyle(
-                    color:
-                        themeProvider.themeColors["white"]!.withOpacity(0.50),
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12.5,
-                    fontFamily: 'Inter',
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  currentValue,
-                  style: TextStyle(
-                    color: themeProvider.themeColors["white"],
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12.5,
-                    fontFamily: 'Inter',
-                  ),
-                )
-              ],
-            ),
-          ),
-          SingleChildScrollView(
-            physics: const ClampingScrollPhysics(),
-            child: Container(
-              height: 47.5,
-              margin: EdgeInsets.only(top: 70, right: 12, bottom: 12),
-              child: buildInputRow(
-                editLabel,
-                controller,
-                hintText,
-                labelbackgroundwidth,
-                validationIcon,
-                validationColor,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     themeProvider = Provider.of<ThemeProvider>(context);
     userDataProvider = Provider.of<UserDataProvider>(context);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: themeProvider.themeColors["buttonOne"],
+        statusBarColor: themeProvider.themeColors["secondary"],
         systemNavigationBarColor: themeProvider.themeColors["primary"],
-        // statusBarColor: Colors.yellow,
-        // systemNavigationBarColor: Colors.yellow,
       ),
     );
     final defaultPinTheme = PinTheme(
@@ -390,15 +191,12 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
           color: themeProvider.themeColors["white"],
           fontWeight: FontWeight.w600),
       decoration: BoxDecoration(
-        color: themeProvider.themeColors["buttonOne"],
+        color: themeProvider.themeColors["secondary"],
         borderRadius: BorderRadius.circular(10),
       ),
     );
     final double height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
-    // width variable of screen
-    final double width =
-        MediaQuery.of(context).size.width - MediaQuery.of(context).padding.left;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -406,7 +204,7 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
           resizeToAvoidBottomInset: false,
           body: Stack(
             children: [
-              buildTopBar(context),
+              TopBar(),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 95),
@@ -415,7 +213,7 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
                       CircleAvatar(
                         radius: 41.5,
                         backgroundColor:
-                            themeProvider.themeColors["buttonOne"]!,
+                            themeProvider.themeColors["secondary"]!,
                         child: userDataProvider.userData.profilePic == null
                             ? Icon(Icons.person_rounded,
                                 color: themeProvider.themeColors["white"]!
@@ -443,22 +241,19 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
                         height: height * 0.05,
                       ),
                       //build first name edit row
-                      buildEditRow(
-                        "Phone Number",
-                        "Updated Phone Number",
-                        phoneNoTextEditingController,
-                        "077XXXXXXX",
-                        155,
-                        phoneNoValidationIcon,
-                        phoneNoValidationColor,
-                        userDataProvider.userData.phoneNo!,
-                        isOpenphoneNo,
-                        () {
-                          setState(() {
-                            isOpenphoneNo =
-                                !isOpenphoneNo; // Toggle the first _isOpen state
-                          });
-                        },
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: buildEditRow(
+                            "Phone Number",
+                            "Updated Phone Number",
+                            phoneNoValidationIcon,
+                            phoneNoValidationColor,
+                            userDataProvider.userData.phoneNo!,
+                            isOpenphoneNo,
+                            () {},
+                            buildBuildTextField(phoneNoTextEditingController,
+                                "07XXXXXXXX", "Phone Number"),
+                            context),
                       ),
                       SizedBox(
                         height: height * 0.05,
@@ -467,12 +262,35 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
                         width: 245,
                         // margin: const EdgeInsets.symmetric(horizontal: 30),
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor:
+                                    themeProvider.themeColors["primary"],
+                                content: Text(
+                                  'OTP code has been sent',
+                                  style: TextStyle(
+                                    color: themeProvider.themeColors["white"],
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                    fontFamily: 'Inter',
+                                  ),
+                                ),
+                                action: SnackBarAction(
+                                  backgroundColor:
+                                      themeProvider.themeColors["secondary"],
+                                  label: 'OK',
+                                  textColor: themeProvider.themeColors["white"],
+                                  onPressed: () {},
+                                ),
+                              ),
+                            );
+                          },
                           style: ButtonStyle(
                             // fixedSize: MaterialStateProperty.all<Size>(
                             //     Size(width * 0.9, 45)),
                             backgroundColor: MaterialStateProperty.all<Color>(
-                              themeProvider.themeColors["buttonOne"]!,
+                              themeProvider.themeColors["secondary"]!,
                             ),
                             shape: MaterialStateProperty.all<
                                 RoundedRectangleBorder>(
@@ -555,7 +373,7 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
                       width: 75,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: themeProvider.themeColors["buttonOne"],
+                        color: themeProvider.themeColors["secondary"],
                       ),
                       child: Center(
                         child: SvgPicture.asset(

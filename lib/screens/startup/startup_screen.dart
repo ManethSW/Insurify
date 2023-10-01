@@ -19,26 +19,20 @@ class _StartupScreenState extends State<StartupScreen> {
     final width = MediaQuery.of(context).size.width;
     return TextButton(
       onPressed: () {
-        Navigator.pushReplacement(
+        Navigator.push(
           context,
           PageRouteBuilder(
-            transitionDuration: const Duration(milliseconds: 300),
-            pageBuilder: (context, animation, secondaryAnimation) => page,
-            transitionsBuilder: (
-              context,
-              animation,
-              secondaryAnimation,
-              child,
-            ) {
-              const begin = Offset(1.0, 0.0);
-              const end = Offset.zero;
-              final tween = Tween(begin: begin, end: end);
-              final curvedAnimation = CurvedAnimation(
-                parent: animation,
-                curve: Curves.easeInOut,
-              );
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                page,
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              var begin = const Offset(1.0, 0.0);
+              var end = Offset.zero;
+              var tween = Tween(begin: begin, end: end);
+              var offsetAnimation = animation.drive(tween);
+
               return SlideTransition(
-                position: tween.animate(curvedAnimation),
+                position: offsetAnimation,
                 child: child,
               );
             },
@@ -48,7 +42,7 @@ class _StartupScreenState extends State<StartupScreen> {
       style: ButtonStyle(
         fixedSize: MaterialStateProperty.all<Size>(Size(width * 0.8, 50)),
         backgroundColor: MaterialStateProperty.all<Color>(
-          themeProvider.themeColors["buttonOne"]!,
+          themeProvider.themeColors["secondary"]!,
         ),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
