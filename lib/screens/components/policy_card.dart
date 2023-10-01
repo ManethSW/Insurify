@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:insurify/providers/theme_provider.dart';
-import 'package:insurify/screens/components/card_input_field.dart';
 import 'package:provider/provider.dart';
+import 'package:insurify/providers/theme_provider.dart';
 
 class PolicyCardTemplate extends StatefulWidget {
   final String policyStatus;
