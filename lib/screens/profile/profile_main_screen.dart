@@ -120,7 +120,7 @@ class ProfileMainScreenState extends State<ProfileMainScreen>
           resizeToAvoidBottomInset: false,
           body: Stack(
             children: [
-              TopBar(),
+              const TopBar(),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 95),

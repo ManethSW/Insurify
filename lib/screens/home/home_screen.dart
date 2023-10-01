@@ -20,15 +20,12 @@ class HomeScreenState extends State<HomeScreen>
   late ThemeProvider themeProvider;
   late GlobalProvider globalProvider;
   late UserDataProvider userDataProvider;
-  late TabController _tabController;
   String activeFilter = 'All';
   late List<PolicyCardTemplate> policyCardList;
-  final List<String> _tabs = ['All', 'Active', 'Expired'];
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(vsync: this, length: _tabs.length);
     globalProvider = Provider.of<GlobalProvider>(context, listen: false);
     policyCardList = [
       const PolicyCardTemplate(
@@ -250,12 +247,6 @@ class HomeScreenState extends State<HomeScreen>
       return false;
     }).toList();
 
-    AnimationController _animationController = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      vsync:
-          this, // You need to use a Stateful widget with SingleTickerProviderStateMixin
-    );
-
     int allCount = policyCardList.length;
     int activeCount = policyCardList
         .where((policy) {
@@ -277,7 +268,7 @@ class HomeScreenState extends State<HomeScreen>
           resizeToAvoidBottomInset: false,
           body: Stack(
             children: [
-              TopBar(),
+              const TopBar(),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(
@@ -408,7 +399,7 @@ class HomeScreenState extends State<HomeScreen>
                       ),
                       Expanded(
                         child: ListView.separated(
-                          physics: BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: filteredList.length,
                           separatorBuilder: (context, index) {

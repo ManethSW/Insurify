@@ -202,7 +202,7 @@ class NavigationScreenState extends State<NavigationScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(left: 15),
+                              padding: const EdgeInsets.only(left: 15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -250,22 +250,22 @@ class NavigationScreenState extends State<NavigationScreen> {
                               height: height * 0.05,
                             ),
                             buildNavigationItem("profile", 'Profile',
-                                screens[0], ProfileMainScreen()),
+                                screens[0], const ProfileMainScreen()),
                             SizedBox(
                               height: height * 0.05,
                             ),
                             buildNavigationItem(
-                                "home", 'Home', screens[1], HomeScreen()),
+                                "home", 'Home', screens[1], const HomeScreen()),
                             SizedBox(
                               height: height * 0.05,
                             ),
                             buildNavigationItem("plus", 'Add New Insurance',
-                                screens[2], AddInsuranceMainScreen()),
+                                screens[2], const AddInsuranceMainScreen()),
                             SizedBox(
                               height: height * 0.05,
                             ),
                             buildNavigationItem("blog", 'View Blogs',
-                                screens[3], BlogMainScreen()),
+                                screens[3], const BlogMainScreen()),
                           ],
                         ),
                       ),
@@ -277,7 +277,7 @@ class NavigationScreenState extends State<NavigationScreen> {
                             Container(
                               height: 2,
                               width: 115,
-                              margin: EdgeInsets.only(left: 15),
+                              margin: const EdgeInsets.only(left: 15),
                               decoration: BoxDecoration(
                                 color: themeProvider.themeColors["white"]!
                                     .withOpacity(0.5),
@@ -287,8 +287,8 @@ class NavigationScreenState extends State<NavigationScreen> {
                             SizedBox(
                               height: height * 0.05,
                             ),
-                            buildNavigationItem("signout", 'Sign Out',
-                                screens[4], StartupScreen()),
+                            buildNavigationItem("home", 'Sign Out',
+                                screens[4], const StartupScreen()),
                           ],
                         ),
                       ),

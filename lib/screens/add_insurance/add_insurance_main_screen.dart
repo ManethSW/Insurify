@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:insurify/screens/components/top_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -27,11 +27,6 @@ class AddInsuranceMainScreenState extends State<AddInsuranceMainScreen>
             themeProvider.themeColors["primary"],
       ),
     );
-    final double height =
-        MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
-    // width variable of screen
-    final double width =
-        MediaQuery.of(context).size.width - MediaQuery.of(context).padding.left;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -39,7 +34,7 @@ class AddInsuranceMainScreenState extends State<AddInsuranceMainScreen>
           resizeToAvoidBottomInset: false,
           body: Stack(
             children: [
-              TopBar(),
+              const TopBar(),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 90),

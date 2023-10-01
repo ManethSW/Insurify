@@ -5,6 +5,8 @@ import 'package:insurify/screens/navigation/navigation_screen.dart';
 import 'package:provider/provider.dart';
 
 class TopBar extends StatefulWidget {
+  const TopBar({super.key});
+
   @override
   TopBarState createState() => TopBarState();
 }
@@ -53,7 +55,6 @@ class TopBarState extends State<TopBar> {
                     ),
                   ).then((value) {
                     setState(() {
-                      print('object');
                     });
                   });
                 },

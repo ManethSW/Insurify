@@ -44,7 +44,7 @@ Widget buildInputRow(String label, IconData validationIcon,
     children: [
       Container(
         height: 47.5,
-        padding: EdgeInsets.symmetric(horizontal: 17.5),
+        padding: const EdgeInsets.symmetric(horizontal: 17.5),
         decoration: BoxDecoration(
           color: themeProvider.themeColors["textFieldBackground"],
           borderRadius: BorderRadius.circular(5),
@@ -167,7 +167,7 @@ Widget buildEditRow(
           physics: const ClampingScrollPhysics(),
           child: Container(
             height: 47.5,
-            margin: EdgeInsets.only(top: 70, right: 12, bottom: 12),
+            margin: const EdgeInsets.only(top: 70, right: 12, bottom: 12),
             child: buildInputRow(editingLabel, validationIcon, validationColor,
                 textField, context),
           ),
