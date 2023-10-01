@@ -26,7 +26,7 @@ Widget buildTopBar(BuildContext context) {
           children: [
             GestureDetector(
               onTap: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   PageRouteBuilder(
                     transitionDuration: const Duration(milliseconds: 300),

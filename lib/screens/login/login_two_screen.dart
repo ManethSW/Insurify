@@ -43,7 +43,7 @@ class LoginTwoScreenState extends State<LoginTwoScreen> {
 
   void submitOtp(BuildContext context, String otp) {
     if (otp == '1111') {
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         PageRouteBuilder(
           transitionDuration: const Duration(milliseconds: 300),

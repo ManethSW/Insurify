@@ -37,6 +37,7 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
   @override
   void initState() {
     super.initState();
+    setControllers();
     isPhoneNoValid = false;
     phoneNoValidationIcon = Icons.close;
     phoneNoValidationColor = Colors.grey;
@@ -64,10 +65,10 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
   }
 
   void submitOtp(BuildContext context, String otp) {
-    if (otp == '1111') {
+    if (otp == '1111' && isPhoneNoValid) {
       //Update the userDataProvider with the userData
       userDataProvider.userData.setPhoneNo(phoneNo: phoneNoTextEditingController.text);
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         PageRouteBuilder(
           transitionDuration: const Duration(milliseconds: 300),
@@ -128,7 +129,7 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
     return TextField(
       cursorColor: themeProvider.themeColors["white"],
       cursorOpacityAnimates: true,
-      controller: phoneNoTextEditingController,
+      controller: controller,
       style: TextStyle(
         color: themeProvider.themeColors["white"],
         fontSize: 12.5,
@@ -136,7 +137,7 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
       ),
       onChanged: (value) {
         switch (label) {
-          case 'Phone Number':
+          case 'Updated Phone Number':
             setState(() {
               if (value.isEmpty) {
                 isPhoneNoValid = false;
@@ -145,7 +146,7 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
               } else if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
                 isPhoneNoValid = false;
                 phoneNoValidationIcon = Icons.close_rounded;
-                phoneNoValidationColor = Colors.grey;
+                phoneNoValidationColor = Colors.red;
               } else {
                 isPhoneNoValid = true;
                 phoneNoValidationIcon = Icons.check_rounded;

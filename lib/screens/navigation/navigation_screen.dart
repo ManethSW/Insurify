@@ -39,7 +39,7 @@ class NavigationScreenState extends State<NavigationScreen> {
         globalProvider.setCurrentScreen(screen);
       });
       print(globalProvider.currentScreen);
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         PageRouteBuilder(
           transitionDuration: const Duration(milliseconds: 300),

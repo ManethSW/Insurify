@@ -13,10 +13,12 @@ Widget buildBackAndNextButtons(BuildContext context, double width,
     height: 50,
     // color: Colors.white,
     child: Row(
+
+      
       children: [
         GestureDetector(
           onTap: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               PageRouteBuilder(
                 transitionDuration: const Duration(milliseconds: 300),

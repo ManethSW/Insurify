@@ -40,9 +40,6 @@ class ProfileEditDetailsScreenState extends State<ProfileEditDetailsScreen>
   late bool isEmailValid;
   late IconData emailValidationIcon;
   late Color emailValidationColor;
-  late bool isPhoneNoValid;
-  late IconData phoneNoValidationIcon;
-  late Color phoneNoValidationColor;
 
   final List<TextEditingController> textEditingControllers = List.generate(
     3,
@@ -65,9 +62,6 @@ class ProfileEditDetailsScreenState extends State<ProfileEditDetailsScreen>
     isEmailValid = false;
     emailValidationIcon = Icons.close;
     emailValidationColor = Colors.grey;
-    isPhoneNoValid = false;
-    phoneNoValidationIcon = Icons.close;
-    phoneNoValidationColor = Colors.grey;
   }
 
   @override

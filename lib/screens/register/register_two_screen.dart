@@ -56,7 +56,7 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
         phoneNo: widget.userData.phoneNo,
         dob: widget.userData.dob,
       );
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         PageRouteBuilder(
           transitionDuration: const Duration(milliseconds: 300),

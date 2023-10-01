@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:insurify/screens/components/policy_card.dart';
 import 'package:insurify/screens/components/top_bar.dart';
 import 'package:insurify/screens/navigation/navigation_screen.dart';
 import 'package:provider/provider.dart';
@@ -94,184 +95,13 @@ class HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Widget buildPersonalPolicyCard(
-      String policyIconPath,
-      String monthlyRate,
-      String policyID,
-      String policyName,
-      String expireIconPath,
-      String totalPaidAmount) {
-    return Stack(
-      children: [
-        Container(
-          height: 156,
-          decoration: BoxDecoration(
-            color: themeProvider.themeColors["buttonOne"],
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 17,
-                      backgroundColor: themeProvider.themeColors["primary"],
-                      child: SvgPicture.asset(policyIconPath),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 25,
-                        decoration: BoxDecoration(
-                          color: themeProvider.themeColors["primary"],
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        child: Text(
-                          monthlyRate,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: themeProvider.themeColors["white"],
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            fontFamily: 'Inter',
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 25,
-                        decoration: BoxDecoration(
-                          color: themeProvider.themeColors["primary"],
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        child: Text(
-                          policyID,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: themeProvider.themeColors["white"],
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            fontFamily: 'Inter',
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      policyName,
-                      style: TextStyle(
-                        color: themeProvider.themeColors["white"],
-                        fontWeight: FontWeight.w600,
-                        fontSize: 17.5,
-                        fontFamily: 'Inter',
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    SvgPicture.asset(
-                      expireIconPath,
-                      height: 17.5,
-                    ),
-                  ],
-                ),
-                FractionallySizedBox(
-                  widthFactor: 1,
-                  child: Text(
-                    "LKR 125,000 Paid",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      color: themeProvider.themeColors["startUpBodyText"],
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13,
-                      fontFamily: 'Inter',
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 17,
-                ),
-                FractionallySizedBox(
-                  widthFactor: 1,
-                  child: Text(
-                    "Next payment due",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      color: themeProvider.themeColors["white"],
-                      fontWeight: FontWeight.w400,
-                      fontSize: 13,
-                      fontFamily: 'Inter',
-                    ),
-                  ),
-                ),
-                FractionallySizedBox(
-                  widthFactor: 1,
-                  child: Text(
-                    "10/06/2023",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      color: themeProvider.themeColors["startUpBodyText"],
-                      fontWeight: FontWeight.w400,
-                      fontSize: 13,
-                      fontFamily: 'Inter',
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: 8,
-          right: 8,
-          child: GestureDetector(
-            onTap: () {},
-            child: Container(
-              width: 50,
-              padding: EdgeInsets.all(10),
-              // height: 50,
-              decoration: BoxDecoration(
-                color: themeProvider.themeColors["primary"],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: SvgPicture.asset(
-                themeProvider.themeIconPaths["forwardArrowHead"]!,
-                width: 15,
-                height: 15,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     themeProvider = Provider.of<ThemeProvider>(context);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: themeProvider.themeColors["buttonOne"],
-        systemNavigationBarColor:
-            themeProvider.themeColors["primary"],
+        systemNavigationBarColor: themeProvider.themeColors["primary"],
       ),
     );
     final double height =
@@ -408,7 +238,7 @@ class HomeScreenState extends State<HomeScreen>
                       Expanded(
                         child: TabBarView(
                           controller: _tabController,
-                          children: [
+                          children: const [
                             // Content for 'All' filter
                             GlowingOverscrollIndicator(
                               axisDirection: AxisDirection.down,
@@ -416,39 +246,56 @@ class HomeScreenState extends State<HomeScreen>
                               child: SingleChildScrollView(
                                 child: Column(
                                   children: [
-                                    buildPersonalPolicyCard(
-                                      themeProvider
-                                          .themeIconPaths["basicInsurance"]!,
-                                      "LKR 25,000 / mo",
-                                      "ABC123456789",
-                                      "Basic Motor Insurance",
-                                      themeProvider.themeIconPaths["expire"]!,
-                                      "LKR 125,000 Paid",
-                                    ),
-                                    const SizedBox(
-                                      height: 15,
-                                    ),
-                                    buildPersonalPolicyCard(
-                                      themeProvider
-                                          .themeIconPaths["basicInsurance"]!,
-                                      "LKR 25,000 / mo",
-                                      "ABC123456789",
-                                      "Basic Motor Insurance",
-                                      themeProvider.themeIconPaths["expire"]!,
-                                      "LKR 125,000 Paid",
-                                    ),
-                                    const SizedBox(
-                                      height: 15,
-                                    ),
-                                    buildPersonalPolicyCard(
-                                      themeProvider
-                                          .themeIconPaths["basicInsurance"]!,
-                                      "LKR 25,000 / mo",
-                                      "ABC123456789",
-                                      "Basic Motor Insurance",
-                                      themeProvider.themeIconPaths["expire"]!,
-                                      "LKR 125,000 Paid",
-                                    ),
+                                    PolicyCardTemplate(
+                                      policyStatus: 'due',
+                                        policyName: 'Basic Motor Insurance',
+                                        policyRate: 'LKR 25,0000',
+                                        policyRatePeriod: 'year',
+                                        policyId: 'ABC123456789',
+                                        totalPaid: 'LKR 125,000',
+                                        paymentDue: '02/10/2024',
+                                        policyClientName: 'Maneth Weerasinghe',
+                                        policyClientNicNo: '20032760568',
+                                        policyClienDob: '01/06/2023',
+                                        policyClientAddress:
+                                            '27/A, Walawatta Place, Galpotta Road\nNawala, Western Province',
+                                        policyClientVehicleMake: 'Toyota',
+                                        policyClientVehicleModel: 'Corolla',
+                                        policyClientVehicleRegistratioNo:
+                                            'WP 1234'),
+                                    // buildPersonalPolicyCard(
+                                    //   themeProvider
+                                    //       .themeIconPaths["basicInsurance"]!,
+                                    //   "LKR 25,000 / mo",
+                                    //   "ABC123456789",
+                                    //   "Basic Motor Insurance",
+                                    //   themeProvider.themeIconPaths["expire"]!,
+                                    //   "LKR 125,000 Paid",
+                                    // ),
+                                    // const SizedBox(
+                                    //   height: 15,
+                                    // ),
+                                    // buildPersonalPolicyCard(
+                                    //   themeProvider
+                                    //       .themeIconPaths["basicInsurance"]!,
+                                    //   "LKR 25,000 / mo",
+                                    //   "ABC123456789",
+                                    //   "Basic Motor Insurance",
+                                    //   themeProvider.themeIconPaths["expire"]!,
+                                    //   "LKR 125,000 Paid",
+                                    // ),
+                                    // const SizedBox(
+                                    //   height: 15,
+                                    // ),
+                                    // buildPersonalPolicyCard(
+                                    //   themeProvider
+                                    //       .themeIconPaths["basicInsurance"]!,
+                                    //   "LKR 25,000 / mo",
+                                    //   "ABC123456789",
+                                    //   "Basic Motor Insurance",
+                                    //   themeProvider.themeIconPaths["expire"]!,
+                                    //   "LKR 125,000 Paid",
+                                    // ),
                                   ],
                                 ),
                               ),
