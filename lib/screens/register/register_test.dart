@@ -1,337 +1,241 @@
-// import 'dart:io';
-
 // import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
 // import 'package:insurify/providers/user_provider.dart';
-// import 'package:insurify/screens/components/top_bar.dart';
-// import 'package:insurify/screens/profile/profile_main_screen.dart';
 // import 'package:provider/provider.dart';
-// import 'package:image_picker/image_picker.dart';
 
+// import 'package:insurify/providers/global_provider.dart';
 // import 'package:insurify/providers/theme_provider.dart';
+// import 'package:insurify/screens/components/top_bar.dart';
+// import 'package:insurify/screens/components/policy_card.dart';
 
-// class TestScreen extends StatefulWidget {
-//   const TestScreen({Key? key}) : super(key: key);
+// class HomeScreen extends StatefulWidget {
+//   const HomeScreen({Key? key}) : super(key: key);
 
 //   @override
-//   TestScreenState createState() => TestScreenState();
+//   HomeScreenState createState() => HomeScreenState();
 // }
 
-// class TestScreenState extends State<TestScreen>
+// class HomeScreenState extends State<HomeScreen>
 //     with SingleTickerProviderStateMixin {
 //   late ThemeProvider themeProvider;
+//   late GlobalProvider globalProvider;
 //   late UserDataProvider userDataProvider;
-//   bool isOpenFirstName = false;
-//   bool isOpenLastName = false;
-//   bool isOpenEmail = false;
-
-//   late bool isFirstNameValid;
-//   late IconData firstNameValidationIcon;
-//   late Color firstNameValidationColor;
-//   late bool isLastNameValid;
-//   late IconData lastNameValidationIcon;
-//   late Color lastNameValidationColor;
-//   late bool isEmailValid;
-//   late IconData emailValidationIcon;
-//   late Color emailValidationColor;
-
-//   final List<TextEditingController> textEditingControllers = List.generate(
-//     3,
-//     (_) => TextEditingController(),
-//   );
+//   late TabController _tabController;
+//   String activeFilter = 'All';
+//   late List<PolicyCardTemplate> policyCardList;
+//   final List<String> _tabs = ['All', 'Active', 'Expired'];
 
 //   @override
 //   void initState() {
 //     super.initState();
-//     userDataProvider = Provider.of<UserDataProvider>(context, listen: false);
-//     isFirstNameValid = false;
-//     firstNameValidationIcon = Icons.close;
-//     firstNameValidationColor = Colors.grey;
-//     isLastNameValid = false;
-//     lastNameValidationIcon = Icons.close;
-//     lastNameValidationColor = Colors.grey;
-//     isEmailValid = false;
-//     emailValidationIcon = Icons.close;
-//     emailValidationColor = Colors.grey;
+//     _tabController = TabController(vsync: this, length: _tabs.length);
+//     globalProvider = Provider.of<GlobalProvider>(context, listen: false);
+//     policyCardList = [
+//       const PolicyCardTemplate(
+//           policyStatus: 'due',
+//           policyName: 'Basic Motor Insurance',
+//           policyRate: 'LKR 25,0000',
+//           policyRatePeriod: 'year',
+//           policyId: 'ABC123456789',
+//           totalPaid: 'LKR 125,000',
+//           paymentDue: '02/10/2024',
+//           policyClientName: 'Maneth Weerasinghe',
+//           policyClientNicNo: '20032760568',
+//           policyClienDob: '01/06/2023',
+//           policyClientAddress:
+//               '27/A, Walawatta Place, Galpotta Road\nNawala, Western Province',
+//           policyClientVehicleMake: 'Toyota',
+//           policyClientVehicleModel: 'Corolla',
+//           policyClientVehicleRegistratioNo: 'WP 1234'),
+//       const PolicyCardTemplate(
+//           policyStatus: 'payed',
+//           policyName: 'Basic Motor Insurance',
+//           policyRate: 'LKR 25,0000',
+//           policyRatePeriod: 'year',
+//           policyId: 'ABC123456789',
+//           totalPaid: 'LKR 125,000',
+//           paymentDue: '02/10/2024',
+//           policyClientName: 'Maneth Weerasinghe',
+//           policyClientNicNo: '20032760568',
+//           policyClienDob: '01/06/2023',
+//           policyClientAddress:
+//               '27/A, Walawatta Place, Galpotta Road\nNawala, Western Province',
+//           policyClientVehicleMake: 'Toyota',
+//           policyClientVehicleModel: 'Corolla',
+//           policyClientVehicleRegistratioNo: 'WP 1234'),
+//       const PolicyCardTemplate(
+//           policyStatus: 'payed',
+//           policyName: 'Basic Motor Insurance',
+//           policyRate: 'LKR 25,0000',
+//           policyRatePeriod: 'year',
+//           policyId: 'ABC123456789',
+//           totalPaid: 'LKR 125,000',
+//           paymentDue: '02/10/2024',
+//           policyClientName: 'Maneth Weerasinghe',
+//           policyClientNicNo: '20032760568',
+//           policyClienDob: '01/06/2023',
+//           policyClientAddress:
+//               '27/A, Walawatta Place, Galpotta Road\nNawala, Western Province',
+//           policyClientVehicleMake: 'Toyota',
+//           policyClientVehicleModel: 'Corolla',
+//           policyClientVehicleRegistratioNo: 'WP 1234'),
+//       const PolicyCardTemplate(
+//           policyStatus: 'expired',
+//           policyName: 'Basic Motor Insurance',
+//           policyRate: 'LKR 25,0000',
+//           policyRatePeriod: 'year',
+//           policyId: 'ABC123456789',
+//           totalPaid: 'LKR 125,000',
+//           paymentDue: '02/10/2024',
+//           policyClientName: 'Maneth Weerasinghe',
+//           policyClientNicNo: '20032760568',
+//           policyClienDob: '01/06/2023',
+//           policyClientAddress:
+//               '27/A, Walawatta Place, Galpotta Road\nNawala, Western Province',
+//           policyClientVehicleMake: 'Toyota',
+//           policyClientVehicleModel: 'Corolla',
+//           policyClientVehicleRegistratioNo: 'WP 1234'),
+//       const PolicyCardTemplate(
+//           policyStatus: 'expired',
+//           policyName: 'Basic Motor Insurance',
+//           policyRate: 'LKR 25,0000',
+//           policyRatePeriod: 'year',
+//           policyId: 'ABC123456789',
+//           totalPaid: 'LKR 125,000',
+//           paymentDue: '02/10/2024',
+//           policyClientName: 'Maneth Weerasinghe',
+//           policyClientNicNo: '20032760568',
+//           policyClienDob: '01/06/2023',
+//           policyClientAddress:
+//               '27/A, Walawatta Place, Galpotta Road\nNawala, Western Province',
+//           policyClientVehicleMake: 'Toyota',
+//           policyClientVehicleModel: 'Corolla',
+//           policyClientVehicleRegistratioNo: 'WP 1234'),
+//     ];
 //   }
 
-//   @override
-//   void dispose() {
-//     for (final controller in textEditingControllers) {
-//       controller.dispose();
-//     }
-//     super.dispose();
-//   }
-
-//   void setControllers() {
-//     textEditingControllers[0].text = '';
-//     textEditingControllers[1].text = '';
-//     textEditingControllers[2].text = '';
-//   }
-
-//   void updateUserData() {
-//     userDataProvider.userData.fname = textEditingControllers[0].text;
-//     userDataProvider.userData.lname = textEditingControllers[1].text;
-//     userDataProvider.userData.email = textEditingControllers[2].text;
-//   }
-
-//   Widget buildBuildTextField(
-//     TextEditingController controller,
-//     String hintText,
-//     String label,
-//   ) {
-//     return TextField(
-//       cursorColor: themeProvider.themeColors["white"],
-//       cursorOpacityAnimates: true,
-//       controller: controller,
-//       style: TextStyle(
-//         color: themeProvider.themeColors["white"],
-//         fontSize: 12.5,
-//         fontFamily: 'Inter',
-//       ),
-//       onChanged: (value) {
-//         switch (label) {
-//           case 'Updated First Name':
-//             setState(() {
-//               if (value.isEmpty) {
-//                 isFirstNameValid = false;
-//                 firstNameValidationIcon = Icons.close_rounded;
-//                 firstNameValidationColor = Colors.grey;
-//               } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
-//                 isFirstNameValid = false;
-//                 firstNameValidationIcon = Icons.close_rounded;
-//                 firstNameValidationColor = Colors.red;
-//               } else {
-//                 isFirstNameValid = true;
-//                 firstNameValidationIcon = Icons.check;
-//                 firstNameValidationColor = Colors.green;
-//               }
-//             });
-//             break;
-//           case 'Updated Last Name':
-//             setState(() {
-//               if (value.isEmpty) {
-//                 isLastNameValid = false;
-//                 lastNameValidationIcon = Icons.close_rounded;
-//                 lastNameValidationColor = Colors.red;
-//               } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
-//                 isLastNameValid = false;
-//                 lastNameValidationIcon = Icons.close_rounded;
-//                 lastNameValidationColor = Colors.red;
-//               } else {
-//                 isLastNameValid = true;
-//                 lastNameValidationIcon = Icons.check;
-//                 lastNameValidationColor = Colors.green;
-//               }
-//             });
-//             break;
-//           case 'Updated Email':
-//             setState(() {
-//               if (value.isEmpty) {
-//                 isEmailValid = false;
-//                 emailValidationIcon = Icons.close_rounded;
-//                 emailValidationColor = Colors.red;
-//               } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-//                   .hasMatch(value)) {
-//                 isEmailValid = false;
-//                 emailValidationIcon = Icons.close_rounded;
-//                 emailValidationColor = Colors.red;
-//               } else {
-//                 isEmailValid = true;
-//                 emailValidationIcon = Icons.check;
-//                 emailValidationColor = Colors.green;
-//               }
-//             });
-//             break;
-//         }
-//       },
-//       textAlign: TextAlign.left,
-//       decoration: InputDecoration(
-//         focusedBorder: InputBorder.none,
-//         enabledBorder: InputBorder.none,
-//         border: InputBorder.none,
-//         contentPadding: const EdgeInsets.all(0),
-//         isDense: true,
-//         hintText: hintText,
-//         hintStyle: TextStyle(
-//           color: themeProvider.themeColors["white"]!.withOpacity(0.75),
-//           fontWeight: FontWeight.w400,
-//           fontSize: 12.5,
-//           fontFamily: 'Inter',
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget buildTextFieldLabel(String label) {
-//     return Positioned(
-//       top: -7.5,
-//       left: 10,
+//   Widget buildQuickActionButton(int flexNumber, String label, String icon) {
+//     return Expanded(
+//       flex: flexNumber,
 //       child: Container(
-//         padding: const EdgeInsets.symmetric(horizontal: 10),
+//         height: 102,
 //         decoration: BoxDecoration(
-//           gradient: LinearGradient(
-//             begin: Alignment.topCenter,
-//             end: Alignment.bottomCenter,
-//             colors: [
-//               themeProvider
-//                   .themeColors["buttonOne"]!, // replace with your top color
-//               themeProvider.themeColors[
-//                   "textFieldBackground"]! // replace with your bottom color
-//             ],
-//             stops: const [0.3, 1.0],
-//           ),
+//           color: themeProvider.themeColors["secondary"],
+//           borderRadius: BorderRadius.circular(10),
 //         ),
-//         child: Text(
-//           label,
-//           style: TextStyle(
-//             color: themeProvider.themeColors["textFieldBorderAndLabel"],
-//             fontWeight: FontWeight.w600,
-//             fontSize: 12.5,
-//             fontFamily: 'Inter',
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
-//   Widget buildInputRow(
-//       String label,
-//       TextEditingController controller,
-//       String hintText,
-//       IconData validationIcon,
-//       Color validationColor) {
-//     return Stack(
-//       alignment: Alignment.topLeft,
-//       clipBehavior: Clip.none,
-//       children: [
-//         Container(
-//           height: 47.5,
-//           padding: EdgeInsets.symmetric(horizontal: 17.5),
-//           decoration: BoxDecoration(
-//             color: themeProvider.themeColors["textFieldBackground"],
-//             borderRadius: BorderRadius.circular(5),
-//             border: Border.all(
-//                 color: themeProvider.themeColors["textFieldBorderAndLabel"]!,
-//                 width: 2),
-//           ),
-//           child: Row(
-//             children: [
-//               Expanded(
-//                 child: buildBuildTextField(
-//                   controller,
-//                   hintText,
-//                   label,
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Padding(
+//               padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
+//               child: Text(
+//                 label,
+//                 style: TextStyle(
+//                   color: themeProvider.themeColors["white"],
+//                   fontWeight: FontWeight.w500,
+//                   fontSize: 15,
+//                   fontFamily: 'Inter',
 //                 ),
 //               ),
-//               Icon(
-//                 validationIcon,
-//                 size: 20,
-//                 color: validationColor,
-//               )
-//             ],
-//           ),
-//         ),
-//         buildTextFieldLabel("Updated First Name"),
-//       ],
-//     );
-//   }
-
-//   Widget buildEditRow(
-//       String label,
-//       String editLabel,
-//       TextEditingController controller,
-//       String hintText,
-//       IconData validationIcon,
-//       Color validationColor,
-//       String currentValue,
-//       bool isOpen,
-//       VoidCallback onToggleOpen) {
-//     return AnimatedContainer(
-//       duration: const Duration(milliseconds: 350),
-//       curve: Curves.easeInOut,
-//       height: isOpen ? 130 : 57.5,
-//       padding: const EdgeInsets.only(left: 12),
-//       decoration: BoxDecoration(
-//         borderRadius: BorderRadius.circular(10),
-//         color: themeProvider.themeColors["buttonOne"],
-//       ),
-//       child: Stack(
-//         fit: StackFit.expand,
-//         children: [
-//           Container(
-//             height: 55,
-//             margin: const EdgeInsets.only(top: 11.25),
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Text(
-//                   label,
-//                   style: TextStyle(
-//                     color:
-//                         themeProvider.themeColors["white"]!.withOpacity(0.50),
-//                     fontWeight: FontWeight.w600,
-//                     fontSize: 12.5,
-//                     fontFamily: 'Inter',
-//                   ),
-//                 ),
-//                 const SizedBox(
-//                   height: 5,
-//                 ),
-//                 Text(
-//                   currentValue,
-//                   style: TextStyle(
-//                     color: themeProvider.themeColors["white"],
-//                     fontWeight: FontWeight.w600,
-//                     fontSize: 12.5,
-//                     fontFamily: 'Inter',
-//                   ),
-//                 )
-//               ],
 //             ),
-//           ),
-//           SingleChildScrollView(
-//             physics: const ClampingScrollPhysics(),
-//             child: Container(
-//               height: 47.5,
-//               margin: EdgeInsets.only(top: 70, right: 12, bottom: 12),
-//               child: buildInputRow(
-//                 editLabel,
-//                 controller,
-//                 hintText,
-//                 validationIcon,
-//                 validationColor,
-//               ),
+//             const SizedBox(
+//               height: 7.5,
 //             ),
-//           ),
-//           Positioned(
-//             right: 0,
-//             child: GestureDetector(
-//               onTap: onToggleOpen,
+//             Padding(
+//               padding: const EdgeInsets.only(left: 10),
 //               child: Container(
-//                 width: 45,
-//                 height: 47.5,
-//                 margin: const EdgeInsets.all(5),
+//                 height: 2,
+//                 width: 25,
 //                 decoration: BoxDecoration(
+//                   color: themeProvider.themeColors["startUpBodyText"],
 //                   borderRadius: BorderRadius.circular(10),
-//                   color: themeProvider.themeColors["primary"],
 //                 ),
-//                 child: Center(
-//                   child: AnimatedRotation(
-//                     duration: const Duration(milliseconds: 350),
-//                     curve: Curves.easeInOut,
-//                     turns: isOpen ? 0.25 : 0.75,
-//                     child: SvgPicture.asset(
-//                       themeProvider.themeIconPaths["backArrow"]!,
-//                       width: 10,
-//                       height: 10,
+//               ),
+//             ),
+//             const SizedBox(
+//               height: 7.5,
+//             ),
+//             Padding(
+//               padding: const EdgeInsets.only(left: 5, bottom: 5, right: 5),
+//               child: FractionallySizedBox(
+//                 widthFactor: 1,
+//                 child: GestureDetector(
+//                   onTap: () {},
+//                   child: Container(
+//                     height: 34,
+//                     decoration: BoxDecoration(
+//                       color: themeProvider.themeColors["primary"],
+//                       borderRadius: BorderRadius.circular(8),
+//                     ),
+//                     child: Center(
+//                       child: Image.asset(
+//                         themeProvider.themeIconPaths[icon]!,
+//                         width: 20,
+//                         height: 20,
+//                       ),
 //                     ),
 //                   ),
 //                 ),
 //               ),
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+
+//   Widget buildFilterItem(String label, String count) {
+//     return GestureDetector(
+//       onTap: () {
+//         switch (label) {
+//           case 'All':
+//             setState(() {
+//               activeFilter = 'All';
+//             });
+//             break;
+//           case 'Active':
+//             setState(() {
+//               activeFilter = 'Active';
+//             });
+//             break;
+//           case 'Expired':
+//             setState(() {
+//               activeFilter = 'Expired';
+//             });
+//             break;
+//         }
+//       },
+//       child: Row(
+//         children: [
+//           Text(
+//             label,
+//             style: TextStyle(
+//               color: activeFilter == label
+//                   ? themeProvider.themeColors["white"]
+//                   : themeProvider.themeColors["white"]!.withOpacity(0.75),
+//               fontWeight: FontWeight.w600,
+//               fontSize: 15,
+//               fontFamily: 'Inter',
 //             ),
 //           ),
+//           const SizedBox(
+//             width: 5,
+//           ),
+//           CircleAvatar(
+//             radius: 7.5,
+//             backgroundColor: activeFilter == label
+//                 ? themeProvider.themeColors["white"]
+//                 : themeProvider.themeColors["white"]!.withOpacity(0.75),
+//             child: Text(
+//               count,
+//               style: TextStyle(
+//                 color: themeProvider.themeColors["secondary"],
+//                 fontWeight: FontWeight.w900,
+//                 fontSize: 12.5,
+//                 fontFamily: 'Inter',
+//               ),
+//             ),
+//           )
 //         ],
 //       ),
 //     );
@@ -343,15 +247,12 @@
 //     userDataProvider = Provider.of<UserDataProvider>(context);
 //     SystemChrome.setSystemUIOverlayStyle(
 //       SystemUiOverlayStyle(
-//         statusBarColor: themeProvider.themeColors["buttonOne"],
+//         statusBarColor: themeProvider.themeColors["secondary"],
 //         systemNavigationBarColor: themeProvider.themeColors["primary"],
 //       ),
 //     );
 //     final double height =
 //         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
-//     // width variable of screen
-//     final double width =
-//         MediaQuery.of(context).size.width - MediaQuery.of(context).padding.left;
 //     return Scaffold(
 //       resizeToAvoidBottomInset: false,
 //       body: SafeArea(
@@ -359,86 +260,148 @@
 //           resizeToAvoidBottomInset: false,
 //           body: Stack(
 //             children: [
-//               buildTopBar(context),
+//               TopBar(),
 //               Center(
 //                 child: Padding(
-//                   padding: const EdgeInsets.only(top: 95),
+//                   padding: const EdgeInsets.only(
+//                       left: 20, right: 20, top: 90, bottom: 20),
 //                   child: Column(
 //                     children: [
-//                       SizedBox(
-//                         height: height * 0.05,
+//                       CircleAvatar(
+//                         radius: 35,
+//                         backgroundColor:
+//                             themeProvider.themeColors["secondary"]!,
+//                         child: userDataProvider.userData.profilePic == null
+//                             ? Icon(Icons.person_rounded,
+//                                 color: themeProvider.themeColors["white"]!
+//                                     .withOpacity(0.75),
+//                                 size: 40.0)
+//                             : CircleAvatar(
+//                                 radius: 33.5,
+//                                 backgroundImage:
+//                                     userDataProvider.userData.profilePic!.image,
+//                               ),
 //                       ),
-//                       //build first name edit row
-//                       // Container(
-//                       //   padding: EdgeInsets.symmetric(horizontal: 30),
-//                       //   child: buildInputRow(
-//                       //     "First Name",
-//                       //     textEditingControllers[0],
-//                       //     "Enter your new first name",
-//                       //     132.5,
-//                       //     firstNameValidationIcon,
-//                       //     firstNameValidationColor,
-//                       //   ),
-//                       // ),
-//                       Container(
-//                         padding: const EdgeInsets.symmetric(horizontal: 30),
-//                         child: buildEditRow(
-//                           "First Name",
-//                           "Updated First Name",
-//                           textEditingControllers[0],
-//                           "Enter your new first name",
-//                           firstNameValidationIcon,
-//                           firstNameValidationColor,
-//                           userDataProvider.userData.fname!,
-//                           isOpenFirstName,
-//                           () {
-//                             setState(() {
-//                               isOpenFirstName =
-//                                   !isOpenFirstName; // Toggle the first _isOpen state
-//                             });
-//                           },
+//                       const SizedBox(
+//                         height: 20,
+//                       ),
+//                       Text(
+//                         '${userDataProvider.userData.fname!} ${userDataProvider.userData.lname!}',
+//                         style: TextStyle(
+//                           color: themeProvider.themeColors["white"],
+//                           fontWeight: FontWeight.w600,
+//                           fontSize: 22.5,
+//                           fontFamily: 'Inter',
+//                         ),
+//                       ),
+//                       SizedBox(
+//                         height: height * 0.03,
+//                       ),
+//                       Row(
+//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                         children: [
+//                           buildQuickActionButton(
+//                               2, "Add New \nMotor Insurance", "plus"),
+//                           const SizedBox(
+//                             width: 10,
+//                           ),
+//                           buildQuickActionButton(1, "View Profile", "profile"),
+//                           const SizedBox(
+//                             width: 10,
+//                           ),
+//                           buildQuickActionButton(1, "View Blogs", "blog"),
+//                         ],
+//                       ),
+//                       SizedBox(
+//                         height: height * 0.03,
+//                       ),
+//                       FractionallySizedBox(
+//                         widthFactor: 1,
+//                         child: Text(
+//                           "My Insurances",
+//                           textAlign: TextAlign.left,
+//                           style: TextStyle(
+//                             color: themeProvider.themeColors["white"],
+//                             fontWeight: FontWeight.w600,
+//                             fontSize: 20,
+//                             fontFamily: 'Inter',
+//                           ),
+//                         ),
+//                       ),
+//                       FractionallySizedBox(
+//                         widthFactor: 1,
+//                         child: Text(
+//                           "View & Manage Your Insurances",
+//                           textAlign: TextAlign.left,
+//                           style: TextStyle(
+//                             color: themeProvider.themeColors["white75"],
+//                             fontWeight: FontWeight.w400,
+//                             fontSize: 13,
+//                             fontFamily: 'Inter',
+//                           ),
 //                         ),
 //                       ),
 //                       SizedBox(
 //                         height: height * 0.025,
 //                       ),
-//                       // buildEditRow(
-//                       //   "Last Name",
-//                       //   "Updated Last Name",
-//                       //   textEditingControllers[1],
-//                       //   "Enter your new last name",
-//                       //   130,
-//                       //   lastNameValidationIcon,
-//                       //   lastNameValidationColor,
-//                       //   userDataProvider.userData.lname!,
-//                       //   isOpenLastName,
-//                       //   () {
-//                       //     setState(() {
-//                       //       isOpenLastName =
-//                       //           !isOpenLastName; // Toggle the first _isOpen state
-//                       //     });
-//                       //   },
-//                       // ),
-//                       // SizedBox(
-//                       //   height: height * 0.025,
-//                       // ),
-//                       // buildEditRow(
-//                       //   "Email",
-//                       //   "Updated Email",
-//                       //   textEditingControllers[2],
-//                       //   "Enter your new email",
-//                       //   100,
-//                       //   emailValidationIcon,
-//                       //   emailValidationColor,
-//                       //   userDataProvider.userData.email!,
-//                       //   isOpenEmail,
-//                       //   () {
-//                       //     setState(() {
-//                       //       isOpenEmail =
-//                       //           !isOpenEmail; // Toggle the first _isOpen state
-//                       //     });
-//                       //   },
-//                       // ),
+//                       FractionallySizedBox(
+//                         widthFactor: 1,
+//                         child: Stack(
+//                           alignment: AlignmentDirectional.centerStart,
+//                           clipBehavior: Clip.none,
+//                           children: [
+//                             Row(
+//                               children: [
+//                                 buildFilterItem('All', '5'),
+//                                 const SizedBox(
+//                                   width: 20,
+//                                 ),
+//                                 buildFilterItem('Active', '3'),
+//                                 const SizedBox(
+//                                   width: 20,
+//                                 ),
+//                                 buildFilterItem('Expired', '2'),
+//                               ],
+//                             ),
+//                             AnimatedPositioned(
+//                               duration: const Duration(milliseconds: 200),
+//                               curve: Curves.easeIn,
+//                               left: activeFilter == 'All'
+//                                   ? 7.5
+//                                   : activeFilter == 'Active'
+//                                       ? 77.5
+//                                       : 165,
+//                               bottom: -7.5,
+//                               child: Container(
+//                                 width: 25,
+//                                 height: 3,
+//                                 decoration: BoxDecoration(
+//                                   color: themeProvider.themeColors["white"]!,
+//                                   borderRadius: BorderRadius.circular(10),
+//                                 ),
+//                               ),
+//                             )
+//                           ],
+//                         ),
+//                       ),
+//                       SizedBox(
+//                         height: height * 0.025,
+//                       ),
+//                       Expanded(
+//                         child: ListView.separated(
+//                           physics: BouncingScrollPhysics(),
+//                           shrinkWrap: true,
+//                           itemCount: policyCardList.length,
+//                           separatorBuilder: (context, index) {
+//                             return const SizedBox(
+//                               height: 15,
+//                             );
+//                           },
+//                           itemBuilder: (context, index) {
+//                             return policyCardList[index];
+//                           },
+//                         ),
+//                       )
 //                     ],
 //                   ),
 //                 ),

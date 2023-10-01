@@ -16,11 +16,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late ThemeProvider themeProvider;
   late GlobalProvider globalProvider;
   late UserDataProvider userDataProvider;
   late TabController _tabController;
+  String activeFilter = 'All';
+  late List<PolicyCardTemplate> policyCardList;
   final List<String> _tabs = ['All', 'Active', 'Expired'];
 
   @override
@@ -28,6 +30,88 @@ class HomeScreenState extends State<HomeScreen>
     super.initState();
     _tabController = TabController(vsync: this, length: _tabs.length);
     globalProvider = Provider.of<GlobalProvider>(context, listen: false);
+    policyCardList = [
+      const PolicyCardTemplate(
+          policyStatus: 'due',
+          policyName: 'Basic Motor Insurance',
+          policyRate: 'LKR 25,0000',
+          policyRatePeriod: 'year',
+          policyId: 'ABC123456789',
+          totalPaid: 'LKR 125,000',
+          paymentDue: '02/10/2024',
+          policyClientName: 'Maneth Weerasinghe',
+          policyClientNicNo: '20032760568',
+          policyClienDob: '01/06/2023',
+          policyClientAddress:
+              '27/A, Walawatta Place, Galpotta Road\nNawala, Western Province',
+          policyClientVehicleMake: 'Toyota',
+          policyClientVehicleModel: 'Corolla',
+          policyClientVehicleRegistratioNo: 'WP 1234'),
+      const PolicyCardTemplate(
+          policyStatus: 'payed',
+          policyName: 'Basic Motor Insurance',
+          policyRate: 'LKR 25,0000',
+          policyRatePeriod: 'year',
+          policyId: 'ABC123456789',
+          totalPaid: 'LKR 125,000',
+          paymentDue: '02/10/2024',
+          policyClientName: 'Maneth Weerasinghe',
+          policyClientNicNo: '20032760568',
+          policyClienDob: '01/06/2023',
+          policyClientAddress:
+              '27/A, Walawatta Place, Galpotta Road\nNawala, Western Province',
+          policyClientVehicleMake: 'Toyota',
+          policyClientVehicleModel: 'Corolla',
+          policyClientVehicleRegistratioNo: 'WP 1234'),
+      const PolicyCardTemplate(
+          policyStatus: 'payed',
+          policyName: 'Basic Motor Insurance',
+          policyRate: 'LKR 25,0000',
+          policyRatePeriod: 'year',
+          policyId: 'ABC123456789',
+          totalPaid: 'LKR 125,000',
+          paymentDue: '02/10/2024',
+          policyClientName: 'Maneth Weerasinghe',
+          policyClientNicNo: '20032760568',
+          policyClienDob: '01/06/2023',
+          policyClientAddress:
+              '27/A, Walawatta Place, Galpotta Road\nNawala, Western Province',
+          policyClientVehicleMake: 'Toyota',
+          policyClientVehicleModel: 'Corolla',
+          policyClientVehicleRegistratioNo: 'WP 1234'),
+      const PolicyCardTemplate(
+          policyStatus: 'expired',
+          policyName: 'Basic Motor Insurance',
+          policyRate: 'LKR 25,0000',
+          policyRatePeriod: 'year',
+          policyId: 'ABC123456789',
+          totalPaid: 'LKR 125,000',
+          paymentDue: '02/10/2024',
+          policyClientName: 'Maneth Weerasinghe',
+          policyClientNicNo: '20032760568',
+          policyClienDob: '01/06/2023',
+          policyClientAddress:
+              '27/A, Walawatta Place, Galpotta Road\nNawala, Western Province',
+          policyClientVehicleMake: 'Toyota',
+          policyClientVehicleModel: 'Corolla',
+          policyClientVehicleRegistratioNo: 'WP 1234'),
+      const PolicyCardTemplate(
+          policyStatus: 'expired',
+          policyName: 'Basic Motor Insurance',
+          policyRate: 'LKR 25,0000',
+          policyRatePeriod: 'year',
+          policyId: 'ABC123456789',
+          totalPaid: 'LKR 125,000',
+          paymentDue: '02/10/2024',
+          policyClientName: 'Maneth Weerasinghe',
+          policyClientNicNo: '20032760568',
+          policyClienDob: '01/06/2023',
+          policyClientAddress:
+              '27/A, Walawatta Place, Galpotta Road\nNawala, Western Province',
+          policyClientVehicleMake: 'Toyota',
+          policyClientVehicleModel: 'Corolla',
+          policyClientVehicleRegistratioNo: 'WP 1234'),
+    ];
   }
 
   Widget buildQuickActionButton(int flexNumber, String label, String icon) {
@@ -100,6 +184,49 @@ class HomeScreenState extends State<HomeScreen>
     );
   }
 
+  Widget buildFilterItem(String label, String count) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          activeFilter = label;
+        });
+      },
+      child: Row(
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              color: activeFilter == label
+                  ? themeProvider.themeColors["white"]
+                  : themeProvider.themeColors["white"]!.withOpacity(0.75),
+              fontWeight: FontWeight.w600,
+              fontSize: 15,
+              fontFamily: 'Inter',
+            ),
+          ),
+          const SizedBox(
+            width: 5,
+          ),
+          CircleAvatar(
+            radius: 7.5,
+            backgroundColor: activeFilter == label
+                ? themeProvider.themeColors["white"]
+                : themeProvider.themeColors["white"]!.withOpacity(0.75),
+            child: Text(
+              count,
+              style: TextStyle(
+                color: themeProvider.themeColors["secondary"],
+                fontWeight: FontWeight.w900,
+                fontSize: 12.5,
+                fontFamily: 'Inter',
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     themeProvider = Provider.of<ThemeProvider>(context);
@@ -112,6 +239,37 @@ class HomeScreenState extends State<HomeScreen>
     );
     final double height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
+    List<PolicyCardTemplate> filteredList = policyCardList.where((policy) {
+      if (activeFilter == 'All') {
+        return true;
+      } else if (activeFilter == 'Active') {
+        return policy.policyStatus == 'due' || policy.policyStatus == 'payed';
+      } else if (activeFilter == 'Expired') {
+        return policy.policyStatus == 'expired';
+      }
+      return false;
+    }).toList();
+
+    AnimationController _animationController = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync:
+          this, // You need to use a Stateful widget with SingleTickerProviderStateMixin
+    );
+
+    int allCount = policyCardList.length;
+    int activeCount = policyCardList
+        .where((policy) {
+          return policy.policyStatus == 'due' || policy.policyStatus == 'payed';
+        })
+        .toList()
+        .length;
+    int expiredCount = policyCardList
+        .where((policy) {
+          return policy.policyStatus == 'expired';
+        })
+        .toList()
+        .length;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -164,13 +322,11 @@ class HomeScreenState extends State<HomeScreen>
                           const SizedBox(
                             width: 10,
                           ),
-                          buildQuickActionButton(
-                              1, "View Profile", "profile"),
+                          buildQuickActionButton(1, "View Profile", "profile"),
                           const SizedBox(
                             width: 10,
                           ),
-                          buildQuickActionButton(
-                              1, "View Blogs", "blog"),
+                          buildQuickActionButton(1, "View Blogs", "blog"),
                         ],
                       ),
                       SizedBox(
@@ -202,83 +358,67 @@ class HomeScreenState extends State<HomeScreen>
                           ),
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.zero,
-                        child: FractionallySizedBox(
-                          widthFactor: 1,
-                          alignment: Alignment
-                              .centerLeft, // Align the TabBar to the left
-                          // padding: EdgeInsets.only(left: 0),
-                          child: TabBar(
-                            isScrollable: true,
-                            controller: _tabController,
-                            indicator: UnderlineTabIndicator(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(10)),
-                              borderSide: BorderSide(
-                                  width: 2.0,
-                                  color: themeProvider.themeColors["white"]!),
-                              insets: const EdgeInsets.symmetric(
-                                  horizontal: 17.5, vertical: 10),
-                            ),
-                            labelPadding: EdgeInsets.only(left: 5, right: 5),
-                            labelColor: themeProvider.themeColors["white"],
-                            unselectedLabelColor: themeProvider
-                                .themeColors["white"]!
-                                .withOpacity(0.5),
-                            labelStyle: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w900,
-                              fontFamily: 'Inter',
-                            ),
-                            tabs: _tabs
-                                .map((String name) => Tab(text: name))
-                                .toList(),
-                          ),
-                        ),
+                      SizedBox(
+                        height: height * 0.025,
                       ),
-                      //Content related to the filter
-                      Expanded(
-                        child: TabBarView(
-                          controller: _tabController,
-                          children: const [
-                            // Content for 'All' filter
-                            GlowingOverscrollIndicator(
-                              axisDirection: AxisDirection.down,
-                              color: Colors.black,
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  children: [
-                                    PolicyCardTemplate(
-                                        policyStatus: 'due',
-                                        policyName: 'Basic Motor Insurance',
-                                        policyRate: 'LKR 25,0000',
-                                        policyRatePeriod: 'year',
-                                        policyId: 'ABC123456789',
-                                        totalPaid: 'LKR 125,000',
-                                        paymentDue: '02/10/2024',
-                                        policyClientName: 'Maneth Weerasinghe',
-                                        policyClientNicNo: '20032760568',
-                                        policyClienDob: '01/06/2023',
-                                        policyClientAddress:
-                                            '27/A, Walawatta Place, Galpotta Road\nNawala, Western Province',
-                                        policyClientVehicleMake: 'Toyota',
-                                        policyClientVehicleModel: 'Corolla',
-                                        policyClientVehicleRegistratioNo:
-                                            'WP 1234'),
-                                  ],
+                      FractionallySizedBox(
+                        widthFactor: 1,
+                        child: Stack(
+                          alignment: AlignmentDirectional.centerStart,
+                          clipBehavior: Clip.none,
+                          children: [
+                            Row(
+                              children: [
+                                buildFilterItem('All', allCount.toString()),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                buildFilterItem(
+                                    'Active', activeCount.toString()),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                buildFilterItem(
+                                    'Expired', expiredCount.toString()),
+                              ],
+                            ),
+                            AnimatedPositioned(
+                              duration: const Duration(milliseconds: 200),
+                              curve: Curves.easeIn,
+                              left: activeFilter == 'All'
+                                  ? 7.5
+                                  : activeFilter == 'Active'
+                                      ? 77.5
+                                      : 165,
+                              bottom: -7.5,
+                              child: Container(
+                                width: 25,
+                                height: 3,
+                                decoration: BoxDecoration(
+                                  color: themeProvider.themeColors["white"]!,
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                            ),
-                            // Content for 'Active' filter
-                            Center(
-                              child: Text('Active Insurance Content'),
-                            ),
-                            // Content for 'Expired' filter
-                            Center(
-                              child: Text('Expired Insurance Content'),
-                            ),
+                            )
                           ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: height * 0.025,
+                      ),
+                      Expanded(
+                        child: ListView.separated(
+                          physics: BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: filteredList.length,
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(
+                              height: 15,
+                            );
+                          },
+                          itemBuilder: (context, index) {
+                            return filteredList[index];
+                          },
                         ),
                       ),
                     ],

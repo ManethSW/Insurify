@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         highlightColor: Colors.transparent,
         hoverColor: Colors.transparent,
       ),
-      home: StartupScreen(),
+      home: HomeScreen(),
     );
   }
 }

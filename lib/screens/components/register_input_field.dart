@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:insurify/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:insurify/providers/theme_provider.dart';
 
 late ThemeProvider themeProvider;
 Widget buildTextFieldLabel(String label, BuildContext context) {
