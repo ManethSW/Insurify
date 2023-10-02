@@ -112,30 +112,5 @@
         "policyClientVehicleRegistratioNo": "WP 1234"
       }
     ]
-  },
-  {
-    "fname": "Kasun",
-    "lname": "Perera",
-    "email": "kasun@gmail.com",
-    "phoneNo": "0777654321",
-    "dob": "05/05/1985",
-    "policies": [
-      {
-        "policyStatus": "due",
-        "policyName": "Basic Motor Insurance",
-        "policyRate": "LKR 25,0000",
-        "policyRatePeriod": "year",
-        "policyId": "ABC123456789",
-        "totalPaid": "LKR 125,000",
-        "paymentDue": "02/10/2024",
-        "policyClientName": "Maneth Weerasinghe",
-        "policyClientNicNo": "20032760568",
-        "policyClienDob": "01/06/2023",
-        "policyClientAddress": "27/A, Walawatta Place, Galpotta Road\nNawala, Western Province",
-        "policyClientVehicleMake": "Toyota",
-        "policyClientVehicleModel": "Corolla",
-        "policyClientVehicleRegistratioNo": "WP 1234"
-      }
-    ]
   }
 ]

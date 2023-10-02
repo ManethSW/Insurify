@@ -120,6 +120,9 @@ class LoginTwoScreenState extends State<LoginTwoScreen> {
         email: userData['email'],
         phoneNo: userData['phoneNo'],
       );
+      userDataProvider.userData.setProfilePic(
+        profilePic: null,
+      );
       userDataProvider.userData.setPolicies(
         policies: userData['policies'],
       );
