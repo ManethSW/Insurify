@@ -30,6 +30,17 @@ class NavigationScreenState extends State<NavigationScreen> {
     'startup',
   ];
 
+  @override
+  void dispose() {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: themeProvider.themeColors["secondary"],
+        systemNavigationBarColor: themeProvider.themeColors["primary"],
+      ),
+    );
+    super.dispose();
+  }
+
   Widget buildNavigationItem(
       String icon, String label, String screen, Widget page) {
     globalProvider = Provider.of<GlobalProvider>(context);
