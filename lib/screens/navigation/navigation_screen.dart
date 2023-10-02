@@ -22,8 +22,6 @@ class NavigationScreenState extends State<NavigationScreen> {
   late ThemeProvider themeProvider;
   late GlobalProvider globalProvider;
   late UserDataProvider userDataProvider;
-
-  //list for the name of the screens
   final List<String> screens = [
     'profile',
     'home',
@@ -32,38 +30,43 @@ class NavigationScreenState extends State<NavigationScreen> {
     'startup',
   ];
 
+  @override
+  void dispose() {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: themeProvider.themeColors["secondary"],
+        systemNavigationBarColor: themeProvider.themeColors["primary"],
+      ),
+    );
+    super.dispose();
+  }
+
   Widget buildNavigationItem(
       String icon, String label, String screen, Widget page) {
     globalProvider = Provider.of<GlobalProvider>(context);
 
     void onTapHandler() {
       setState(() {
-        globalProvider.setCurrentScreen(screen);
+        if (screen == screens[4]) {
+          globalProvider.setCurrentScreen('home');
+        } else {
+          globalProvider.setCurrentScreen(screen);
+        }
       });
       Navigator.pushReplacement(
         context,
         PageRouteBuilder(
-          transitionDuration: const Duration(milliseconds: 300),
-          pageBuilder: (context, animation, secondaryAnimation) => page,
-          transitionsBuilder: (
-            context,
-            animation,
-            secondaryAnimation,
-            child,
-          ) {
-            const begin = Offset(-1.0, 0.0);
-            const end = Offset.zero;
-            final tween = Tween(begin: begin, end: end);
-            final curvedAnimation = CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeInOut,
-            );
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              page,
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            var begin = const Offset(1.0, 0.0);
+            var end = Offset.zero;
+            var tween = Tween(begin: begin, end: end);
+            var offsetAnimation = animation.drive(tween);
+
             return SlideTransition(
-              position: tween.animate(curvedAnimation),
-              child: Container(
-                color: Colors.transparent,
-                child: child,
-              ),
+              position: offsetAnimation,
+              child: child,
             );
           },
         ),
@@ -72,7 +75,6 @@ class NavigationScreenState extends State<NavigationScreen> {
 
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        //logic
         if (globalProvider.currentScreen == screen) {
           return GestureDetector(
             onTap: () {
@@ -114,8 +116,6 @@ class NavigationScreenState extends State<NavigationScreen> {
             child: Container(
               padding: const EdgeInsets.only(
                   left: 15, top: 10, right: 20, bottom: 10),
-              // width: ,
-              // height: 50,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -142,9 +142,21 @@ class NavigationScreenState extends State<NavigationScreen> {
     );
   }
 
+  String greetingMessage() {
+    var hour = DateTime.now().hour;
+    if (hour < 12) {
+      return 'Good Morning';
+    }
+    if (hour < 17) {
+      return 'Good Afternoon';
+    }
+    return 'Good Evening';
+  }
+
   @override
   Widget build(BuildContext context) {
     themeProvider = Provider.of<ThemeProvider>(context);
+    globalProvider = Provider.of<GlobalProvider>(context);
     userDataProvider = Provider.of<UserDataProvider>(context);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
@@ -183,7 +195,14 @@ class NavigationScreenState extends State<NavigationScreen> {
                 top: 120,
                 right: 0,
                 child: Image.asset(
-                  themeProvider.themeIconPaths["homePage"]!,
+                  globalProvider.currentScreen == 'home'
+                      ? themeProvider.themeIconPaths["homePage"]!
+                      : globalProvider.currentScreen == 'profile'
+                          ? themeProvider.themeIconPaths["profilePage"]!
+                          : globalProvider.currentScreen == 'addInsurance'
+                              ? themeProvider
+                                  .themeIconPaths["addInsurancePage"]!
+                              : themeProvider.themeIconPaths["blogPage"]!,
                   // height: 100,
                   width: width * 0.21,
                 ),
@@ -226,7 +245,7 @@ class NavigationScreenState extends State<NavigationScreen> {
                                   ),
                                   SizedBox(height: height * 0.025),
                                   Text(
-                                    'Good Morning',
+                                    greetingMessage(),
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w400,
@@ -236,7 +255,7 @@ class NavigationScreenState extends State<NavigationScreen> {
                                   ),
                                   SizedBox(height: height * 0.015),
                                   Text(
-                                    'Maneth Weerasinghe',
+                                    '${userDataProvider.userData.fname} ${userDataProvider.userData.lname}',
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600,
@@ -287,7 +306,7 @@ class NavigationScreenState extends State<NavigationScreen> {
                             SizedBox(
                               height: height * 0.05,
                             ),
-                            buildNavigationItem("home", 'Sign Out',
+                            buildNavigationItem("signout", 'Sign Out',
                                 screens[4], const StartupScreen()),
                           ],
                         ),

@@ -8,7 +8,6 @@ import 'package:insurify/providers/theme_provider.dart';
 import 'package:insurify/providers/user_provider.dart';
 import 'package:insurify/screens/components/profile_input_field.dart';
 import 'package:insurify/screens/components/top_bar.dart';
-import 'package:insurify/screens/profile/profile_main_screen.dart';
 
 class ProfileEditPhoneScreen extends StatefulWidget {
   const ProfileEditPhoneScreen({Key? key}) : super(key: key);
@@ -63,36 +62,29 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
   }
 
   void submitOtp(BuildContext context, String otp) {
-    if (otp == '1111' && isPhoneNoValid) {
+    if (otp == '1111' && isPhoneNoValid && userDataProvider.userData.phoneNo != phoneNoTextEditingController.text) {
       userDataProvider.userData
           .setPhoneNo(phoneNo: phoneNoTextEditingController.text);
-      Navigator.pushReplacement(
-        context,
-        PageRouteBuilder(
-          transitionDuration: const Duration(milliseconds: 300),
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const ProfileMainScreen(),
-          transitionsBuilder: (
-            context,
-            animation,
-            secondaryAnimation,
-            child,
-          ) {
-            const begin = Offset(1.0, 0.0);
-            const end = Offset.zero;
-            final tween = Tween(begin: begin, end: end);
-            final curvedAnimation = CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeInOut,
-            );
-            return SlideTransition(
-              position: tween.animate(curvedAnimation),
-              child: Container(
-                color: Colors.transparent,
-                child: child,
-              ),
-            );
-          },
+      Navigator.pop(context);
+    } else if (userDataProvider.userData.phoneNo == phoneNoTextEditingController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: themeProvider.themeColors["primary"],
+          content: Text(
+            'Please enter a different OTP code',
+            style: TextStyle(
+              color: themeProvider.themeColors["white"],
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+              fontFamily: 'Inter',
+            ),
+          ),
+          action: SnackBarAction(
+            backgroundColor: themeProvider.themeColors["secondary"],
+            label: 'OK',
+            textColor: themeProvider.themeColors["white"],
+            onPressed: () {},
+          ),
         ),
       );
     } else {
@@ -260,7 +252,6 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
                       ),
                       SizedBox(
                         width: 245,
-                        // margin: const EdgeInsets.symmetric(horizontal: 30),
                         child: TextButton(
                           onPressed: () {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -287,8 +278,6 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
                             );
                           },
                           style: ButtonStyle(
-                            // fixedSize: MaterialStateProperty.all<Size>(
-                            //     Size(width * 0.9, 45)),
                             backgroundColor: MaterialStateProperty.all<Color>(
                               themeProvider.themeColors["secondary"]!,
                             ),
@@ -318,17 +307,6 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
                           updateOtpValue();
                         },
                       ),
-                      SizedBox(height: height * 0.05),
-                      Text(
-                        "RESEND OTP",
-                        style: TextStyle(
-                          color: themeProvider.themeColors["white"],
-                          fontWeight: FontWeight.w600,
-                          fontSize: 12.5,
-                          fontFamily: 'Inter',
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -340,33 +318,7 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
                 child: Center(
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        PageRouteBuilder(
-                          transitionDuration: const Duration(milliseconds: 300),
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) =>
-                                  const ProfileMainScreen(),
-                          transitionsBuilder: (
-                            context,
-                            animation,
-                            secondaryAnimation,
-                            child,
-                          ) {
-                            const begin = Offset(-1.0, 0.0);
-                            const end = Offset.zero;
-                            final tween = Tween(begin: begin, end: end);
-                            final curvedAnimation = CurvedAnimation(
-                              parent: animation,
-                              curve: Curves.easeInOut,
-                            );
-                            return SlideTransition(
-                              position: tween.animate(curvedAnimation),
-                              child: child,
-                            );
-                          },
-                        ),
-                      );
+                      Navigator.pop(context);
                     },
                     child: Container(
                       height: 50,

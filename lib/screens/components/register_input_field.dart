@@ -16,9 +16,9 @@ Widget buildTextFieldLabel(String label, BuildContext context) {
           end: Alignment.bottomCenter,
           colors: [
             themeProvider
-                .themeColors["primary"]!, // replace with your top color
+                .themeColors["primary"]!,
             themeProvider.themeColors[
-                "textFieldBackground"]! // replace with your bottom color
+                "textFieldBackground"]!
           ],
           stops: const [0.4, 0.6],
         ),
@@ -26,7 +26,7 @@ Widget buildTextFieldLabel(String label, BuildContext context) {
       child: Text(
         label,
         style: TextStyle(
-          color: themeProvider.themeColors["textFieldBorderAndLabel"],
+          color: themeProvider.themeColors["white"]!.withOpacity(0.5),
           fontWeight: FontWeight.w600,
           fontSize: 15,
           fontFamily: 'Inter',
@@ -57,7 +57,7 @@ Widget buildInputRow(
             color: themeProvider.themeColors["textFieldBackground"],
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
-                color: themeProvider.themeColors["textFieldBorderAndLabel"]!,
+                color: themeProvider.themeColors["white"]!.withOpacity(0.5),
                 width: 2),
           ),
           child: label == "Phone Number"
@@ -83,8 +83,7 @@ Widget buildInputRow(
                           Container(
                             width: 2,
                             height: 15,
-                            color: themeProvider
-                                .themeColors["phontNumberSeperator"],
+                            color:themeProvider.themeColors["white"]!.withOpacity(0.25),
                           ),
                           const SizedBox(width: 10),
                           Expanded(child: textField),

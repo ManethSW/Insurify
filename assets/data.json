@@ -1,23 +1,141 @@
-{
-    "users": [
+[
+  {
+    "fname": "Maneth",
+    "lname": "Weerasinghe",
+    "email": "maneth@gmail.com",
+    "phoneNo": "0778880661",
+    "dob": "02/10/2023",
+    "policies": [
       {
-        "id": "1",
-        "fName": "Maneth",
-        "lName": "Weerasinghe",
-        "email": "manethweerasinghe@gmail.com",
-        "phoneNo": "0778880661",
-        "dateOfBirth": "2003-10-02",
-        "gender": "Male"
+        "policyStatus": "due",
+        "policyName": "Basic Motor Insurance",
+        "policyRate": "LKR 25,000",
+        "policyRatePeriod": "mo",
+        "policyId": "ABC123456789",
+        "totalPaid": "LKR 125,000",
+        "paymentDue": "02/10/2024",
+        "policyClientName": "Maneth Weerasinghe",
+        "policyClientNicNo": "20032760568",
+        "policyClienDob": "01/06/2023",
+        "policyClientAddress": "27/A, Walawatta Place, Galpotta Road\nNawala, Western Province",
+        "policyClientVehicleMake": "Toyota",
+        "policyClientVehicleModel": "Corolla",
+        "policyClientVehicleRegistratioNo": "WP 1234"
+      }, 
+      {
+        "policyStatus": "payed",
+        "policyName": "Basic Motor Insurance",
+        "policyRate": "LKR 30,000",
+        "policyRatePeriod": "mo",
+        "policyId": "DEF123456789",
+        "totalPaid": "LKR 90,000",
+        "paymentDue": "10/31/2022",
+        "policyClientName": "John Smith",
+        "policyClientNicNo": "3456789012345",
+        "policyClienDob": "03/25/1980",
+        "policyClientAddress": "789 Elm St\nAnytown, USA",
+        "policyClientVehicleMake": "Toyota",
+        "policyClientVehicleModel": "Axio",
+        "policyClientVehicleRegistratioNo": "KO 4168"
       },
       {
-        "id": "2",
-        "fName": "John",
-        "lName": "Doe",
-        "email": "johndoe@gmail.com",
-        "phoneNo": "0771234567",
-        "dateOfBirth": "2013-10-02",
-        "gender": "Male"
+        "policyStatus": "expired",
+        "policyName": "Basic Motor Insurance",
+        "policyRate": "LKR 20,000",
+        "policyRatePeriod": "year",
+        "policyId": "GHI987654321",
+        "totalPaid": "LKR 100,000",
+        "paymentDue": "06/30/2023",
+        "policyClientName": "Jane Smith",
+        "policyClientNicNo": "4567890123456",
+        "policyClienDob": "11/10/1975",
+        "policyClientAddress": "123 Oak St\nAnytown, USA",
+        "policyClientVehicleMake": "Honda",
+        "policyClientVehicleModel": "Civic",
+        "policyClientVehicleRegistratioNo": "AB 5678"
+      },
+      {
+        "policyStatus": "due",
+        "policyName": "Basic Motor Insurance",
+        "policyRate": "LKR 40,000",
+        "policyRatePeriod": "year",
+        "policyId": "JKL123456789",
+        "totalPaid": "LKR 80,000",
+        "paymentDue": "04/15/2023",
+        "policyClientName": "Bob Johnson",
+        "policyClientNicNo": "5678901234567",
+        "policyClienDob": "07/20/1982",
+        "policyClientAddress": "456 Pine St\nAnytown, USA",
+        "policyClientVehicleMake": "BMW",
+        "policyClientVehicleModel": "M3",
+        "policyClientVehicleRegistratioNo": "CAD 6149"
+      },
+      {
+        "policyStatus": "payed",
+        "policyName": "Basic Motor Insurance",
+        "policyRate": "LKR 35,000",
+        "policyRatePeriod": "mo",
+        "policyId": "MNO123456789",
+        "totalPaid": "LKR 140,000",
+        "paymentDue": "01/31/2023",
+        "policyClientName": "Alice Johnson",
+        "policyClientNicNo": "6789012345678",
+        "policyClienDob": "12/05/1977",
+        "policyClientAddress": "789 Maple St\nAnytown, USA",
+        "policyClientVehicleMake": "Ford",
+        "policyClientVehicleModel": "F-150",
+        "policyClientVehicleRegistratioNo": "CD 9012"
+      }
+    ]
+  },
+  {
+    "fname": "Praveen",
+    "lname": "Jayasuriya",
+    "email": "praveen@gmail.com",
+    "phoneNo": "0771234567",
+    "dob": "01/01/1990",
+    "policies": [
+      {
+        "policyStatus": "due",
+        "policyName": "Basic Motor Insurance",
+        "policyRate": "LKR 25,0000",
+        "policyRatePeriod": "year",
+        "policyId": "ABC123456789",
+        "totalPaid": "LKR 125,000",
+        "paymentDue": "02/10/2024",
+        "policyClientName": "Maneth Weerasinghe",
+        "policyClientNicNo": "20032760568",
+        "policyClienDob": "01/06/2023",
+        "policyClientAddress": "27/A, Walawatta Place, Galpotta Road\nNawala, Western Province",
+        "policyClientVehicleMake": "Toyota",
+        "policyClientVehicleModel": "Corolla",
+        "policyClientVehicleRegistratioNo": "WP 1234"
+      }
+    ]
+  },
+  {
+    "fname": "Kasun",
+    "lname": "Perera",
+    "email": "kasun@gmail.com",
+    "phoneNo": "0777654321",
+    "dob": "05/05/1985",
+    "policies": [
+      {
+        "policyStatus": "due",
+        "policyName": "Basic Motor Insurance",
+        "policyRate": "LKR 25,0000",
+        "policyRatePeriod": "year",
+        "policyId": "ABC123456789",
+        "totalPaid": "LKR 125,000",
+        "paymentDue": "02/10/2024",
+        "policyClientName": "Maneth Weerasinghe",
+        "policyClientNicNo": "20032760568",
+        "policyClienDob": "01/06/2023",
+        "policyClientAddress": "27/A, Walawatta Place, Galpotta Road\nNawala, Western Province",
+        "policyClientVehicleMake": "Toyota",
+        "policyClientVehicleModel": "Corolla",
+        "policyClientVehicleRegistratioNo": "WP 1234"
       }
     ]
   }
-  
+]

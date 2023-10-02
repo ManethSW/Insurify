@@ -23,8 +23,7 @@ class AddInsuranceMainScreenState extends State<AddInsuranceMainScreen>
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: themeProvider.themeColors["secondary"],
-        systemNavigationBarColor:
-            themeProvider.themeColors["primary"],
+        systemNavigationBarColor: themeProvider.themeColors["primary"],
       ),
     );
     return Scaffold(
@@ -37,18 +36,42 @@ class AddInsuranceMainScreenState extends State<AddInsuranceMainScreen>
               const TopBar(),
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 90),
+                  padding: const EdgeInsets.only(top: 110),
                   child: Column(
                     children: [
                       Text(
-                        'Add Insurance Page',
+                        'Add New Insurance',
                         style: TextStyle(
                           color: themeProvider.themeColors["white"],
                           fontWeight: FontWeight.w600,
-                          fontSize: 17.5,
+                          fontSize: 22.5,
                           fontFamily: 'Inter',
                         ),
                       ),
+                      Expanded(
+                        child: Container(
+                          width: double.infinity,
+                          margin: const EdgeInsets.only(top: 35, left: 20, right: 20, bottom: 20),
+                          decoration: BoxDecoration(
+                            color: themeProvider.themeColors["secondary"],
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(30),
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Coming Soon In The\nNext Update',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: themeProvider.themeColors["white"],
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15,
+                                fontFamily: 'Inter',
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),

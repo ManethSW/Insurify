@@ -191,7 +191,7 @@ class ProfileMainScreenState extends State<ProfileMainScreen>
                                 duration: const Duration(milliseconds: 350),
                                 curve: Curves.easeInOut,
                                 top: 5,
-                                left: _isDarkMode ? 60 : 5,
+                                left: themeProvider.theme == "dark"? 5 : 60, 
                                 child: Container(
                                   width: 50,
                                   height: 32.5,

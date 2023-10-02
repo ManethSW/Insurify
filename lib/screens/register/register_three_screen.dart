@@ -20,13 +20,11 @@ class RegisterThreeScreenState extends State<RegisterThreeScreen> {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: themeProvider.themeColors["primary"],
-        systemNavigationBarColor:
-            themeProvider.themeColors["primary"],
+        systemNavigationBarColor: themeProvider.themeColors["primary"],
       ),
     );
     final double height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
-    // width variable of screen
     final double width =
         MediaQuery.of(context).size.width - MediaQuery.of(context).padding.left;
     return Scaffold(
@@ -48,7 +46,6 @@ class RegisterThreeScreenState extends State<RegisterThreeScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 31, right: 31),
                   child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(height: height * 0.2),
                       SvgPicture.asset(
@@ -84,8 +81,7 @@ class RegisterThreeScreenState extends State<RegisterThreeScreen> {
                   "Please login to access the application",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color:
-                        themeProvider.themeColors["textFieldBorderAndLabel"],
+                    color: themeProvider.themeColors["white"]!.withOpacity(0.5),
                     fontWeight: FontWeight.w500,
                     fontSize: 12,
                     fontFamily: 'Inter',
@@ -98,7 +94,7 @@ class RegisterThreeScreenState extends State<RegisterThreeScreen> {
                 right: 31,
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.pushReplacement(
+                    Navigator.pushAndRemoveUntil(
                       context,
                       PageRouteBuilder(
                         transitionDuration: const Duration(milliseconds: 300),
@@ -123,6 +119,7 @@ class RegisterThreeScreenState extends State<RegisterThreeScreen> {
                           );
                         },
                       ),
+                      (Route<dynamic> route) => route.isFirst,
                     );
                   },
                   child: Container(

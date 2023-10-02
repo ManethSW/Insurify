@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:insurify/screens/login/login_one_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -64,7 +65,14 @@ class _StartupScreenState extends State<StartupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    themeProvider = Provider.of<ThemeProvider>(context);
     final height = MediaQuery.of(context).size.height;
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: themeProvider.themeColors["primary"],
+        systemNavigationBarColor: themeProvider.themeColors["primary"],
+      ),
+    );
     return Builder(
       builder: (context) {
         themeProvider = Provider.of<ThemeProvider>(context);

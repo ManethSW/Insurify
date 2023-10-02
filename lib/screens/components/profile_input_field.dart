@@ -25,7 +25,7 @@ Widget buildTextFieldLabel(String label, BuildContext context) {
       child: Text(
         label,
         style: TextStyle(
-          color: themeProvider.themeColors["textFieldBorderAndLabel"],
+          color: themeProvider.themeColors["white"]!.withOpacity(0.5),
           fontWeight: FontWeight.w600,
           fontSize: 12.5,
           fontFamily: 'Inter',
@@ -49,7 +49,7 @@ Widget buildInputRow(String label, IconData validationIcon,
           color: themeProvider.themeColors["textFieldBackground"],
           borderRadius: BorderRadius.circular(5),
           border: Border.all(
-              color: themeProvider.themeColors["textFieldBorderAndLabel"]!,
+              color: themeProvider.themeColors["white"]!.withOpacity(0.5),
               width: 2),
         ),
         child: label == "Updated Phone Number"
@@ -76,7 +76,7 @@ Widget buildInputRow(String label, IconData validationIcon,
                           width: 2,
                           height: 15,
                           color:
-                              themeProvider.themeColors["phontNumberSeperator"],
+                              themeProvider.themeColors["white"]!.withOpacity(0.25),
                         ),
                         const SizedBox(width: 10),
                         Expanded(child: textField),
