@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:insurify/providers/global_provider.dart';
 import 'package:insurify/providers/theme_provider.dart';
 import 'package:insurify/providers/user_provider.dart';
-import 'package:insurify/screens/startup/startup_screen.dart';
 
 
 void main() {
