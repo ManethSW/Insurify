@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:insurify/providers/user_provider.dart';
+import 'package:insurify/screens/add_insurance/add_insurance_main_screen.dart';
+import 'package:insurify/screens/blog/blog_main_screen.dart';
+import 'package:insurify/screens/profile/profile_main_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'package:insurify/providers/global_provider.dart';
@@ -15,8 +20,7 @@ class HomeScreen extends StatefulWidget {
   HomeScreenState createState() => HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen>
-    with TickerProviderStateMixin {
+class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late ThemeProvider themeProvider;
   late GlobalProvider globalProvider;
   late UserDataProvider userDataProvider;
@@ -26,92 +30,34 @@ class HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
+    userDataProvider = Provider.of<UserDataProvider>(context, listen: false);
     globalProvider = Provider.of<GlobalProvider>(context, listen: false);
-    policyCardList = [
-      const PolicyCardTemplate(
-          policyStatus: 'due',
-          policyName: 'Basic Motor Insurance',
-          policyRate: 'LKR 25,0000',
-          policyRatePeriod: 'year',
-          policyId: 'ABC123456789',
-          totalPaid: 'LKR 125,000',
-          paymentDue: '02/10/2024',
-          policyClientName: 'Maneth Weerasinghe',
-          policyClientNicNo: '20032760568',
-          policyClienDob: '01/06/2023',
-          policyClientAddress:
-              '27/A, Walawatta Place, Galpotta Road\nNawala, Western Province',
-          policyClientVehicleMake: 'Toyota',
-          policyClientVehicleModel: 'Corolla',
-          policyClientVehicleRegistratioNo: 'WP 1234'),
-      const PolicyCardTemplate(
-          policyStatus: 'payed',
-          policyName: 'Basic Motor Insurance',
-          policyRate: 'LKR 25,0000',
-          policyRatePeriod: 'year',
-          policyId: 'ABC123456789',
-          totalPaid: 'LKR 125,000',
-          paymentDue: '02/10/2024',
-          policyClientName: 'Maneth Weerasinghe',
-          policyClientNicNo: '20032760568',
-          policyClienDob: '01/06/2023',
-          policyClientAddress:
-              '27/A, Walawatta Place, Galpotta Road\nNawala, Western Province',
-          policyClientVehicleMake: 'Toyota',
-          policyClientVehicleModel: 'Corolla',
-          policyClientVehicleRegistratioNo: 'WP 1234'),
-      const PolicyCardTemplate(
-          policyStatus: 'payed',
-          policyName: 'Basic Motor Insurance',
-          policyRate: 'LKR 25,0000',
-          policyRatePeriod: 'year',
-          policyId: 'ABC123456789',
-          totalPaid: 'LKR 125,000',
-          paymentDue: '02/10/2024',
-          policyClientName: 'Maneth Weerasinghe',
-          policyClientNicNo: '20032760568',
-          policyClienDob: '01/06/2023',
-          policyClientAddress:
-              '27/A, Walawatta Place, Galpotta Road\nNawala, Western Province',
-          policyClientVehicleMake: 'Toyota',
-          policyClientVehicleModel: 'Corolla',
-          policyClientVehicleRegistratioNo: 'WP 1234'),
-      const PolicyCardTemplate(
-          policyStatus: 'expired',
-          policyName: 'Basic Motor Insurance',
-          policyRate: 'LKR 25,0000',
-          policyRatePeriod: 'year',
-          policyId: 'ABC123456789',
-          totalPaid: 'LKR 125,000',
-          paymentDue: '02/10/2024',
-          policyClientName: 'Maneth Weerasinghe',
-          policyClientNicNo: '20032760568',
-          policyClienDob: '01/06/2023',
-          policyClientAddress:
-              '27/A, Walawatta Place, Galpotta Road\nNawala, Western Province',
-          policyClientVehicleMake: 'Toyota',
-          policyClientVehicleModel: 'Corolla',
-          policyClientVehicleRegistratioNo: 'WP 1234'),
-      const PolicyCardTemplate(
-          policyStatus: 'expired',
-          policyName: 'Basic Motor Insurance',
-          policyRate: 'LKR 25,0000',
-          policyRatePeriod: 'year',
-          policyId: 'ABC123456789',
-          totalPaid: 'LKR 125,000',
-          paymentDue: '02/10/2024',
-          policyClientName: 'Maneth Weerasinghe',
-          policyClientNicNo: '20032760568',
-          policyClienDob: '01/06/2023',
-          policyClientAddress:
-              '27/A, Walawatta Place, Galpotta Road\nNawala, Western Province',
-          policyClientVehicleMake: 'Toyota',
-          policyClientVehicleModel: 'Corolla',
-          policyClientVehicleRegistratioNo: 'WP 1234'),
-    ];
+    policyCardList = [];
+    loadPolicies().then((policies) {
+      setState(() {
+        policyCardList = policies;
+      });
+    });
   }
 
-  Widget buildQuickActionButton(int flexNumber, String label, String icon) {
+  Future<List<PolicyCardTemplate>> loadPolicies() async {
+    String jsonString = await rootBundle.loadString('assets/data.json');
+    List<dynamic> jsonData = jsonDecode(jsonString);
+    var userData = jsonData.firstWhere(
+      (item) => item['phoneNo'] == userDataProvider.userData.phoneNo,
+      orElse: () => null,
+    );
+    if (userData == null) {
+      return [];
+    }
+    List<dynamic> policiesData = userData['policies'];
+    List<PolicyCardTemplate> policies =
+        policiesData.map((item) => PolicyCardTemplate.fromJson(item)).toList();
+    return policies;
+  }
+
+  Widget buildQuickActionButton(
+      int flexNumber, String label, String icon, Widget page) {
     return Expanded(
       flex: flexNumber,
       child: Container(
@@ -157,7 +103,34 @@ class HomeScreenState extends State<HomeScreen>
               child: FractionallySizedBox(
                 widthFactor: 1,
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    if (icon == "plus") {
+                      globalProvider.setCurrentScreen('addInsurance');
+                    } else if (icon == "profile") {
+                      globalProvider.setCurrentScreen('profile');
+                    } else if (icon == "blog") {
+                      globalProvider.setCurrentScreen('blogs');
+                    }
+                    Navigator.pushReplacement(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            page,
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          var begin = const Offset(1.0, 0.0);
+                          var end = Offset.zero;
+                          var tween = Tween(begin: begin, end: end);
+                          var offsetAnimation = animation.drive(tween);
+
+                          return SlideTransition(
+                            position: offsetAnimation,
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
+                  },
                   child: Container(
                     height: 34,
                     decoration: BoxDecoration(
@@ -227,7 +200,6 @@ class HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     themeProvider = Provider.of<ThemeProvider>(context);
-    userDataProvider = Provider.of<UserDataProvider>(context);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: themeProvider.themeColors["secondary"],
@@ -308,16 +280,18 @@ class HomeScreenState extends State<HomeScreen>
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          buildQuickActionButton(2, "Add New \nMotor Insurance",
+                              "plus", const AddInsuranceMainScreen()),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          buildQuickActionButton(1, "View Profile", "profile",
+                              const ProfileMainScreen()),
+                          const SizedBox(
+                            width: 10,
+                          ),
                           buildQuickActionButton(
-                              2, "Add New \nMotor Insurance", "plus"),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          buildQuickActionButton(1, "View Profile", "profile"),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          buildQuickActionButton(1, "View Blogs", "blog"),
+                              1, "View Blogs", "blog", const BlogMainScreen()),
                         ],
                       ),
                       SizedBox(
@@ -342,7 +316,8 @@ class HomeScreenState extends State<HomeScreen>
                           "View & Manage Your Insurances",
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            color: themeProvider.themeColors["white75"],
+                            color: themeProvider.themeColors["white"]!
+                                .withOpacity(0.75),
                             fontWeight: FontWeight.w400,
                             fontSize: 13,
                             fontFamily: 'Inter',
@@ -398,19 +373,43 @@ class HomeScreenState extends State<HomeScreen>
                         height: height * 0.025,
                       ),
                       Expanded(
-                        child: ListView.separated(
-                          physics: const BouncingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: filteredList.length,
-                          separatorBuilder: (context, index) {
-                            return const SizedBox(
-                              height: 15,
-                            );
-                          },
-                          itemBuilder: (context, index) {
-                            return filteredList[index];
-                          },
-                        ),
+                        child: filteredList.isEmpty
+                            ? Container(
+                                decoration: BoxDecoration(
+                                  color: themeProvider.themeColors["secondary"],
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    activeFilter == 'All'
+                                        ? 'You do not own any\ninsurance policies'
+                                        : activeFilter == 'Active'
+                                            ? 'You do not have any\nactive insurance policies'
+                                            : 'You do not have any\nexpired insurance policies',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: themeProvider
+                                          .themeColors["startUpBodyText"],
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15,
+                                      fontFamily: 'Inter',
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : ListView.separated(
+                                physics: const BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: filteredList.length,
+                                separatorBuilder: (context, index) {
+                                  return const SizedBox(
+                                    height: 15,
+                                  );
+                                },
+                                itemBuilder: (context, index) {
+                                  return filteredList[index];
+                                },
+                              ),
                       ),
                     ],
                   ),

@@ -1,3 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +11,6 @@ import 'package:insurify/providers/user_provider.dart';
 import 'package:insurify/screens/components/bottom_buttons.dart';
 import 'package:insurify/screens/components/register_input_field.dart';
 import 'package:insurify/screens/register/register_two_screen.dart';
-
 
 class RegisterOneScreen extends StatefulWidget {
   const RegisterOneScreen({Key? key}) : super(key: key);
@@ -35,7 +38,12 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
   late IconData dobValidationIcon;
 
   UserData userData = UserData(
-      fname: '', lname: '', email: '', phoneNo: '', dob: DateTime.now());
+      fname: '',
+      lname: '',
+      email: '',
+      phoneNo: '',
+      dob: DateTime.now(),
+      policies: []);
   final List<TextEditingController> textEditingControllers = List.generate(
     6,
     (_) => TextEditingController(),
@@ -200,7 +208,6 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
     if (picked != null) {
       if (picked
           .isAfter(DateTime.now().subtract(const Duration(days: 365 * 18)))) {
-        // selected date is less than 18 years ago
         setState(() {
           isDobValid = false;
           dobValidationIcon = Icons.close_rounded;
@@ -229,7 +236,6 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
     );
     final double height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
-    // width variable of screen
     final double width =
         MediaQuery.of(context).size.width - MediaQuery.of(context).padding.left;
     return Scaffold(
@@ -326,40 +332,58 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
                   context,
                   width,
                   RegisterTwoScreen(userData: userData),
-                  () {
-                    //check to see if all validation variables are true
-                    if (isFirstNameValid &&
+                  () async {
+                    String jsonString =
+                        await rootBundle.loadString('assets/data.json');
+                    List<dynamic> usersData = jsonDecode(jsonString);
+
+                    bool userExists = usersData.any((user) =>
+                        user['phoneNo'] == textEditingControllers[3].text);
+                    if (userExists) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: themeProvider.themeColors["primary"],
+                          content: Text(
+                            'Phone number is already registered',
+                            style: TextStyle(
+                              color: themeProvider.themeColors["white"],
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                              fontFamily: 'Inter',
+                            ),
+                          ),
+                          action: SnackBarAction(
+                            backgroundColor:
+                                themeProvider.themeColors["secondary"],
+                            label: 'OK',
+                            textColor: themeProvider.themeColors["white"],
+                            onPressed: () {},
+                          ),
+                        ),
+                      );
+                    }
+                    else if (isFirstNameValid &&
                         isLastNameValid &&
                         isEmailValid &&
                         isPhoneNoValid &&
                         isDobValid) {
                       updateUserData();
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
                         PageRouteBuilder(
-                          transitionDuration: const Duration(milliseconds: 300),
                           pageBuilder:
                               (context, animation, secondaryAnimation) =>
                                   RegisterTwoScreen(userData: userData),
-                          transitionsBuilder: (
-                            context,
-                            animation,
-                            secondaryAnimation,
-                            child,
-                          ) {
-                            const begin = Offset(1.0, 0.0);
-                            const end = Offset.zero;
-                            final tween = Tween(begin: begin, end: end);
-                            final curvedAnimation = CurvedAnimation(
-                              parent: animation,
-                              curve: Curves.easeInOut,
-                            );
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            var begin = const Offset(1.0, 0.0);
+                            var end = Offset.zero;
+                            var tween = Tween(begin: begin, end: end);
+                            var offsetAnimation = animation.drive(tween);
+
                             return SlideTransition(
-                              position: tween.animate(curvedAnimation),
-                              child: Container(
-                                color: Colors.transparent,
-                                child: child,
-                              ),
+                              position: offsetAnimation,
+                              child: child,
                             );
                           },
                         ),

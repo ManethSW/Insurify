@@ -37,6 +37,25 @@ class PolicyCardTemplate extends StatefulWidget {
     required this.policyClientVehicleRegistratioNo,
   });
 
+  factory PolicyCardTemplate.fromJson(Map<String, dynamic> json) {
+    return PolicyCardTemplate(
+      policyStatus: json['policyStatus'],
+      policyName: json['policyName'],
+      policyRate: json['policyRate'],
+      policyRatePeriod: json['policyRatePeriod'],
+      policyId: json['policyId'],
+      totalPaid: json['totalPaid'],
+      paymentDue: json['paymentDue'],
+      policyClientName: json['policyClientName'],
+      policyClientNicNo: json['policyClientNicNo'],
+      policyClienDob: json['policyClienDob'],
+      policyClientAddress: json['policyClientAddress'],
+      policyClientVehicleMake: json['policyClientVehicleMake'],
+      policyClientVehicleModel: json['policyClientVehicleModel'],
+      policyClientVehicleRegistratioNo: json['policyClientVehicleRegistratioNo'],
+    );
+  }
+
   @override
   PolicyCardTemplateState createState() => PolicyCardTemplateState();
 }
@@ -502,7 +521,7 @@ class PolicyCardTemplateState extends State<PolicyCardTemplate>
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
-                          10), // Change this value to change the border radius
+                          10),
                     ),
                     content: Container(
                         child: buildPolicyCardOverlayOne(context, width)),

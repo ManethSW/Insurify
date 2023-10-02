@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:insurify/providers/global_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:pinput/pinput.dart';
 
@@ -8,7 +9,6 @@ import 'package:insurify/providers/user_provider.dart';
 import 'package:insurify/screens/components/startup_screen_heading.dart';
 import 'package:insurify/screens/components/bottom_buttons.dart';
 import 'package:insurify/screens/register/register_three_screen.dart';
-
 
 class RegisterTwoScreen extends StatefulWidget {
   final UserData userData;
@@ -22,6 +22,7 @@ class RegisterTwoScreen extends StatefulWidget {
 class RegisterTwoScreenState extends State<RegisterTwoScreen> {
   late UserDataProvider userDataProvider;
   late ThemeProvider themeProvider;
+  late GlobalProvider globalProvider;
   String otp = '';
   TextEditingController otpController = TextEditingController();
   final int digitCount = 4;
@@ -48,7 +49,6 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
 
   void submitOtp(BuildContext context, String otp) {
     if (otp == '1111') {
-      //Update the userDataProvider with the userData
       userDataProvider.userData.setData(
         fname: widget.userData.fname,
         lname: widget.userData.lname,
@@ -56,31 +56,20 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
         phoneNo: widget.userData.phoneNo,
         dob: widget.userData.dob,
       );
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         PageRouteBuilder(
-          transitionDuration: const Duration(milliseconds: 300),
           pageBuilder: (context, animation, secondaryAnimation) =>
               const RegisterThreeScreen(),
-          transitionsBuilder: (
-            context,
-            animation,
-            secondaryAnimation,
-            child,
-          ) {
-            const begin = Offset(1.0, 0.0);
-            const end = Offset.zero;
-            final tween = Tween(begin: begin, end: end);
-            final curvedAnimation = CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeInOut,
-            );
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            var begin = const Offset(1.0, 0.0);
+            var end = Offset.zero;
+            var tween = Tween(begin: begin, end: end);
+            var offsetAnimation = animation.drive(tween);
+
             return SlideTransition(
-              position: tween.animate(curvedAnimation),
-              child: Container(
-                color: Colors.transparent,
-                child: child,
-              ),
+              position: offsetAnimation,
+              child: child,
             );
           },
         ),
@@ -113,6 +102,7 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
   Widget build(BuildContext context) {
     themeProvider = Provider.of<ThemeProvider>(context);
     userDataProvider = Provider.of<UserDataProvider>(context);
+    globalProvider = Provider.of<GlobalProvider>(context);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: themeProvider.themeColors["primary"],
@@ -134,7 +124,6 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
     );
     final double height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
-    // width variable of screen
     final double width =
         MediaQuery.of(context).size.width - MediaQuery.of(context).padding.left;
     return Scaffold(
@@ -237,7 +226,6 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
                 left: 0,
                 right: 0,
                 child: SizedBox(
-                  // width: width,
                   child: Center(
                     child: buildBackButton(
                       context,

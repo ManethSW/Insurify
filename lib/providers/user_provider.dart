@@ -7,6 +7,7 @@ class UserData extends ChangeNotifier {
   String? email;
   String? phoneNo;
   DateTime? dob;
+  List<dynamic> policies;
   Image? profilePic;
 
   UserData(
@@ -15,6 +16,7 @@ class UserData extends ChangeNotifier {
       required this.email,
       required this.phoneNo,
       required this.dob,
+      required this.policies,
       this.profilePic});
 
   void setData({
@@ -57,6 +59,20 @@ class UserData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setDob({
+    DateTime? dob,
+  }) {
+    this.dob = dob;
+    notifyListeners();
+  }
+
+  void setPolicies({
+    List<dynamic>? policies,
+  }) {
+    this.policies = policies!;
+    notifyListeners();
+  }
+
   void setProfilePic({
     Image? profilePic,
   }) {
@@ -65,13 +81,13 @@ class UserData extends ChangeNotifier {
   }
 }
 
-//User Provider Class
 class UserDataProvider extends ChangeNotifier {
   final UserData _userData = UserData(
     fname: '',
     lname: '',
-    email: '',
+    email: 'm',
     phoneNo: '',
+    policies: [],
     dob: DateTime.now(),
     profilePic: null,
   );

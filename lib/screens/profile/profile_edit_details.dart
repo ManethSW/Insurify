@@ -86,7 +86,6 @@ class ProfileEditDetailsScreenState extends State<ProfileEditDetailsScreen>
   Future<void> _pickImage() async {
     final ImagePicker picker = ImagePicker();
 
-    // Show a dialog to the user to pick the image source
     final ImageSource? source = await showDialog<ImageSource>(
       context: context,
       barrierColor: Colors.black.withOpacity(0.65),
@@ -97,7 +96,7 @@ class ProfileEditDetailsScreenState extends State<ProfileEditDetailsScreen>
         actionsPadding: const EdgeInsets.only(top: 0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(
-              20), // Change this value to change the border radius
+              20),
         ),
         title: Column(
           children: [
@@ -193,15 +192,9 @@ class ProfileEditDetailsScreenState extends State<ProfileEditDetailsScreen>
         ],
       ),
     );
-
-    // If the dialog is dismissed without selecting an option, source will be null
     if (source == null) return;
-
     final XFile? pickedImage = await picker.pickImage(source: source);
-
-    // If the user cancels the image picker, pickedImage will be null
     if (pickedImage == null) return;
-
     profilePictureNew = File(pickedImage.path);
     profilePicture = Image.file(profilePictureNew!);
 

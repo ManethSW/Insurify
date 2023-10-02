@@ -25,7 +25,7 @@ Widget buildTextFieldLabel(String label, BuildContext context) {
       child: Text(
         label,
         style: TextStyle(
-          color: themeProvider.themeColors["textFieldBorderAndLabel"],
+          color: themeProvider.themeColors["white"]!.withOpacity(0.5),
           fontWeight: FontWeight.w600,
           fontSize: 12.5,
           fontFamily: 'Inter',
@@ -48,7 +48,7 @@ Widget buildInputRow(String label, Widget textField, BuildContext context) {
           color: themeProvider.themeColors["textFieldBackground"],
           borderRadius: BorderRadius.circular(5),
           border: Border.all(
-              color: themeProvider.themeColors["textFieldBorderAndLabel"]!,
+              color: themeProvider.themeColors["white"]!.withOpacity(0.5),
               width: 1),
         ),
         child: Center(

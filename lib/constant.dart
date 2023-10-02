@@ -16,32 +16,22 @@ const kTextDarkColor2 = Color(0xFF2D2D33);
 //Create color maps
 const Map<String, Color> darkThemeColors = {
   "white": Color(0xFFFFFFFF),
-  "white75": Color(0xBFFFFFFF),
   "primary": Color(0xFF24242B),
   "secondary": Color(0xFF16161B),
   "navigationBackground": Color(0xFF1A1A1C),
   "navigationActive": Color(0xFF24242B),
-
   "startUpBodyText": Color(0x80FFFFFF),
-
-  "textFieldBorderAndLabel": Color(0x80FFFFFF),
   "textFieldBackground": Color(0xFF1D1D22),
-  "phontNumberSeperator": Color(0x40FFFFFF),
 };
 
 const Map<String, Color> lightThemeColors = {
   "white": Color(0xFF24242B),
-  "white75": Color(0xBF000000),
   "primary": Color(0xFFFFFFFF),
   "secondary": Color(0xFFE1E1E2),
   "navigationBackground": Color(0xFFD5D5D6),
   "navigationActive": Color(0xFFFFFFFF),
-
   "startUpBodyText": Color(0x80000000),
-
-  "textFieldBorderAndLabel": Color(0x80000000),
   "textFieldBackground": Color(0xFFF7F7F8),
-  "phontNumberSeperator": Color(0x40000000),
 };
 
 const Map<String, String> darkThemeIconPaths = {
@@ -61,6 +51,9 @@ const Map<String, String> darkThemeIconPaths = {
   "blog": "assets/icons/blog-dark.png",
   "signout": "assets/icons/signout-dark.png",
   "homePage": "assets/images/home-page-dark.png",
+  "addInsurancePage": "assets/images/add-insurance-page-dark.png",
+  "profilePage": "assets/images/profile-page-dark.png",
+  "blogPage": "assets/images/blog-page-dark.png",
   "darkMode": "assets/icons/moon-dark.svg",
   "lightMode": "assets/icons/sun-dark.svg"
 };
@@ -82,6 +75,9 @@ const Map<String, String> lightThemeIconPaths = {
   "blog": "assets/icons/blog-light.png",
   "signout": "assets/icons/signout-light.png",
   "homePage": "assets/images/home-page-light.png",
+  "addInsurancePage": "assets/images/add-insurance-page-light.png",
+  "profilePage": "assets/images/profile-page-light.png",
+  "blogPage": "assets/images/blog-page-light.png",
   "darkMode": "assets/icons/moon-light.svg",
   "lightMode": "assets/icons/sun-light.svg"
 };

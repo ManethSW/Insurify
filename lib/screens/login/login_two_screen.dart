@@ -1,4 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:insurify/providers/user_provider.dart';
 import 'package:insurify/screens/home/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:pinput/pinput.dart';
@@ -8,7 +14,12 @@ import 'package:insurify/screens/components/startup_screen_heading.dart';
 import 'package:insurify/screens/components/bottom_buttons.dart';
 
 class LoginTwoScreen extends StatefulWidget {
-  const LoginTwoScreen({Key? key}) : super(key: key);
+  final String phoneNo;
+
+  const LoginTwoScreen({
+    super.key,
+    required this.phoneNo,
+  });
 
   @override
   LoginTwoScreenState createState() => LoginTwoScreenState();
@@ -16,6 +27,7 @@ class LoginTwoScreen extends StatefulWidget {
 
 class LoginTwoScreenState extends State<LoginTwoScreen> {
   late ThemeProvider themeProvider;
+  late UserDataProvider userDataProvider;
   String otp = '';
   TextEditingController otpController = TextEditingController();
   final int digitCount = 4;
@@ -40,9 +52,41 @@ class LoginTwoScreenState extends State<LoginTwoScreen> {
     super.dispose();
   }
 
-  void submitOtp(BuildContext context, String otp) {
-    if (otp == '1111') {
-      Navigator.pushReplacement(
+  void submitOtp(
+    BuildContext context,
+    String otp,
+  ) async {
+    String jsonString = await rootBundle.loadString('assets/data.json');
+    List<dynamic> jsonData = jsonDecode(jsonString);
+
+    var userData = jsonData.firstWhere(
+      (item) => item['phoneNo'] == widget.phoneNo,
+      orElse: () => null,
+    );
+
+    if (otp != '1111') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: themeProvider.themeColors["primary"],
+          content: Text(
+            'Wrong OTP, please re-enter correct OTP code',
+            style: TextStyle(
+              color: themeProvider.themeColors["white"],
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+              fontFamily: 'Inter',
+            ),
+          ),
+          action: SnackBarAction(
+            backgroundColor: themeProvider.themeColors["secondary"],
+            label: 'OK',
+            textColor: themeProvider.themeColors["white"],
+            onPressed: () {},
+          ),
+        ),
+      );
+    } else if (userData == null) {
+      Navigator.pushAndRemoveUntil(
         context,
         PageRouteBuilder(
           transitionDuration: const Duration(milliseconds: 300),
@@ -63,34 +107,49 @@ class LoginTwoScreenState extends State<LoginTwoScreen> {
             );
             return SlideTransition(
               position: tween.animate(curvedAnimation),
-              child: Container(
-                color: Colors.transparent,
-                child: child,
-              ),
+              child: child,
             );
           },
         ),
+        (Route<dynamic> route) => false,
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: themeProvider.themeColors["primary"],
-          content: Text(
-            'Wrong OTP, please try again',
-            style: TextStyle(
-              color: themeProvider.themeColors["white"],
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              fontFamily: 'Inter',
-            ),
-          ),
-          action: SnackBarAction(
-            backgroundColor: themeProvider.themeColors["secondary"],
-            label: 'OK',
-            textColor: themeProvider.themeColors["white"],
-            onPressed: () {},
-          ),
+      userDataProvider.userData.setData(
+        fname: userData['fname'],
+        lname: userData['lname'],
+        email: userData['email'],
+        phoneNo: userData['phoneNo'],
+      );
+      userDataProvider.userData.setPolicies(
+        policies: userData['policies'],
+      );
+      // ignore: use_build_context_synchronously
+      Navigator.pushAndRemoveUntil(
+        context,
+        PageRouteBuilder(
+          transitionDuration: const Duration(milliseconds: 300),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const HomeScreen(),
+          transitionsBuilder: (
+            context,
+            animation,
+            secondaryAnimation,
+            child,
+          ) {
+            const begin = Offset(1.0, 0.0);
+            const end = Offset.zero;
+            final tween = Tween(begin: begin, end: end);
+            final curvedAnimation = CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeInOut,
+            );
+            return SlideTransition(
+              position: tween.animate(curvedAnimation),
+              child: child,
+            );
+          },
         ),
+        (Route<dynamic> route) => false,
       );
     }
   }
@@ -98,7 +157,13 @@ class LoginTwoScreenState extends State<LoginTwoScreen> {
   @override
   Widget build(BuildContext context) {
     themeProvider = Provider.of<ThemeProvider>(context);
-
+    userDataProvider = Provider.of<UserDataProvider>(context, listen: false);
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: themeProvider.themeColors["primary"],
+        systemNavigationBarColor: themeProvider.themeColors["primary"],
+      ),
+    );
     final defaultPinTheme = PinTheme(
       width: 55,
       height: 55,
@@ -114,7 +179,6 @@ class LoginTwoScreenState extends State<LoginTwoScreen> {
     );
     final double height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
-    // width variable of screen
     final double width =
         MediaQuery.of(context).size.width - MediaQuery.of(context).padding.left;
     return Scaffold(

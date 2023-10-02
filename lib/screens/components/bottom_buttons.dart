@@ -112,28 +112,3 @@ Widget buildBackButton(BuildContext context, double width) {
     ),
   );
 }
-
-// Widget buildBackButton(BuildContext context, double width) {
-//   themeProvider = Provider.of<ThemeProvider>(context);
-//   return GestureDetector(
-//     onTap: () {
-//       Navigator.pop(context);
-//     },
-//     child: SizedBox(
-//       width: width * 0.2,
-//       height: 50,
-//       child: Container(
-//         decoration: BoxDecoration(
-//           color: themeProvider.themeColors["secondary"]!,
-//           borderRadius: BorderRadius.circular(10),
-//         ),
-//         child: Center(
-//           child: SvgPicture.asset(
-//             themeProvider.themeIconPaths["backArrow"]!,
-//             height: 16,
-//           ),
-//         ),
-//       ),
-//     ),
-//   );
-// }

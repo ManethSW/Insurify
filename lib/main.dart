@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:insurify/providers/global_provider.dart';
+import 'package:insurify/providers/theme_provider.dart';
 import 'package:insurify/providers/user_provider.dart';
 import 'package:insurify/screens/startup/startup_screen.dart';
-import 'package:provider/provider.dart';
 
-import 'package:insurify/providers/theme_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
