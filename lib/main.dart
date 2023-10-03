@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:insurify/screens/home/home_screen.dart';
+import 'package:insurify/screens/startup/startup_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:insurify/providers/global_provider.dart';
 import 'package:insurify/providers/theme_provider.dart';
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         highlightColor: Colors.transparent,
         hoverColor: Colors.transparent,
       ),
-      home: const HomeScreen(),
+      home: const StartupScreen(),
     );
   }
 }

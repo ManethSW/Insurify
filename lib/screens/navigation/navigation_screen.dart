@@ -34,8 +34,10 @@ class NavigationScreenState extends State<NavigationScreen> {
   void dispose() {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: themeProvider.themeColors["secondary"],
-        systemNavigationBarColor: themeProvider.themeColors["primary"],
+        statusBarColor:
+            themeProvider.themeColors["navigationBackground"],
+        systemNavigationBarColor:
+            themeProvider.themeColors["navigationBackground"],
       ),
     );
     super.dispose();
@@ -161,9 +163,9 @@ class NavigationScreenState extends State<NavigationScreen> {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor:
-            themeProvider.themeColors["secondary"]!.withOpacity(0.5),
+            themeProvider.themeColors["navigationBackground"],
         systemNavigationBarColor:
-            themeProvider.themeColors["secondary"]!.withOpacity(0.99),
+            themeProvider.themeColors["navigationBackground"],
       ),
     );
     final double height =
@@ -175,7 +177,7 @@ class NavigationScreenState extends State<NavigationScreen> {
       body: SafeArea(
         child: Scaffold(
           backgroundColor:
-              themeProvider.themeColors["secondary"]!.withOpacity(0.5),
+              themeProvider.themeColors["navigationBackground"],
           resizeToAvoidBottomInset: false,
           body: Stack(
             children: [

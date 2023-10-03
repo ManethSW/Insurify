@@ -1,24 +1,10 @@
 import 'package:flutter/material.dart';
 
-const primaryColor = Color(0xFF24242B);
-const secondaryColor = Color(0xFF1D1D22);
-
-const buttonOneColor = Color(0xFF16161B);
-
-const startUpBodyTextColor = Color(0x5FFFFFFF);
-
-const kAccentColor = Color(0xFFE5E5E5);
-const kTextColor = Color(0xFFFFFFFF);
-const kTextLightColor = Color(0xFFA6A6A6);
-const kTextDarkColor = Color(0xFF1D1D22);
-const kTextDarkColor2 = Color(0xFF2D2D33);
-
-//Create color maps
 const Map<String, Color> darkThemeColors = {
   "white": Color(0xFFFFFFFF),
   "primary": Color(0xFF24242B),
   "secondary": Color(0xFF16161B),
-  "navigationBackground": Color(0x8016161B),
+  "navigationBackground": Color(0xFF1C1C22),
   "navigationActive": Color(0xFF24242B),
   "startUpBodyText": Color(0x80FFFFFF),
   "textFieldBackground": Color(0xFF1D1D22),
