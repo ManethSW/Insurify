@@ -126,7 +126,6 @@ class LoginTwoScreenState extends State<LoginTwoScreen> {
       userDataProvider.userData.setPolicies(
         policies: userData['policies'],
       );
-      // ignore: use_build_context_synchronously
       Navigator.pushAndRemoveUntil(
         context,
         PageRouteBuilder(

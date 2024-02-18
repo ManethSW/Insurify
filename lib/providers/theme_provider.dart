@@ -21,7 +21,6 @@ class ThemeProvider extends ChangeNotifier {
 
   void toggleTheme() {
     _theme = _theme == 'dark' ? 'light' : 'dark';
-    notifyListeners();
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarIconBrightness:
@@ -30,5 +29,6 @@ class ThemeProvider extends ChangeNotifier {
             _theme == 'dark' ? Brightness.light : Brightness.dark,
       ),
     );
+    notifyListeners();
   }
 }

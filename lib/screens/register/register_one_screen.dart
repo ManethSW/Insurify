@@ -43,7 +43,8 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
       email: '',
       phoneNo: '',
       dob: DateTime.now(),
-      policies: []);
+      policies: [],
+      profilePic: null);
   final List<TextEditingController> textEditingControllers = List.generate(
     6,
     (_) => TextEditingController(),
@@ -93,6 +94,7 @@ class RegisterOneScreenState extends State<RegisterOneScreen> {
     userData.email = textEditingControllers[2].text;
     userData.phoneNo = textEditingControllers[3].text;
     userData.dob = DateTime.parse(textEditingControllers[4].text);
+    userData.profilePic = null;
   }
 
   Widget buildBuildTextField(TextEditingController controller, String hintText,
