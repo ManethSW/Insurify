@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,31 @@ class ProfileEditPhoneScreen extends StatefulWidget {
 
   @override
   ProfileEditPhoneScreenState createState() => ProfileEditPhoneScreenState();
+}
+
+void showSnackBar(BuildContext context, String message) {
+  final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      backgroundColor: themeProvider.themeColors["primary"],
+      content: Text(
+        message,
+        style: TextStyle(
+          color: themeProvider.themeColors["white"],
+          fontWeight: FontWeight.w400,
+          fontSize: 14,
+          fontFamily: 'Inter',
+        ),
+      ),
+      action: SnackBarAction(
+        backgroundColor: themeProvider.themeColors["secondary"],
+        label: 'OK',
+        textColor: themeProvider.themeColors["white"],
+        onPressed: () {},
+      ),
+    ),
+  );
 }
 
 class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
@@ -61,53 +88,31 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
     } else {}
   }
 
-  void submitOtp(BuildContext context, String otp) {
-    if (otp == '1111' && isPhoneNoValid && userDataProvider.userData.phoneNo != phoneNoTextEditingController.text) {
+  void submitOtp(BuildContext context, String otp) async {
+    String jsonString = await rootBundle.loadString('assets/data.json');
+    List<dynamic> usersData = jsonDecode(jsonString);
+
+    bool userExists = usersData
+        .any((user) => user['phoneNo'] == phoneNoTextEditingController.text);
+    print(userExists);
+    if (otp != '1111') {
+      // ignore: use_build_context_synchronously
+      showSnackBar(context, 'Invalid OTP code');
+    } else if (userDataProvider.userData.phoneNo ==
+        phoneNoTextEditingController.text) {
+      // ignore: use_build_context_synchronously
+      showSnackBar(context, 'You must enter a different phone number');
+    } else if (userExists) {
+      // ignore: use_build_context_synchronously
+      showSnackBar(context, 'Phone number is already registered');
+    } else if (!isPhoneNoValid) {
+      // ignore: use_build_context_synchronously
+      showSnackBar(context, 'Invalid phone number');
+    } else if (isPhoneNoValid) {
       userDataProvider.userData
           .setPhoneNo(phoneNo: phoneNoTextEditingController.text);
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
-    } else if (userDataProvider.userData.phoneNo == phoneNoTextEditingController.text) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: themeProvider.themeColors["primary"],
-          content: Text(
-            'Please enter a different OTP code',
-            style: TextStyle(
-              color: themeProvider.themeColors["white"],
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              fontFamily: 'Inter',
-            ),
-          ),
-          action: SnackBarAction(
-            backgroundColor: themeProvider.themeColors["secondary"],
-            label: 'OK',
-            textColor: themeProvider.themeColors["white"],
-            onPressed: () {},
-          ),
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: themeProvider.themeColors["primary"],
-          content: Text(
-            'Wrong OTP, please try again',
-            style: TextStyle(
-              color: themeProvider.themeColors["white"],
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              fontFamily: 'Inter',
-            ),
-          ),
-          action: SnackBarAction(
-            backgroundColor: themeProvider.themeColors["secondary"],
-            label: 'OK',
-            textColor: themeProvider.themeColors["white"],
-            onPressed: () {},
-          ),
-        ),
-      );
     }
   }
 
@@ -254,28 +259,7 @@ class ProfileEditPhoneScreenState extends State<ProfileEditPhoneScreen>
                         width: 245,
                         child: TextButton(
                           onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                backgroundColor:
-                                    themeProvider.themeColors["primary"],
-                                content: Text(
-                                  'OTP code has been sent',
-                                  style: TextStyle(
-                                    color: themeProvider.themeColors["white"],
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14,
-                                    fontFamily: 'Inter',
-                                  ),
-                                ),
-                                action: SnackBarAction(
-                                  backgroundColor:
-                                      themeProvider.themeColors["secondary"],
-                                  label: 'OK',
-                                  textColor: themeProvider.themeColors["white"],
-                                  onPressed: () {},
-                                ),
-                              ),
-                            );
+                            showSnackBar(context, 'OTP code has been sent');
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(

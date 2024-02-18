@@ -56,6 +56,9 @@ class RegisterTwoScreenState extends State<RegisterTwoScreen> {
         phoneNo: widget.userData.phoneNo,
         dob: widget.userData.dob,
       );
+      userDataProvider.userData.setProfilePic(
+        profilePic: widget.userData.profilePic,
+      );
       Navigator.push(
         context,
         PageRouteBuilder(
